@@ -1,0 +1,36 @@
+Mojolicious
+Mojolicious::Plugin::TtRenderer::Engine
+Mojolicious::Plugin::Model
+Search::Elasticsearch
+Mojolicious::Plugin::AccessControl
+Mojolicious::Plugin::PageNavigator
+Mojolicious::Plugin::Cache *
+DBIx::Class
+Try::Tiny
+Text::Markdown
+Mail::RFC822::Address
+Net::SMTP::SSL
+Time::HiRes
+Mojolicious::Plugin::OAuth2
+Mojolicious::Plugin::Recaptcha
+Mojolicious::Plugin::Disqus
+MojoX-Gearman *
+Image::Magick 
+Image::Scale
+Image::Info
+Session::Token
+Mail::Sender
+Mojolicious::Plugin::RemoteAddr
+
+MojoX-Encode-Gzip
+Mojolicious::Plugin::BrowserDetect
+Mojolicious::Plugin::CSRFProtect
+Mojolicious::Plugin::DBICAdmin
+CSS::Minifier::XS
+JavaScript::Minifier::XS
+Digest::MD5::File
+
+Mojo::Message -> _cache 241  $name ||= '';
+
+dbicdump -o dump_directory=./lib Schema 'dbi:mysql:hilt:localhost:3306' root
+DBIC_TRACE=1 ./tmp/adduser.pl

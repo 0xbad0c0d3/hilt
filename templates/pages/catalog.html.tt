@@ -1,0 +1,106 @@
+[% PROCESS pages/default/header.html.tt %]
+
+<div class="information-blocks">
+	<div class="row">
+		<div class="col-md-9 col-md-push-3 col-sm-8 col-sm-push-4">
+			<div class="page-selector">
+				<div class="hidden-xs">
+					[% hilt.products_pagination %]
+				</div>
+				<div class="shop-grid-controls">
+					<div class="entry">
+						<div class="inline-text">Сортировать по:</div>
+						<div class="simple-drop-down">
+							<select>
+								<option>По рейтингу</option>
+								<option>По популярности</option>
+								<option>По цене</option>
+							</select>
+						</div>
+						<div class="sort-button"></div>
+					</div>
+					<div class="entry">
+						<div class="view-button active grid"><i class="fa fa-th"></i></div>
+						<div class="view-button list"><i class="fa fa-list"></i></div>
+					</div>
+
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="row shop-grid grid-view">
+
+				[% FOREACH item IN hilt.products %]
+				<div class="col-md-3 col-sm-4 shop-grid-item">
+					<div class="product-slide-entry shift-image">
+						<div class="product-image">
+							[% FOREACH i IN [0,1] %]
+								<img src="[% item.img.$i %]" alt="[% item.title %]">
+							[% END %]
+							<div class="product-image-label type-1"><span>-40%</span></div>
+							<div class="bottom-line left-attached">
+								<a class="bottom-line-a square"><i class="fa fa-shopping-cart"></i></a>
+								<a class="bottom-line-a square"><i class="fa fa-heart"></i></a>
+								<a class="bottom-line-a square"><i class="fa fa-retweet"></i></a>
+								<a class="bottom-line-a square product-pre"><i class="fa fa-expand"></i></a>
+							</div>
+						</div>
+						<a class="tag" href="#">[% item.brand %] </a>
+						<a class="title" href="[% item.url %]">[% item.title %]</a>
+						<div class="rating-box">
+							<div class="star"><i class="fa fa-star"></i></div>
+							<div class="star"><i class="fa fa-star"></i></div>
+							<div class="star"><i class="fa fa-star"></i></div>
+							<div class="star"><i class="fa fa-star"></i></div>
+							<div class="star"><i class="fa fa-star"></i></div>
+						</div>
+						<div class="article-container style-1">
+							<p>[% item.description %]</p>
+						</div>
+						<div class="price">
+							<div class="prev">[% item.price.prev %] грн</div>
+							<div class="current">[% item.price.current %] грн.</div>
+						</div>
+						<div class="list-buttons">
+							<a class="button style-10">В корзину</a>
+							<a class="button style-11"><i class="fa fa-heart"></i> Сравнение</a>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				[% END %]
+
+						
+			</div>
+			
+			<div class="page-selector">
+				<div class="description">1-12 из 450</div>
+				[% hilt.products_pagination %]
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="col-md-3 col-md-pull-9 col-sm-4 col-sm-pull-8 blog-sidebar">
+
+			<div class="information-blocks">
+				<div class="block-title size-2">Категории</div>
+				<div class="row">
+					<div class="col-xs-6">
+						[% FOREACH item IN ['Куртки, плащи','Поло','Футболки','Рубашки','Пиджаки','Кофты','Свитера','Толстовки','Пиджаки, костюмы','Брюки'] %]
+						<label class="checkbox-entry">
+							<input type="checkbox"> <span class="check"></span>  [% item %]
+						</label>
+						[% END %]
+					</div>
+				</div>
+			</div>
+			
+		[% PROCESS pages/catalog/blocks/filters.html.tt %]		
+		
+		</div>
+	</div>
+</div>
+
+
+
+[% PROCESS pages/default/blocks/last_news_col4.html.tt %]
+
+[% PROCESS pages/default/footer.html.tt %]

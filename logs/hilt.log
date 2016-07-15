@@ -1,0 +1,6 @@
+[Fri Jul 15 09:38:06 2016] [error] Can't move file "/tmp/mojo.tmp" to "/var/www/hilt.mojo/photo/tmp/tower.jpg": ÐÐµÑ ÑÐ°ÐºÐ¾Ð³Ð¾ ÑÐ°Ð¹Ð»Ð° Ð¸Ð»Ð¸ ÐºÐ°ÑÐ°Ð»Ð¾Ð³Ð° at /usr/local/share/perl/5.20.2/Mojo/Upload.pm line 6.
+
+[Fri Jul 15 09:40:47 2016] [error] Can't move file "/tmp/mojo.tmp" to "/var/www/hilt.mojo/photo/tmp/tower.jpg": ÐÐµÑ ÑÐ°ÐºÐ¾Ð³Ð¾ ÑÐ°Ð¹Ð»Ð° Ð¸Ð»Ð¸ ÐºÐ°ÑÐ°Ð»Ð¾Ð³Ð° at /usr/local/share/perl/5.20.2/Mojo/Upload.pm line 6.
+
+[Fri Jul 15 09:41:47 2016] [error] Can't move file "/tmp/mojo.tmp" to "/var/www/hilt.mojo/photo/tmp/tower.jpg": ÐÐµÑ ÑÐ°ÐºÐ¾Ð³Ð¾ ÑÐ°Ð¹Ð»Ð° Ð¸Ð»Ð¸ ÐºÐ°ÑÐ°Ð»Ð¾Ð³Ð° at /usr/local/share/perl/5.20.2/Mojo/Upload.pm line 6.
+

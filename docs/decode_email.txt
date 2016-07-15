@@ -1,0 +1,3 @@
+SELECT DECODE( email,  'xxsnvl4' ) , 
+PASSWORD FROM  `hilt_users` 
+LIMIT 10

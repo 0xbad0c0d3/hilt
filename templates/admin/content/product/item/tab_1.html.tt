@@ -1,0 +1,212 @@
+
+                          <div class="row column-seperation">
+                            <div class="col-md-12">
+                          
+                              <div class="form-group form-group-default">
+                                <label>Название продукта</label>
+                                <input type="text" class="form-control" value=" ФОРМА ДЛЯ ПИЦЦЫ 24СМ,H-2.5СМ ">
+                              </div>
+                            
+                            </div>
+
+                          </div>
+                          
+                          <div class="row column-seperation">
+                            <div class="col-md-12">
+                          
+                              <div class="form-group form-group-default">
+                                <label>Ссылка</label>
+                                <input type="text" class="form-control" value="forma-dlya-pizza-24-cm-h2-2.5cv">
+                              </div>
+                            
+                            </div>
+
+                          </div>
+                          
+                          
+                          <div class="row column-seperation">
+                            
+                            
+                            <div class="col-md-12">
+                            <div class="form-group form-group-default">
+                                <label>Описание продукта</label>
+                                <textarea id="wysiwyg5" class="wysiwyg" placeholder="Enter text ..." style="width:100%; height:250px"></textarea>
+                            </div>
+                            </div>
+                            
+                          </div>                          
+                          <div class="row column-seperation">
+                            <div class="col-md-12">
+                          
+                              <div class="form-group form-group-default required">
+                                <label>Meta Tag Title</label>
+                                <input type="text" class="form-control" value="">
+                              </div>
+                            
+                            </div>
+
+                          </div>
+                          
+                          <div class="row column-seperation">
+                            <div class="col-md-12">
+                          
+                              <div class="form-group form-group-default required">
+                                <label>Meta Tag Description</label>
+                                <textarea name="" style="width:100%"></textarea>
+                              </div>
+                            
+                            </div>
+
+                          </div>
+                          
+                          <div class="row column-seperation">
+                            <div class="col-md-12">
+                          
+                              <div class="form-group form-group-default required">
+                                <label>Meta Tag Keywords</label>
+                                <textarea name="" style="width:100%"></textarea>
+                              </div>
+                            
+                            </div>
+
+                          </div>
+
+                          
+                          <div class="row column-seperation">
+                            <div class="col-md-12">
+                          
+                              <div class="form-group form-group-default">
+                                <label>EAN</label>
+                                <input type="text" placeholder="Если есть..." class="form-control" value="">
+                              </div>
+                            
+                            </div>
+
+                          </div>
+                          
+                          <div class="row column-seperation">
+                            <div class="col-md-12">
+                          
+                              <div class="form-group form-group-default required">
+                                <label>Количество</label>
+                                <input type="text" class="form-control" value="999">
+                              </div>
+                            
+                            </div>
+
+                          </div>
+
+                       <h5>Габариты и вес</h5>
+                          <hr>
+                          
+                          <div class="row column-seperation">
+                            <div class="col-md-4">
+                          
+                              <div class="form-group form-group-default">
+                                <label>Длина</label>
+                                <input type="text" placeholder="0" class="form-control" value="">
+                              </div>
+                            
+                            </div>
+                            <div class="col-md-4">
+                          
+                              <div class="form-group form-group-default">
+                                <label>Ширина</label>
+                                <input type="text" placeholder="0" class="form-control" value="">
+                              </div>
+                            
+                            </div>
+                            <div class="col-md-4">
+                          
+                              <div class="form-group form-group-default">
+                                <label>Высота</label>
+                                <input type="text" placeholder="0" class="form-control" value="">
+                              </div>
+                            
+                            </div>                            
+
+                          </div>
+                          
+
+                          <div class="row column-seperation">
+                            <div class="col-md-4">
+                          
+                              <div class="form-group form-group-default form-group-default-select2">
+                                  <label>Длина в</label>
+                                
+                                    <select class="full-width" data-init-plugin="select2">
+                                        <option value="AK">Метры</option>
+                                        <option value="HI">Сантиметры</option>
+                                        <option value="HI">Миллиметры</option>
+                                        <option value="HI">Дюймы</option>
+                                    </select>
+    
+                              </div>	
+                            
+                            </div>
+                            <div class="col-md-4">
+                          
+                              <div class="form-group form-group-default">
+                                <label>Вес</label>
+                                <input type="text" placeholder="0" class="form-control" value="">
+                              </div>
+                            
+                            </div>
+                            <div class="col-md-4">
+                          
+                              <div class="form-group form-group-default form-group-default-select2">
+                                  <label>Вес в</label>
+                                
+                                    <select class="full-width" data-init-plugin="select2">
+                                        <option value="AK">Килограммы</option>
+                                        <option value="HI">Граммы</option>
+                                    </select>
+    
+                              </div>	
+                            
+                            </div>                            
+
+                          </div>
+                       <h5>Доставка</h5>
+                          <hr>
+                        <div class="row column-seperation">
+                            <div class="col-md-4">
+                          
+                              <div class="form-group form-group-default">
+                                <label>Новая почта</label>
+                                <input type="text" placeholder="0" class="form-control" value="45">
+                              </div>
+                            
+                            </div>
+                            <div class="col-md-4">
+                          
+                              <div class="form-group form-group-default">
+                                <label>Мост - Экспресс</label>
+                                <input type="text" placeholder="0" class="form-control" value="45">
+                              </div>
+                            
+                            </div>
+                            <div class="col-md-4">
+                          
+                              <div class="form-group form-group-default">
+                                <label>Курьер по Киеву</label>
+                                <input type="text" placeholder="0" class="form-control" value="45">
+                              </div>
+                            
+                            </div>                            
+
+                          </div>                        
+
+                        <div class="row column-seperation">
+                            <div class="col-md-4">
+                          
+                              <div class="form-group form-group-default">
+                                <label>Новая почта - Курьер</label>
+                                <input type="text" placeholder="0" class="form-control" value="45">
+                              </div>
+                            
+                            </div>
+
+                          </div>                       
+                        
+                        

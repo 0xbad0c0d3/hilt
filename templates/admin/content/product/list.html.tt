@@ -1,0 +1,109 @@
+[% PROCESS admin/header.html.tt
+  breadcrumb = 'Список товаров'
+%]
+
+      
+      
+
+          <!-- START CONTAINER FLUID -->
+          <div class="container-fluid container-fixed-lg">
+            <!-- BEGIN PlACE PAGE CONTENT HERE -->
+            
+            
+            
+            <!-- search -->
+            [% PROCESS admin/content/product/filter/search.html.tt %]
+            <!-- end search -->
+
+
+            <!-- START PANEL -->
+            <div class="panel panel-white">
+              <div class="panel-body">
+                <table class="table table-hover" id="myDataTable">
+                  <thead>
+                    <tr>
+                      <th>Картинка</th>
+                      <th>Название</th>
+                      <th>Бренд</th>
+                      <th>Страна производитель</th>
+                      <th>Количество</th>
+                      <th>Действия</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr>
+                      <td class="center"><img src="http://hilt.com.ua/admin/bindata/_0661988_image.tb.jpg" width="100"></td>
+                      <td><a href="/admin/content/product/1213242.html">Форма для пиццы 24см,h-2.5см</a></td>
+                      <td></td>
+                      <td class="center"> Китай</td>
+                      <td class="center"> 100</td>
+                      <td class="center">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-success"><i class="fa fa-save"></i>
+                          </button>
+                          <button type="button" class="btn btn-success"><i class="fa fa-pencil"></i>
+                          </button>
+                          <button type="button" class="btn btn-success"><i class="fa fa-trash-o"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="center"><img src="http://hilt.com.ua/admin/bindata/_0661988_image.tb.jpg" width="100"></td>
+                      <td>Форма для пиццы 24см,h-2.5см</td>
+                      <td></td>
+                      <td class="center"> Китай</td>
+                      <td class="center"> 100</td>
+                      <td class="center">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-success"><i class="fa fa-save"></i>
+                          </button>
+                          <button type="button" class="btn btn-success"><i class="fa fa-pencil"></i>
+                          </button>
+                          <button type="button" class="btn btn-success"><i class="fa fa-trash-o"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td class="center"><img src="http://hilt.com.ua/admin/bindata/_0661988_image.tb.jpg" width="100"></td>
+                      <td>Форма для пиццы 24см,h-2.5см</td>
+                      <td></td>
+                      <td class="center"> Китай</td>
+                      <td class="center"> 100</td>
+                      <td class="center">
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-success"><i class="fa fa-save"></i>
+                          </button>
+                          <button type="button" class="btn btn-success"><i class="fa fa-pencil"></i>
+                          </button>
+                          <button type="button" class="btn btn-success"><i class="fa fa-trash-o"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+                
+
+              </div>
+            </div>
+            <!-- END PANEL -->
+            
+            
+
+          <!-- END CONTAINER FLUID -->            
+            
+            <!-- END PLACE PAGE CONTENT HERE -->
+          </div>
+ 
+ 
+
+
+
+
+[% PROCESS admin/footer.html.tt %]
