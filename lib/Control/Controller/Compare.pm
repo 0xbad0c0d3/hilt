@@ -3,7 +3,7 @@ use Mojo::Base 'Mojolicious::Controller';
 
 sub _init {
   my $c = shift;
-  my ( $m ) = ('');
+  my($m) = ('');
   $m = $c->model('default');
   $m->get_default_data( $c );
 }

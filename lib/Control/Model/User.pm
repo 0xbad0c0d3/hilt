@@ -23,133 +23,132 @@ sub get {
 }
 
 sub set {
-  my ( $model, $c, $db, $data ) = @_;
-  my (@data, @res, %data) = ((),(),());  
-  @data = @{ $data };
-  
-  $db->storage->txn_begin();
-  try {
-    for my $item ( @data ) {
-      next unless ref $item eq 'HASH';      
-      unless ( exists $item->{'mail'} ) {
-        push @res, { item => $item,  message => "mail not exists"};
-        next; 
-      }
-      # email valid
-      unless( $c->mailrfc( $item->{'mail'} ) ){
-        push @res, { item => $item,  message => "mail not valid"};
-        next;         
-      }
-      $r = $db->resultset('User')->find( { mail => $item->{'mail'} } );
-      if ($r) {
-        push @res, { mail => $item->{'mail'}, message => "exists"};
-        next;
-      }
+	my ( $model, $c, $db, $data ) = @_;
+	my (@data, @res, %data) = ((),(),());  
+	@data = @{ $data };
+	
+	$db->storage->txn_begin();
+	try {
+		for my $item ( @data ) {
+			next unless ref $item eq 'HASH';      
+			unless ( exists $item->{'mail'} ) {
+				push @res, { item => $item,  message => "mail not exists"};
+				next; 
+			}
+			# email valid
+			unless( $c->mailrfc( $item->{'mail'} ) ){
+				push @res, { item => $item,  message => "mail not valid"};
+				next;         
+			}
+			$r = $db->resultset('User')->find( { mail => $item->{'mail'} } );
+			if ($r) {
+				push @res, { mail => $item->{'mail'}, message => "exists"};
+				next;
+			}
 			%data =  map { $_ => $item->{$_} } grep { $_ !~ /id/i } keys %{ $item };
-      
-      my $res = $db->resultset('User')->create( \%data );
-      my $id = $res->user_id;
-      push @res, { id => $id, message => "create"};
-    }
-    $db->storage->txn_commit();
-    return \@res;    
-  }
-  catch {
-    my $err = $_;
-    $db->storage->txn_rollback();
-    return undef, $err;
-  };
-  
+		  
+			my $res = $db->resultset('User')->create( \%data );
+			my $id = $res->user_id;
+			push @res, { id => $id, message => "create"};
+		}
+		$db->storage->txn_commit();
+		return \@res;    
+	}
+	catch {
+		my $err = $_;
+		$db->storage->txn_rollback();
+		return undef, $err;
+	};  
 }
 
 sub update {
-  my ( $model, $db, $data ) = @_;
-  my (@data, @res) = ((),());  
-  @data = @{ $data };
+	my ( $model, $db, $data ) = @_;
+	my (@data, @res) = ((),());  
+	@data = @{ $data };
   
-  $db->storage->txn_begin();
-  try {
-    for my $item ( @data ) {
-      next unless ref $item eq 'HASH';
-      $r = $db->resultset('User')->find( { user_id => $item->{'uid'} }  );
-      unless ($r) {
-        push @res, { id => $item->{'uid'}, message => "not exists"};
-        next;
-      }
-	  for my $key ( grep { $_ ne 'uid' || $_ ne 'access_delete' } keys %{$item} ) {
-        if( $r->has_column( $key ) ){
-          $r->$key( $item->{$key} );
-        }
-      }
-      if ( $r->has_column('date_update') ) {
-		$r->date_update(\'NOW()');
-	  }	  
-      $r->update;
-      push @res, { id => $item->{'uid'}, message => "update"};
-    }
-    $db->storage->txn_commit();
-    return \@res;    
-  }
-  catch {
-    my $err = $_;
-    $db->storage->txn_rollback();
-    return undef, $err;
-  };
+	$db->storage->txn_begin();
+	try {
+		for my $item ( @data ) {
+		  next unless ref $item eq 'HASH';
+		  $r = $db->resultset('User')->find( { user_id => $item->{'uid'} }  );
+		  unless ($r) {
+			push @res, { id => $item->{'uid'}, message => "not exists"};
+			next;
+		  }
+		  for my $key ( grep { $_ ne 'uid' || $_ ne 'access_delete' } keys %{$item} ) {
+			if( $r->has_column( $key ) ){
+			  $r->$key( $item->{$key} );
+			}
+		  }
+		  if ( $r->has_column('date_update') ) {
+			$r->date_update(\'NOW()');
+		  }	  
+		  $r->update;
+		  push @res, { id => $item->{'uid'}, message => "update"};
+		}
+		$db->storage->txn_commit();
+		return \@res;    
+	}
+	catch {
+		my $err = $_;
+		$db->storage->txn_rollback();
+		return undef, $err;
+	};
 }
 
 sub remove {
-  my ( $model, $db, $data ) = @_;
-  my (@data, @res) = ((),());  
-  @data = @{ $data };
+	my ( $model, $db, $data ) = @_;
+	my (@data, @res) = ((),());  
+	@data = @{ $data };
   
-  $db->storage->txn_begin();
-  try {
-    for my $id ( @data ) {
-      $r = $db->resultset('User')->find( { user_id => $id }  );
-      unless ($r) {
-        push @res, { id => $id, message => "not exists"};
-        next;
-      }
-      if ( $r->access_delete ) {
-				$r->delete;
-        push @res, { id => $id, message => "remove"};
+	$db->storage->txn_begin();
+	try {
+		for my $id ( @data ) {
+			$r = $db->resultset('User')->find( { user_id => $id }  );
+			unless ($r) {
+				push @res, { id => $id, message => "not exists"};
+				next;
 			}
-      else{
-        push @res, { id => $id, message => "access denied"};
-      }	              
-    }
-    $db->storage->txn_commit();
-    return \@res;    
-  }
-  catch {
-    my $err = $_;
-    $db->storage->txn_rollback();
-    return undef, $err;
-  };  
+			if ( $r->access_delete ) {
+				$r->delete;
+				push @res, { id => $id, message => "remove"};
+			}
+			else{
+				push @res, { id => $id, message => "access denied"};
+			}	              
+		}
+		$db->storage->txn_commit();
+		return \@res;    
+	}
+	catch {
+		my $err = $_;
+		$db->storage->txn_rollback();
+		return undef, $err;
+	};  
 }
 
 sub list {
-  my ($model, $db, $page, $rows ) = @_;
-
-  $r = $db->resultset('User')->search( undef,{
-    rows => $rows,
-    page => $page
-  });  
-  $r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
-  my @res = $r->all();
+	my ($model, $db, $page, $rows ) = @_;
+	
+	$r = $db->resultset('User')->search( undef,{
+		rows => $rows,
+		page => $page
+	});  
+	$r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
+	my @res = $r->all();
   
-  $rs = $db->resultset('User')->search(
-    undef,
-    {
-      select => [
-        { count => 'user_id' }
-      ],
-      as => [ 'count' ]
-    }
-  );
+	$rs = $db->resultset('User')->search(
+		undef,
+		{
+			select => [
+				{ count => 'user_id' }
+			],
+			as => [ 'count' ]
+		}
+	);
   
-  $count = $rs->next->get_column('count');  
-  { success =>\1, count=> $count, page => $page, rows => $rows,  data=>\@res };
+	$count = $rs->next->get_column('count');  
+	{ success =>\1, count=> $count, page => $page, rows => $rows,  data=>\@res };
 }
 
 sub login {
@@ -171,7 +170,7 @@ sub login {
 sub confirm_login_mail {
 	my ($model, $db, $c, $user, $mail ) = @_;
 	$db->storage->txn_begin();
-  try {	
+	try {	
 		$r = $db->resultset('User2session')->update_or_create({
 			session => $user->{'sid'},
 			user_id => $user->{'user_id'},
@@ -183,9 +182,9 @@ sub confirm_login_mail {
 		return 1;
 	}
 	catch{
-    my $err = $_;
-    $db->storage->txn_rollback();
-    return undef, $err;
+		my $err = $_;
+		$db->storage->txn_rollback();
+		return undef, $err;
 	};
 	$r;
 }
