@@ -203,6 +203,9 @@ sub startup {
 		#
 		$admin->get('/content/product')->to('admin-content-product#list');
 		$admin->get('/content/product/:id')->to('admin-content-product#item');
+		$admin->put('/content/product/:id')->to('admin-content-product#update');
+		$admin->post('/content/product')->to('admin-content-product#add');
+		$admin->delete('/content/product/:id')->to('admin-content-product#remove');
 		
 		$admin->get('/content/feature')->to('admin-feature#index');
 		$admin->get('/content/sales')->to('admin-sales#index');

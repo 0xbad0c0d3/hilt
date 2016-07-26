@@ -4,3 +4,39 @@
 
 [Fri Jul 15 09:41:47 2016] [error] Can't move file "/tmp/mojo.tmp" to "/var/www/hilt.mojo/photo/tmp/tower.jpg": ÐÐµÑ ÑÐ°ÐºÐ¾Ð³Ð¾ ÑÐ°Ð¹Ð»Ð° Ð¸Ð»Ð¸ ÐºÐ°ÑÐ°Ð»Ð¾Ð³Ð° at /usr/local/share/perl/5.20.2/Mojo/Upload.pm line 6.
 
+[Thu Jul 21 16:08:55 2016] [warn] Not patam product_id
+[Thu Jul 21 16:09:29 2016] [error] Can't move file "/tmp/mojo.tmp" to "/var/www/hilt.mojo/photo/tmp/tower.jpg": ÐÐµÑ ÑÐ°ÐºÐ¾Ð³Ð¾ ÑÐ°Ð¹Ð»Ð° Ð¸Ð»Ð¸ ÐºÐ°ÑÐ°Ð»Ð¾Ð³Ð° at /usr/local/share/perl/5.20.2/Mojo/Upload.pm line 6.
+
+[Thu Jul 21 16:10:34 2016] [error] Can't locate Control/Model/Image.pm in @INC (you may need to install the Control::Model::Image module) (@INC contains: Bin/../../lib /var/www/hilt.mojo/script/../lib /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.20.2 /usr/local/share/perl/5.20.2 /usr/lib/x86_64-linux-gnu/perl5/5.20 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl/5.20 /usr/share/perl/5.20 /usr/local/lib/site_perl .) at (eval 231) line 1.
+
+[Thu Jul 21 16:11:45 2016] [error] Died at /usr/local/share/perl/5.20.2/Image/Resize.pm line 25.
+
+[Thu Jul 21 16:14:35 2016] [error] Died at /usr/local/share/perl/5.20.2/Image/Resize.pm line 25.
+
+[Thu Jul 21 16:15:21 2016] [error] Died at /usr/local/share/perl/5.20.2/Image/Resize.pm line 25.
+
+[Thu Jul 21 16:17:10 2016] [error] Not a HASH reference at /var/www/hilt.mojo/script/../lib/Control/Controller/Api/Image/Product.pm line 64.
+
+[Thu Jul 21 16:51:57 2016] [info] admin in main page: Сергей Штогаренко
+[Thu Jul 21 16:59:22 2016] [info] admin in main page: Сергей Штогаренко
+[Thu Jul 21 17:03:23 2016] [info] admin in main page: Сергей Штогаренко
+[Thu Jul 21 17:38:25 2016] [info] admin in main page: Сергей Штогаренко
+[Thu Jul 21 17:39:09 2016] [info] admin in main page: Сергей Штогаренко
+[Mon Jul 25 18:30:24 2016] [error] DBIx::Class::Storage::txn_rollback(): A txn_rollback in nested transaction is ineffective! (depth 2) at /var/www/hilt.mojo/script/../lib/Control/Model/Image.pm line 54
+
+[Mon Jul 25 18:31:38 2016] [error] DBIx::Class::Storage::txn_rollback(): A txn_rollback in nested transaction is ineffective! (depth 2) at /var/www/hilt.mojo/script/../lib/Control/Model/Image.pm line 55
+
+[Mon Jul 25 18:33:34 2016] [error] DBIx::Class::Storage::txn_rollback(): A txn_rollback in nested transaction is ineffective! (depth 2) at /var/www/hilt.mojo/script/../lib/Control/Model/Image.pm line 55
+
+[Mon Jul 25 18:35:31 2016] [error] DBIx::Class::Storage::txn_rollback(): A txn_rollback in nested transaction is ineffective! (depth 2) at /var/www/hilt.mojo/script/../lib/Control/Model/Image.pm line 55
+
+[Tue Jul 26 09:27:29 2016] [error] DBIx::Class::Storage::txn_rollback(): A txn_rollback in nested transaction is ineffective! (depth 2) at /var/www/hilt.mojo/script/../lib/Control/Model/Image.pm line 55
+
+[Tue Jul 26 09:28:39 2016] [error] DBIx::Class::Storage::txn_rollback(): A txn_rollback in nested transaction is ineffective! (depth 2) at /var/www/hilt.mojo/script/../lib/Control/Model/Image.pm line 55
+
+[Tue Jul 26 09:29:38 2016] [error] DBIx::Class::Storage::txn_rollback(): A txn_rollback in nested transaction is ineffective! (depth 2) at /var/www/hilt.mojo/script/../lib/Control/Model/Image.pm line 55
+
+[Tue Jul 26 09:30:49 2016] [error] DBIx::Class::Storage::txn_rollback(): A txn_rollback in nested transaction is ineffective! (depth 2) at /var/www/hilt.mojo/script/../lib/Control/Model/Image.pm line 55
+
+[Tue Jul 26 09:34:27 2016] [error] DBIx::Class::Storage::txn_rollback(): A txn_rollback in nested transaction is ineffective! (depth 2) at /var/www/hilt.mojo/script/../lib/Control/Model/Image.pm line 60
+

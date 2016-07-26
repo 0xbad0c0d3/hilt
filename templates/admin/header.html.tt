@@ -16,9 +16,12 @@
     <meta content="" name="author" />
     <!-- BEGIN Vendor CSS-->
 
-    <link href="/admin/assets/plugins/pace/pace-theme-flash.css'" rel="stylesheet" type="text/css" />
+
+    <link href="/css/upload/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+
+    <link href="/admin/assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" />
     <link href="/admin/assets/plugins/boostrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="'/admin/assets/plugins/font-awesome/css/font-awesome.css'" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/plugins/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
     <link href="/admin/assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="/admin/assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen" />
     <link href="/admin/assets/plugins/switchery/css/switchery.min.css" rel="stylesheet" type="text/css" media="screen" />
@@ -30,10 +33,10 @@
     <link type="text/css" rel="stylesheet" href="/admin/assets/plugins/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.css">
 
     <!-- BEGIN Pages CSS-->
-    <link href="/admin/pages/css/pages-icons.css" rel="stylesheet" type="text/css">
+    <!--<link href="/admin/pages/css/pages-icons.css" rel="stylesheet" type="text/css">-->
     <link class="main-stylesheet" href="/admin/pages/css/pages.css" rel="stylesheet" type="text/css" />
     <!--[if lte IE 9]>
-        <link href="/admin/pages/css/ie9.css" rel="stylesheet" type="text/css" />
+      <link href="/admin/pages/css/ie9.css" rel="stylesheet" type="text/css" />
     <![endif]-->
     <script type="text/javascript">
     window.onload = function()
@@ -68,7 +71,7 @@
               <span class="title">Контент</span>
               <span class="arrow"></span>
             </a>
-            <span class="icon-thumbnail"><i class="pg-grid"></i></span>
+            <span class="icon-thumbnail"><i class="fa fa-book"></i></span>
             <ul class="sub-menu">
               <li class="">
                 <a href="/admin/#">Категории</a>
@@ -93,7 +96,7 @@
               <span class="title">Склад</span>
               <span class="arrow"></span>
             </a>
-            <span class="icon-thumbnail"><i class="pg-grid"></i></span>
+            <span class="icon-thumbnail"><i class="fa fa-edit"></i></span>
             <ul class="sub-menu">
               <li class="">
                 <a href="/admin/#">Заказы</a>
@@ -106,7 +109,7 @@
               <span class="title">Маркетинг</span>
               <span class="arrow"></span>
             </a>
-            <span class="icon-thumbnail"><i class="pg-grid"></i></span>
+            <span class="icon-thumbnail"><i class="fa fa-line-chart"></i></span>
             <ul class="sub-menu">
               <li class="">
                 <a href="/admin/#">Акции</a>
@@ -132,7 +135,7 @@
               <span class="title">Отчеты</span>
               <span class="arrow"></span>
             </a>
-            <span class="icon-thumbnail"><i class="pg-grid"></i></span>
+            <span class="icon-thumbnail"><i class="fa fa-pie-chart"></i></span>
             <ul class="sub-menu">
               <li class="">
                 <a href="/admin/#">Продажи</a>
@@ -150,7 +153,7 @@
               <span class="title">Администрирование</span>
               <span class="arrow"></span>
             </a>
-            <span class="icon-thumbnail"><i class="pg-grid"></i></span>
+            <span class="icon-thumbnail"><i class="fa fa-ambulance"></i></span>
             <ul class="sub-menu">
               <li class="">
                 <a href="/admin/#">Пользователи</a>

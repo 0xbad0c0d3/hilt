@@ -2,7 +2,7 @@ package Control::Controller::Api::Image::Product;
 use Mojo::Base 'Mojolicious::Controller';
 use Data::Dumper;
 
-my ( $files, $m, $db, $page, $rows, $id, $data, $init, $tmp_path_dir ) = ('', '', '', 0, 0, 0, [], {},'' );
+my ( $files, $m, $ms, $db, $page, $rows, $id, $data, $init, $tmp_path_dir ) = ('', '', '', '', 0, 0, 0, [], {},'' );
 my $q = 90;
 
 sub _init {
@@ -21,8 +21,16 @@ sub _init {
 
 sub set {
 	my $c = shift;
-	say $c->_init;
-	my ($file_tmp, $up_file, $path, $name, $w, $h ) = ('','','',0,0);
+	$c->_init;
+	#return $c->reply->not_found unless $c->_init;
+	
+	my ($data_original,$data) = ([],[]);
+
+	# priduct_id
+	unless( $id ){
+		$c->app->log->warn('Not patam product_id');
+		return $c->render( text => 'Not patam product_id' );
+	}	
 	#
 	# Origin 
 	#
@@ -31,59 +39,75 @@ sub set {
 		return $c->render('image->product->origin not exists');
 	};
 	
-	
-	unless( $id ){
-		$c->app->log->warn('Not patam product_id');
-		return $c->render( text => 'Not patam product_id' );
+	if( my $res = $c->_info( 'origin', $info ) ){
+		my $f_a = [];
+		my $hash = {};
+		for my $item ( @{$res} ) {
+			$hash = {
+				md5_hex => $item->{'md5_hex'},
+				origin_name => $item->{'origin_name'},
+				name => $item->{'name'},
+				path => $item->{'path'},
+				w => $info->{'max_w'},
+				h => $info->{'max_h'},
+				user_id => 1
+			};
+			
+			my $res = $m->set($db,$hash);
+			$hash->{'image_id'} = $res if $res;
+			$hash->{'product_id'} = $id;
+			push @{$f_a}, $hash;
+			
+		}
+		push @{$data_original}, @{$f_a};
+	}
+	else{
+		$c->app->log->error('Error');
 	}
 	
-	$path = exists $info->{'path'} ? $info->{'path'} : do {
-		$c->app->log->warn('Error config image->product->origin not path to dir');
-		return $c->render( text => 'Error config image->product->origin not path to dir' );
-	};
+	for my $key ( grep{ $_ ne 'origin'} keys %{ $c->app->config->{'image'}->{'product'} } ) {
+		my $info = $c->app->config->{'image'}->{'product'}->{$key} or do{
+			$c->app->log->warn('image->product->'.$key.' not exists');
+			next;
+		};
+		if( my $res = $c->_info_product( $key, $info, $data_original ) ){
+			
+			for my $item ( @{$res} ) {
+				my $hash = {
+					md5_hex => $item->{'md5_hex'},
+					product_id => $item->{'product_id'},
+					image_id => $item->{'image_id'},
+					origin_name => $item->{'origin_name'},
+					name => $item->{'name'},
+					path => $item->{'path'},
+					w => $info->{'max_w'},
+					h => $info->{'max_h'},
+					user_id => 1
+				};
+				
+				my $res = $m->set_product($c, $db, $hash);
+				say Dumper('this => '.$key , $hash, $res); 
+				
+			}			
+			push @{$data}, @{$res};
+		}
+		else{
+			$c->app->log->error('Error => '.$key);
+		}
+	}
 	
-	$w = $info->{'max_w'} if exists $info->{'max_w'};
-	$h = $info->{'max_h'} if exists $info->{'max_h'};
-	$q = exists $info->{'q'} ? $info->{'q'} : $q;
-		
 	for my $file ( @{$files} ){
 		my $name = $file->filename =~ s/[^\w\d\.]+/_/gr;
 		my $tmp_file = "$tmp_path_dir/$name";
-		$file->move_to( $tmp_file );
-		
-		if( $w && $h ){
-			say "img_resize";
-			$up_file = $c->img_resize( $id, $tmp_file, $tmp_path_dir, $path, $name, $w, $h, $q );
-		}
-		elsif( $w || $h ){
-			say "img_scale";
-			$up_file = $c->img_scale( $id, $tmp_file, $tmp_path_dir, $path, $name, $w, $h, $q );
-			
-		}else{
-			$c->app->log->warn('Error config image->product->origin not max_w or max_h');
-			next;
-		}		
+		$c->img_tmp_remove( $tmp_file );
 	}
-	$c->render( text => "UPLOAD" );
-	
-=item	
-	#
-	# Other size
-	#
-	for my $key ( grep{ $_ ne 'origin'} keys %{ $c->app->config->{'image'}->{'product'} } ) {
-		my ($file_tmp, $path, $name, $w, $h, $q);
-		my $data = $c->app->config->{'image'}->{'product'}->{'key'};
-		$path = exists $data->{'path'} ? $data->{'path'} : do {
-			$c->app->log->warn('Error config image->product->'.$key.' not path to dir');
-			next;
-		};
-		$w = $data->{'max_w'} if exists $data->{'max_w'};
-		$h = $data->{'max_h'} if exists $data->{'max_h'};
-		$q = exists $data->{'q'} ? $data->{'q'} : $q;
-		
-		$c->img_resize( );
+	my @arr = (@{$data}, @{$data_original});
+	if( @arr ){
+		$c->render( json => { success =>\1 , data => \@arr } );
 	}
-=cut	
+	else{
+		$c->render( json => { failue =>\1 , message => 'Ошибка сервера'} );
+	}	
 }
 
 sub get {
@@ -94,4 +118,68 @@ sub list {
 	my $c = shift;
 }
 
+sub _info {
+	my $c = shift;
+	my $key = shift or do { return undef };
+
+	my $info = shift or do{ return undef };
+	my $up_file = [];
+	
+	my $path = exists $info->{'path'} ? $info->{'path'} : do {
+		$c->app->log->warn('Error config image->product->'.$key.' not path to dir');
+		return undef;
+	};
+	
+	my $w = $info->{'max_w'} if exists $info->{'max_w'};
+	my $h = $info->{'max_h'} if exists $info->{'max_h'};
+	my $q = exists $info->{'q'} ? $info->{'q'} : $q;
+		
+	for my $file ( @{$files} ){
+		my $name = $file->filename =~ s/[^\w\d\.]+/_/gr;
+		my $tmp_file = "$tmp_path_dir/$name";
+		$file->move_to( $tmp_file );
+		
+		if( $w || $h ){
+			push @{$up_file}, $c->img_resize( $key, $tmp_file, $tmp_path_dir, $path, $name, $w, $h, $q  );
+		}
+		else{
+			$c->app->log->warn('Error config image->product->origin not max_w or max_h');
+			next;
+		}		
+	}
+	return $up_file;
+}
+sub _info_product {
+	my $c = shift;
+	my $key = shift or do { return undef };
+	my $info = shift or do{ return undef };
+	my $files = shift or do{ return undef };
+	my $up_file = [];
+	
+	my $path = exists $info->{'path'} ? $info->{'path'} : do {
+		$c->app->log->warn('Error config image->product->'.$key.' not path to dir');
+		return undef;
+	};
+	
+	my $w = $info->{'max_w'} if exists $info->{'max_w'};
+	my $h = $info->{'max_h'} if exists $info->{'max_h'};
+	my $q = exists $info->{'q'} ? $info->{'q'} : $q;
+		
+	for my $file ( @{$files} ){
+		my $name = $file->{'name'};
+		my $tmp_file = $file->{'path'};
+		
+		if( $w || $h ){
+			my $hash = $c->img_resize( $key, $tmp_file, $tmp_path_dir, $path, $name, $w, $h, $q  );
+			$hash->{'image_id'} = $file->{'image_id'};
+			$hash->{'product_id'} = $file->{'product_id'};
+			push @{$up_file}, $hash;
+		}
+		else{
+			$c->app->log->warn('Error config image->product->origin not max_w or max_h');
+			next;
+		}		
+	}
+	return $up_file;	
+}
 1;

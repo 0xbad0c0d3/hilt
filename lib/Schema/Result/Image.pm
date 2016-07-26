@@ -27,6 +27,7 @@ __PACKAGE__->table("image");
 
   data_type: 'integer'
   extra: {unsigned => 1}
+  is_auto_increment: 1
   is_nullable: 0
 
 =head2 md5_hex
@@ -63,11 +64,29 @@ __PACKAGE__->table("image");
   is_nullable: 0
   size: 255
 
+=head2 user_id
+
+  data_type: 'integer'
+  extra: {unsigned => 1}
+  is_nullable: 0
+
+=head2 date_create
+
+  data_type: 'datetime'
+  datetime_undef_if_invalid: 1
+  default_value: 'CURRENT_TIMESTAMP'
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
   "image_id",
-  { data_type => "integer", extra => { unsigned => 1 }, is_nullable => 0 },
+  {
+    data_type => "integer",
+    extra => { unsigned => 1 },
+    is_auto_increment => 1,
+    is_nullable => 0,
+  },
   "md5_hex",
   { data_type => "varchar", is_nullable => 0, size => 45 },
   "w",
@@ -80,6 +99,15 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 0, size => 255 },
   "path",
   { data_type => "varchar", is_nullable => 0, size => 255 },
+  "user_id",
+  { data_type => "integer", extra => { unsigned => 1 }, is_nullable => 0 },
+  "date_create",
+  {
+    data_type => "datetime",
+    datetime_undef_if_invalid => 1,
+    default_value => "CURRENT_TIMESTAMP",
+    is_nullable => 0,
+  },
 );
 
 =head1 PRIMARY KEY
@@ -108,26 +136,9 @@ __PACKAGE__->set_primary_key("image_id");
 
 __PACKAGE__->add_unique_constraint("md5_UNIQUE", ["md5_hex"]);
 
-=head1 RELATIONS
 
-=head2 product2images
-
-Type: has_many
-
-Related object: L<Schema::Result::Product2image>
-
-=cut
-
-__PACKAGE__->has_many(
-  "product2images",
-  "Schema::Result::Product2image",
-  { "foreign.image_id" => "self.image_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-05-25 12:57:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:SuYB0KooXjmcaJ70Y7PPag
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-07-25 16:57:36
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pnlSE6NWxSupr7SQOimB4g
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

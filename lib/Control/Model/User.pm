@@ -69,22 +69,22 @@ sub update {
 	$db->storage->txn_begin();
 	try {
 		for my $item ( @data ) {
-		  next unless ref $item eq 'HASH';
-		  $r = $db->resultset('User')->find( { user_id => $item->{'uid'} }  );
-		  unless ($r) {
-			push @res, { id => $item->{'uid'}, message => "not exists"};
-			next;
-		  }
-		  for my $key ( grep { $_ ne 'uid' || $_ ne 'access_delete' } keys %{$item} ) {
-			if( $r->has_column( $key ) ){
-			  $r->$key( $item->{$key} );
+			next unless ref $item eq 'HASH';
+			$r = $db->resultset('User')->find( { user_id => $item->{'uid'} }  );
+			unless ($r) {
+				push @res, { id => $item->{'uid'}, message => "not exists"};
+				next;
 			}
-		  }
-		  if ( $r->has_column('date_update') ) {
-			$r->date_update(\'NOW()');
-		  }	  
-		  $r->update;
-		  push @res, { id => $item->{'uid'}, message => "update"};
+			for my $key ( grep { $_ ne 'uid' || $_ ne 'access_delete' } keys %{$item} ) {
+				if( $r->has_column( $key ) ){
+					$r->$key( $item->{$key} );
+				}
+			}
+			if ( $r->has_column('date_update') ) {
+				$r->date_update(\'NOW()');
+			}	  
+			$r->update;
+			push @res, { id => $item->{'uid'}, message => "update"};
 		}
 		$db->storage->txn_commit();
 		return \@res;    

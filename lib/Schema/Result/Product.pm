@@ -171,24 +171,9 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 product2image
 
-Type: might_have
-
-Related object: L<Schema::Result::Product2image>
-
-=cut
-
-__PACKAGE__->might_have(
-  "product2image",
-  "Schema::Result::Product2image",
-  { "foreign.product_id" => "self.product_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-05-25 12:57:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:WVh8B5NzHK+PM+t2hG5SYw
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-07-26 10:07:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Iq5iETxWeWb5W9vI/+NpTg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

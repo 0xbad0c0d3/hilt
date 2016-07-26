@@ -11,7 +11,7 @@ sub _init {
 
 sub index {
 	my $c = shift;
-	return return $c->reply->not_found unless $c->_init();
+	return $c->reply->not_found unless $c->_init();
 	my $u = $c->stash('user');
 	$c->app->log->info("admin in main page: ".$u->{first_name}." ".$u->{last_name});
 	$c->render( template => 'admin/index');
