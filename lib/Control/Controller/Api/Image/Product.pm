@@ -85,9 +85,7 @@ sub set {
 					user_id => 1
 				};
 				
-				my $res = $m->set_product($c, $db, $hash);
-				say Dumper('this => '.$key , $hash, $res); 
-				
+				my $res = $m->set_product($c, $db, $hash);				
 			}			
 			push @{$data}, @{$res};
 		}
@@ -110,12 +108,29 @@ sub set {
 	}	
 }
 
-sub get {
+sub list {
 	my $c = shift;
 }
 
-sub list {
+sub get {
 	my $c = shift;
+	return $c->reply->not_found unless $c->_init;
+	my %hash = ();
+	my %filter = ();
+	$filter{'w'} = $init->{'data'}->{'w'} if $init->{'data'}->{'w'};
+	$filter{'h'} = $init->{'data'}->{'h'} if $init->{'data'}->{'h'};
+
+	my $json = $m->product_list( $c, $db, $page, $rows, $id, \%filter );
+	
+	for my $item ( @{ $json->{'data'} } ) {
+		$hash{ $item->{'image_id'} } = 1;
+	}
+	for my $key ( keys %hash ) {
+		my $data = $m->get_origin( $c, $db, $key );
+		push @{ $json->{'origin'} }, $data;
+	}	
+
+	$c->render( json => $json );
 }
 
 sub _info {

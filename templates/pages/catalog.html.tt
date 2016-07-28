@@ -1,3 +1,6 @@
+[% USE Filter.MinifyHTML( comments => 1, html5 => 1 ) %]
+[% FILTER minify_html %]
+	
 [% PROCESS pages/default/header.html.tt %]
 
 <div class="information-blocks">
@@ -104,3 +107,5 @@
 [% PROCESS pages/default/blocks/last_news_col4.html.tt %]
 
 [% PROCESS pages/default/footer.html.tt %]
+
+[% END %]

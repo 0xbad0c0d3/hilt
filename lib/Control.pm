@@ -1,8 +1,10 @@
 package Control;
 use Mojo::Base 'Mojolicious';
 use FindBin qw($Bin);
-use Mojolicious::Plugin::Cache;
+#use Mojolicious::Plugin::Cache;
 use Mojo::Log;
+use open qw(:std :utf8);
+use utf8;
 
 my($r, $api, $conf, $admin);
 
@@ -175,6 +177,7 @@ sub startup {
 		$api->put('/content/category')->to('api-content-category#update');
 		$api->post('/content/category/set')->to('api-content-category#set');
 		$api->get('/content/category/list')->to('api-content-category#list');
+		$api->get('/content/category/megamenu')->to('api-content-category#megamenu');
 		$api->get('/content/category/:id' => [ format => ['json'], id => qr/\d+/  ] )->to('api-content-category#get');
 		# feature
 		$api->delete('/content/feature')->to('api-content-feature#remove');
@@ -186,7 +189,7 @@ sub startup {
 		$api->delete('/image/product/:id' )->over( is_admin => 1 )->to('api-image-product#delete');
 		$api->post('/image/product/:id' )->to('api-image-product#set');
 		$api->get('/image/product/list/:id' )->over( is_admin => 1 )->to('api-image-product#list');
-		$api->get('/image/product/:id')->over( is_admin => 1 )->to('api-image-product#get');
+		$api->get('/image/product/:id')->to('api-image-product#get');
 	
 	####################
 	# admin

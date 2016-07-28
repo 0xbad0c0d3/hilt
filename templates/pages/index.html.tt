@@ -7,7 +7,7 @@
 <div class="row">
 	<div class="col-md-3 sidebar-column">
 
-	[% PROCESS pages/default/blocks/megamenu.html.tt %]
+	[% PROCESS pages/default/blocks/megamenu3.html.tt %]
 	
 	</div>
 	<div class="col-md-9">

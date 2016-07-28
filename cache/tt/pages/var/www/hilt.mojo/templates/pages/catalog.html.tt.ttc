@@ -6,8 +6,8 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
+        'modtime' => '1469708573',
         'name' => 'pages/catalog.html.tt',
-        'modtime' => '1463731339',
     },
     BLOCK => sub {
     my $context = shift || die "template sub called without context\n";
@@ -17,12 +17,25 @@ Template::Document->new({
     
     eval { BLOCK: {
 #line 1 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+# USE
+$stash->set('Filter.MinifyHTML',
+            $context->plugin('Filter.MinifyHTML', [ { 'comments' => 1, 'html5' => 1 } ]));
+#line 111 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+
+# FILTER
+$output .=  do {
+    my $output = '';
+    my $_tt_filter = $context->filter('minify_html')
+              || $context->throw($context->error);
+
+$output .=  "	";
+#line 4 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $context->process('pages/default/header.html.tt');
 $output .=  "\n<div class=\"information-blocks\">\n	<div class=\"row\">\n		<div class=\"col-md-9 col-md-push-3 col-sm-8 col-sm-push-4\">\n			<div class=\"page-selector\">\n				<div class=\"hidden-xs\">";
-#line 8 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 11 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get(['hilt', 0, 'products_pagination', 0]);
 $output .=  "				</div>\n				<div class=\"shop-grid-controls\">\n					<div class=\"entry\">\n						<div class=\"inline-text\">Сортировать по:</div>\n						<div class=\"simple-drop-down\">\n							<select>\n								<option>По рейтингу</option>\n								<option>По популярности</option>\n								<option>По цене</option>\n							</select>\n						</div>\n						<div class=\"sort-button\"></div>\n					</div>\n					<div class=\"entry\">\n						<div class=\"view-button active grid\"><i class=\"fa fa-th\"></i></div>\n						<div class=\"view-button list\"><i class=\"fa fa-list\"></i></div>\n					</div>\n\n				</div>\n				<div class=\"clear\"></div>\n			</div>\n			<div class=\"row shop-grid grid-view\">\n";
-#line 70 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 73 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 
 # FOREACH 
 do {
@@ -41,7 +54,7 @@ do {
 FOR1:   while (! $_tt_error) {
             $stash->{'item'} = $_tt_value;
 $output .=  "				<div class=\"col-md-3 col-sm-4 shop-grid-item\">\n					<div class=\"product-slide-entry shift-image\">\n						<div class=\"product-image\">";
-#line 38 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 41 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 
 # FOREACH 
 do {
@@ -60,10 +73,10 @@ do {
 FOR2:   while (! $_tt_error) {
             $stash->{'i'} = $_tt_value;
 $output .=  "								<img src=\"";
-#line 37 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 40 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get(['item', 0, 'img', 0, $stash->get('i'), 0]);
 $output .=  "\" alt=\"";
-#line 37 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 40 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get(['item', 0, 'title', 0]);
 $output .=  "\">";;
             ($_tt_value, $_tt_error) = $_tt_list->get_next();
@@ -76,22 +89,22 @@ $output .=  "\">";;
 };
 
 $output .=  "							<div class=\"product-image-label type-1\"><span>-40%</span></div>\n							<div class=\"bottom-line left-attached\">\n								<a class=\"bottom-line-a square\"><i class=\"fa fa-shopping-cart\"></i></a>\n								<a class=\"bottom-line-a square\"><i class=\"fa fa-heart\"></i></a>\n								<a class=\"bottom-line-a square\"><i class=\"fa fa-retweet\"></i></a>\n								<a class=\"bottom-line-a square product-pre\"><i class=\"fa fa-expand\"></i></a>\n							</div>\n						</div>\n						<a class=\"tag\" href=\"#\">";
-#line 47 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 50 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get(['item', 0, 'brand', 0]);
 $output .=  " </a>\n						<a class=\"title\" href=\"";
-#line 48 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 51 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get(['item', 0, 'url', 0]);
 $output .=  "\">";
-#line 48 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 51 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get(['item', 0, 'title', 0]);
 $output .=  "</a>\n						<div class=\"rating-box\">\n							<div class=\"star\"><i class=\"fa fa-star\"></i></div>\n							<div class=\"star\"><i class=\"fa fa-star\"></i></div>\n							<div class=\"star\"><i class=\"fa fa-star\"></i></div>\n							<div class=\"star\"><i class=\"fa fa-star\"></i></div>\n							<div class=\"star\"><i class=\"fa fa-star\"></i></div>\n						</div>\n						<div class=\"article-container style-1\">\n							<p>";
-#line 57 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 60 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get(['item', 0, 'description', 0]);
 $output .=  "</p>\n						</div>\n						<div class=\"price\">\n							<div class=\"prev\">";
-#line 60 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 63 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get(['item', 0, 'price', 0, 'prev', 0]);
 $output .=  " грн</div>\n							<div class=\"current\">";
-#line 61 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 64 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get(['item', 0, 'price', 0, 'current', 0]);
 $output .=  " грн.</div>\n						</div>\n						<div class=\"list-buttons\">\n							<a class=\"button style-10\">В корзину</a>\n							<a class=\"button style-11\"><i class=\"fa fa-heart\"></i> Сравнение</a>\n						</div>\n					</div>\n					<div class=\"clear\"></div>\n				</div>";;
             ($_tt_value, $_tt_error) = $_tt_list->get_next();
@@ -104,10 +117,10 @@ $output .=  " грн.</div>\n						</div>\n						<div class=\"list-buttons\">\n	
 };
 
 $output .=  "\n						\n			</div>\n			\n			<div class=\"page-selector\">\n				<div class=\"description\">1-12 из 450</div>";
-#line 77 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 80 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get(['hilt', 0, 'products_pagination', 0]);
 $output .=  "				<div class=\"clear\"></div>\n			</div>\n		</div>\n		<div class=\"col-md-3 col-md-pull-9 col-sm-4 col-sm-pull-8 blog-sidebar\">\n\n			<div class=\"information-blocks\">\n				<div class=\"block-title size-2\">Категории</div>\n				<div class=\"row\">\n					<div class=\"col-xs-6\">";
-#line 91 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 94 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 
 # FOREACH 
 do {
@@ -126,7 +139,7 @@ do {
 FOR1:   while (! $_tt_error) {
             $stash->{'item'} = $_tt_value;
 $output .=  "						<label class=\"checkbox-entry\">\n							<input type=\"checkbox\"> <span class=\"check\"></span>  ";
-#line 89 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 92 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $stash->get('item');
 $output .=  "						</label>";;
             ($_tt_value, $_tt_error) = $_tt_list->get_next();
@@ -139,13 +152,17 @@ $output .=  "						</label>";;
 };
 
 $output .=  "					</div>\n				</div>\n			</div>\n			";
-#line 96 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 99 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $context->process('pages/catalog/blocks/filters.html.tt');
 $output .=  "		\n		</div>\n	</div>\n</div>\n\n\n";
-#line 104 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 107 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $context->process('pages/default/blocks/last_news_col4.html.tt');
-#line 106 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
+#line 109 "/var/www/hilt.mojo/templates/pages/catalog.html.tt"
 $output .=  $context->process('pages/default/footer.html.tt');
+    
+    &$_tt_filter($output);
+};
+
     } };
     if ($@) {
         $_tt_error = $context->catch($@, \$output);
