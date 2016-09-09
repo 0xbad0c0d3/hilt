@@ -11,15 +11,14 @@ sub _init {
 }
 
 sub set {
-	my ($model, $db, $data) = @_;
+	my ($model, $data) = @_;
 	return undef unless $data && %{$data};
+	my $db = $model->app->db;
 	
-	#$db->storage->txn_begin();
 	try {
 		my $r = $db->resultset('Image')->find({ md5_hex => $data->{'md5_hex'} });
 		unless( $r ){
 			my $res = $db->resultset('Image')->create( $data );
-			#$db->storage->txn_commit();
 			return $res->image_id;
 		}
 		else{
@@ -28,16 +27,15 @@ sub set {
 	}
 	catch {
 		my $err = $_;
-		#$db->storage->txn_rollback();
 		return undef, $err;
 	};
 }
 
 sub set_product {
-	my ($model, $c, $db, $data) = @_;
+	my ($model, $data) = @_;	
 	return undef unless $data && %{$data};
+	my $db = $model->app->db;
 
-	#$db->storage->txn_begin();
 	try {
 		my $r = $db->resultset('Image2product')->find({ md5_hex => $data->{'md5_hex'}, path => $data->{'path'} });
 		
@@ -45,7 +43,6 @@ sub set_product {
 			
 			my $res = $db->resultset('Image2product')->create( $data );
 			if ( $res ) {
-				#$db->storage->txn_commit();
 				return $res->image2product_id;
 			}
 		}
@@ -55,33 +52,25 @@ sub set_product {
 	}
 	catch {
 		my $err = $_;
-		$c->app->log->error( $err );
-		#$db->storage->txn_rollback();
+		$model->app->log->error( $err );
 		return undef, $err;
 	};
 	
 }
 
 sub product_list{
-	my ($model, $c, $db, $page, $rows, $id, $filter ) = @_;
-	my %where = ( product_id => $id );
-	if( %{ $filter } ){
-		%where = ( %where, %{ $filter });
-	}
+	my ($model, $filter ) = @_;
+	my $db = $model->app->db;
 	
 	$r = $db->resultset('Image2product')->search(
-		\%where,
-		{
-			rows => $rows,
-			page => $page
-		}
+		$filter
 	);
 	
 	$r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
 	my @res = $r->all();
   
 	$rs = $db->resultset('Image2product')->search(
-		\%where,
+		$filter,
 		{
 			select => [
 				{ count => 'image_id' }
@@ -89,19 +78,58 @@ sub product_list{
 			as => [ 'count' ]
 		}
 	);
-  
+	
+	my $del = $model->app->config->{'path'}->{'photo'};
+	
+	for my $item ( @res ){
+		(my $url_path  = $item->{'path'} )=~s/$del//i;
+		$item->{'url_path'} = "/simg".$url_path;
+	}
+	
 	$count = $rs->next->get_column('count');  
-	{ success =>\1, count=> $count, page => $page, rows => $rows,  data=>\@res };	
+	{ success => \1, count => $count, data => \@res };	
 }
 
 sub get_origin {
-	my ($model, $c, $db, $id ) = @_;
-	my $r = $db->resultset('Image')->find({ image_id => $id });
+	my ($model, $filter ) = @_;
+	my $db = $model->app->db;
+	my $r = $db->resultset('Image')->find( $filter );
 	my $h = {};
+	my $del = $model->app->config->{'path'}->{'photo'};
 	for my $key ( $r->columns ) {
 		$h->{ $key } = $r->$key;
 	}
+	(my $url_path  = $h->{'path'} )=~s/$del//i;
+	$h->{'url_path'} = "/simg".$url_path;
 	return $h;
 }
 
+sub get_product_image {
+	my ($model, $filter ) = @_;
+	my $db = $model->app->db;
+	my $r = $db->resultset('Image2product')->find( $filter );
+	my $h = {};
+	my $del = $model->app->config->{'path'}->{'photo'};
+	for my $key ( $r->columns ) {
+		$h->{ $key } = $r->$key;
+	}
+	(my $url_path  = $h->{'path'} )=~s/$del//i;
+	$h->{'url_path'} = "/simg".$url_path;
+	return $h;
+}
+
+sub get_all_photo {
+	my ($model, $filter ) = @_;
+	return undef unless $filter->{'product_id'};
+	my $h = {};
+	my $db = $model->app->db;
+	my $r = $db->resultset('Image2product')->search( $filter, {
+		group_by => [qw/image_id/],
+		order_by => [qw/image_id/]
+	} );
+	$r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
+	my @res = $r->all();
+	
+	return \@res;	
+}
 1;

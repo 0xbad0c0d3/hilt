@@ -201,6 +201,21 @@ __PACKAGE__->add_unique_constraint("mail_UNIQUE", ["mail"]);
 
 =head1 RELATIONS
 
+=head2 managers
+
+Type: has_many
+
+Related object: L<Schema::Result::Manager>
+
+=cut
+
+__PACKAGE__->has_many(
+  "managers",
+  "Schema::Result::Manager",
+  { "foreign.user_id" => "self.user_id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 orders
 
 Type: has_many
@@ -216,6 +231,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 products
+
+Type: has_many
+
+Related object: L<Schema::Result::Product>
+
+=cut
+
+__PACKAGE__->has_many(
+  "products",
+  "Schema::Result::Product",
+  { "foreign.user_id" => "self.user_id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 stat_user2source
 
 Type: might_have
@@ -227,6 +257,36 @@ Related object: L<Schema::Result::StatUser2source>
 __PACKAGE__->might_have(
   "stat_user2source",
   "Schema::Result::StatUser2source",
+  { "foreign.user_id" => "self.user_id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 supplier2managers
+
+Type: has_many
+
+Related object: L<Schema::Result::Supplier2manager>
+
+=cut
+
+__PACKAGE__->has_many(
+  "supplier2managers",
+  "Schema::Result::Supplier2manager",
+  { "foreign.manager_id" => "self.user_id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 suppliers
+
+Type: has_many
+
+Related object: L<Schema::Result::Supplier>
+
+=cut
+
+__PACKAGE__->has_many(
+  "suppliers",
+  "Schema::Result::Supplier",
   { "foreign.user_id" => "self.user_id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
@@ -277,8 +337,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-05-26 15:59:12
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1qdZoQyckI2m5KRhABoSDg
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-17 13:54:29
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:W9WVoNN26NlCi7K5g3Kj1w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

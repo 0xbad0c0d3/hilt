@@ -36,7 +36,7 @@ sub set {
 	#
 	my $info = $c->app->config->{'image'}->{'product'}->{'origin'} or do {
 		$c->app->log->warn('image->product->origin not exists');
-		return $c->render('image->product->origin not exists');
+		return $c->render( text => 'image->product->origin not exists' );
 	};
 	
 	if( my $res = $c->_info( 'origin', $info ) ){
@@ -53,7 +53,7 @@ sub set {
 				user_id => 1
 			};
 			
-			my $res = $m->set($db,$hash);
+			my $res = $m->set( $hash );
 			$hash->{'image_id'} = $res if $res;
 			$hash->{'product_id'} = $id;
 			push @{$f_a}, $hash;
@@ -85,7 +85,7 @@ sub set {
 					user_id => 1
 				};
 				
-				my $res = $m->set_product($c, $db, $hash);				
+				my $res = $m->set_product($hash);				
 			}			
 			push @{$data}, @{$res};
 		}
@@ -120,13 +120,13 @@ sub get {
 	$filter{'w'} = $init->{'data'}->{'w'} if $init->{'data'}->{'w'};
 	$filter{'h'} = $init->{'data'}->{'h'} if $init->{'data'}->{'h'};
 
-	my $json = $m->product_list( $c, $db, $page, $rows, $id, \%filter );
+	my $json = $m->product_list( $c, \%filter );
 	
 	for my $item ( @{ $json->{'data'} } ) {
 		$hash{ $item->{'image_id'} } = 1;
 	}
-	for my $key ( keys %hash ) {
-		my $data = $m->get_origin( $c, $db, $key );
+	for my $id ( keys %hash ) {
+		my $data = $m->get_origin( $c, { image_id => $id } );
 		push @{ $json->{'origin'} }, $data;
 	}	
 
@@ -164,6 +164,7 @@ sub _info {
 	}
 	return $up_file;
 }
+
 sub _info_product {
 	my $c = shift;
 	my $key = shift or do { return undef };

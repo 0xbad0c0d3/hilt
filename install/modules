@@ -21,6 +21,7 @@ Image::Info
 Session::Token
 Mail::Sender
 Mojolicious::Plugin::RemoteAddr
+Lingua::Translit
 
 MojoX-Encode-Gzip
 Mojolicious::Plugin::BrowserDetect
@@ -29,8 +30,18 @@ Mojolicious::Plugin::DBICAdmin
 CSS::Minifier::XS
 JavaScript::Minifier::XS
 Digest::MD5::File
+XML::Hash
+XML::Hash::XS
 
 Mojo::Message -> _cache 241  $name ||= '';
 
 dbicdump -o dump_directory=./lib Schema 'dbi:mysql:hilt:localhost:3306' root
 DBIC_TRACE=1 ./tmp/adduser.pl
+
+
+git
+
+sudo git commit -m 'megamenu'
+sudo git commit -a -m 'megamenu' все изменения
+sudo git push origin
+sudo git rm --cached logs/hilt.log

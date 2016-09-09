@@ -7,7 +7,7 @@ use utf8;
 Template::Document->new({
     METADATA => {
         'name' => 'pages/catalog/item.html.tt',
-        'modtime' => '1465304845',
+        'modtime' => '1472388700',
     },
     BLOCK => sub {
     my $context = shift || die "template sub called without context\n";
@@ -18,14 +18,227 @@ Template::Document->new({
     eval { BLOCK: {
 #line 1 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
 $output .=  $context->process('pages/default/header.html.tt');
-$output .=  "			\n							\n				\n<div class=\"information-blocks\" >\n<!-- item data -->\n	<div class=\"row\">\n		<div class=\"col-sm-5 col-md-4 col-lg-5 information-entry\">\n\n			<!-- image slider -->\n			<div class=\"product-preview-box\">\n				<div class=\"swiper-container product-preview-swiper swiper-container-autoheight\" data-autoplay=\"0\" data-loop=\"1\" data-speed=\"500\" data-center=\"0\" data-slides-per-view=\"1\">\n					<div class=\"product-image-label type-1\"><span>-40%</span></div>\n					<div  class=\"swiper-wrapper\">\n						<div class=\"swiper-slide\">\n							<div class=\"product-zoom-image\">\n								<img src=\"http://hilt.com.ua/admin/bindata/_0443387_image1.jpg\" alt=\"\" data-original-src=\"http://hilt.com.ua/admin/bindata/_0443387_image1.tb.jpg\" data-zoom=\"http://hilt.com.ua/admin/bindata/_0443387_image1.jpg\" />\n							</div>\n						</div>\n						<div class=\"swiper-slide\">\n							<div class=\"product-zoom-image\">\n								<img src=\"http://hilt.com.ua/admin/bindata/_0697357_image.jpg\" alt=\"\" data-original-src=\"http://hilt.com.ua/admin/bindata/_0697357_image.jpg\" data-zoom=\"http://hilt.com.ua/admin/bindata/_0697357_image.jpg\" />\n							</div>\n						</div>\n						\n					</div>\n					<div class=\"pagination\"></div>\n					<div class=\"product-zoom-container\">\n						<div class=\"move-box\">\n							<img class=\"default-image\" src=\"img/product-main-1.jpg\" alt=\"\" />\n							<img class=\"zoomed-image\" src=\"img/product-main-1-zoom.jpg\" alt=\"\" />\n						</div>\n						<div class=\"zoom-area\"></div>\n					</div>\n				</div>\n				<div class=\"swiper-hidden-edges\">\n					<div class=\"swiper-container product-thumbnails-swiper\" data-autoplay=\"0\" data-loop=\"0\" data-speed=\"500\" data-center=\"0\" data-slides-per-view=\"responsive\" data-xs-slides=\"3\" data-int-slides=\"3\" data-sm-slides=\"3\" data-md-slides=\"4\" data-lg-slides=\"4\" data-add-slides=\"4\">\n						<div class=\"swiper-wrapper\">\n							<div class=\"swiper-slide selected\">\n								<div class=\"paddings-container\">\n									<img src=\"http://hilt.com.ua/admin/bindata/_0443387_image1.tb.jpg\" alt=\"\" />\n								</div>\n							</div>\n							<div class=\"swiper-slide\">\n								<div class=\"paddings-container\">\n									<img src=\"http://hilt.com.ua/admin/bindata/_0697357_image.tb.jpg\" alt=\"\" />\n								</div>\n							</div>\n\n						</div>\n						<div class=\"pagination\"></div>\n					</div>\n				</div>\n			</div>\n\n			<!-- #image slider -->\n			\n		</div>\n		\n		<div class=\"col-sm-7 col-md-4 information-entry\">\n			<div class=\"product-detail-box\">				\n				<h3 class=\"product-title\">Бусы Нєнси</h3>\n				<h3 class=\"product-subtitle\">Miks</h3>\n				<div class=\"row\">\n					<div class=\"col-md-4 product-description detail-info-entry\">Код: p100230</div>\n					<div class=\"col-md-4 product-description detail-info-entry text-success\"> <i class=\"fa fa-check\" aria-hidden=\"true\"></i> В наличии</div>\n					<div class=\"col-md-4 rating-box\">\n						<div class=\"star\"><i class=\"fa fa-star-o\"></i></div>\n						<div class=\"star\"><i class=\"fa fa-star-o\"></i></div>\n						<div class=\"star\"><i class=\"fa fa-star-o\"></i></div>\n						<div class=\"star\"><i class=\"fa fa-star-o\"></i></div>\n						<div class=\"star\"><i class=\"fa fa-star-o\"></i></div>\n					</div>					\n				</div>\n				<div class=\"product-description detail-info-entry\">Стильная и красивая футболка. Незаменимая модель в весеннем гардеробе!</div>\n				<div class=\"price detail-info-entry\">\n					<div class=\"prev\">700.00</div>\n					<div class=\"current\">525.00 грн.</div>\n				</div>\n				<div class=\"size-selector detail-info-entry\">\n					<div class=\"detail-info-entry-title\">Размер  <span class=\"button style-16 open-table-box\"> <i class=\"fa fa-calculator\"></i> Таблица размеров</span></div>\n					<div class=\"entry active\">xs</div>\n					<div class=\"entry\">s</div>\n					<div class=\"entry\">m</div>\n					<div class=\"entry\">l</div>\n					<div class=\"entry\">xl</div>\n					<div class=\"spacer\"></div>\n				</div>\n				";
-#line 90 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  "			\n							\n				\n<div class=\"information-blocks\" >\n<!-- item data -->\n	<div class=\"row\">\n		<div class=\"col-sm-5 col-md-4 col-lg-5 information-entry\">\n\n			<!-- image slider -->\n			<div class=\"product-preview-box\">\n				\n				<div class=\"swiper-container product-preview-swiper swiper-container-autoheight\" data-autoplay=\"0\" data-loop=\"1\" data-speed=\"500\" data-center=\"0\" data-slides-per-view=\"1\">";
+#line 16 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['hilt', 0, 'product_item', 0, 'sale', 0])) {
+$output .=  "					<div class=\"product-image-label type-1\"><span>- ";
+#line 15 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'product_item', 0, 'sale', 0, 'value', 0]);
+#line 15 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'product_item', 0, 'sale', 0, 'type', 0]);
+$output .=  "</span></div>";
+}
+
+$output .=  "					\n					<div  class=\"swiper-wrapper\">\n";
+#line 28 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+
+# FOREACH 
+do {
+    my ($_tt_value, $_tt_error, $_tt_oldloop);
+    my $_tt_list = $stash->get(['hilt', 0, 'product_item', 0, 'images', 0]);
+    
+    unless (UNIVERSAL::isa($_tt_list, 'Template::Iterator')) {
+        $_tt_list = Template::Config->iterator($_tt_list)
+            || die $Template::Config::ERROR, "\n"; 
+    }
+
+    ($_tt_value, $_tt_error) = $_tt_list->get_first();
+    eval { $_tt_oldloop = $stash->get('loop') };
+    $stash->set('loop', $_tt_list);
+    eval {
+FOR1:   while (! $_tt_error) {
+            $stash->{'item'} = $_tt_value;
+#line 27 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['item', 0, 'w', 0]) eq 465) {
+$output .=  "								<div class=\"swiper-slide\">\n									<div class=\"product-zoom-image\">\n										<img src=\"";
+#line 24 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['item', 0, 'url_path', 0]);
+$output .=  "\" alt=\"";
+#line 24 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'product_item', 0, 'title', 0]);
+$output .=  "\"  data-zoom=\"";
+#line 24 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'get_origin_image', [ $stash->get(['item', 0, 'image_id', 0]) ]]);
+$output .=  "\" />\n									</div>\n								</div>";
+}
+;
+            ($_tt_value, $_tt_error) = $_tt_list->get_next();
+        }
+    };
+    $stash->set('loop', $_tt_oldloop);
+    die $@ if $@;
+    $_tt_error = 0 if $_tt_error && $_tt_error eq Template::Constants::STATUS_DONE;
+    die $_tt_error if $_tt_error;
+};
+
+$output .=  "\n						\n					</div>\n					<div class=\"pagination\"></div>\n					<div class=\"product-zoom-container\">\n						<div class=\"move-box\">\n							<img class=\"default-image\" src=\"/img/product-main-1.jpg\" alt=\"\" />\n							<img class=\"zoomed-image\" src=\"/img/product-main-1-zoom.jpg\" alt=\"\" />\n						</div>\n						<div class=\"zoom-area\"></div>\n					</div>\n				</div>\n				\n				<div class=\"swiper-hidden-edges\">\n					<div class=\"swiper-container product-thumbnails-swiper\" data-autoplay=\"0\" data-loop=\"0\" data-speed=\"500\" data-center=\"0\" data-slides-per-view=\"responsive\" data-xs-slides=\"3\" data-int-slides=\"3\" data-sm-slides=\"3\" data-md-slides=\"4\" data-lg-slides=\"4\" data-add-slides=\"4\">\n						<div class=\"swiper-wrapper\">";
+#line 45 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$stash->set('count', 1);
+#line 59 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+
+# FOREACH 
+do {
+    my ($_tt_value, $_tt_error, $_tt_oldloop);
+    my $_tt_list = $stash->get(['hilt', 0, 'product_item', 0, 'images', 0]);
+    
+    unless (UNIVERSAL::isa($_tt_list, 'Template::Iterator')) {
+        $_tt_list = Template::Config->iterator($_tt_list)
+            || die $Template::Config::ERROR, "\n"; 
+    }
+
+    ($_tt_value, $_tt_error) = $_tt_list->get_first();
+    eval { $_tt_oldloop = $stash->get('loop') };
+    $stash->set('loop', $_tt_list);
+    eval {
+FOR1:   while (! $_tt_error) {
+            $stash->{'item'} = $_tt_value;
+#line 58 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['item', 0, 'w', 0]) eq 192) {
+#line 52 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get('count') eq 1) {
+$output .=  "								<div class=\"swiper-slide selected\">";
+}
+else {
+$output .=  "								<div class=\"swiper-slide\">";
+}
+
+$output .=  "									<div class=\"paddings-container\">\n										<img src=\"";
+#line 54 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['item', 0, 'url_path', 0]);
+$output .=  "\" alt=\"";
+#line 54 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'product_item', 0, 'title', 0]);
+$output .=  "\" />\n									</div>\n								</div>								";
+#line 57 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$stash->set('count', $stash->get('count') + 1);
+}
+;
+            ($_tt_value, $_tt_error) = $_tt_list->get_next();
+        }
+    };
+    $stash->set('loop', $_tt_oldloop);
+    die $@ if $@;
+    $_tt_error = 0 if $_tt_error && $_tt_error eq Template::Constants::STATUS_DONE;
+    die $_tt_error if $_tt_error;
+};
+
+$output .=  "						</div>\n						<div class=\"pagination\"></div>\n					</div>\n				</div>\n				\n				\n			</div>\n\n			<!-- #image slider -->\n			\n		</div>\n		\n		<div class=\"col-sm-7 col-md-4 information-entry\">\n			<div class=\"product-detail-box\">				\n				<h3 class=\"product-title\">";
+#line 74 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'product_item', 0, 'title', 0]);
+$output .=  "</h3>";
+#line 77 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['hilt', 0, 'product_item', 0, 'brand', 0])) {
+$output .=  "				<h3 class=\"product-subtitle\">";
+#line 76 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'product_item', 0, 'brand', 0]);
+$output .=  "</h3>";
+}
+
+$output .=  "				<div class=\"row\">\n					<div class=\"col-md-4 product-description detail-info-entry\">Код: p";
+#line 79 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'product_item', 0, 'product_id', 0]);
+$output .=  "</div>";
+#line 88 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['hilt', 0, 'product_item', 0, 'quantity', 0])) {
+$output .=  "					<div class=\"col-md-4 product-description detail-info-entry text-success\">\n						<i class=\"fa fa-check\" aria-hidden=\"true\"></i> В наличии\n					</div>";
+}
+else {
+$output .=  "					<div class=\"col-md-4 product-description detail-info-entry message-danger\">\n						Нет в наличии\n					</div>";
+}
+
+$output .=  "					<div class=\"col-md-4 rating-box\">";
+#line 96 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+
+# FOREACH 
+do {
+    my ($_tt_value, $_tt_error, $_tt_oldloop);
+    my $_tt_list = [ 1..5 ];
+    
+    unless (UNIVERSAL::isa($_tt_list, 'Template::Iterator')) {
+        $_tt_list = Template::Config->iterator($_tt_list)
+            || die $Template::Config::ERROR, "\n"; 
+    }
+
+    ($_tt_value, $_tt_error) = $_tt_list->get_first();
+    eval { $_tt_oldloop = $stash->get('loop') };
+    $stash->set('loop', $_tt_list);
+    eval {
+FOR1:   while (! $_tt_error) {
+            $stash->{'r'} = $_tt_value;
+#line 95 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get('r') <= $stash->get(['hilt', 0, 'product_item', 0, 'rating', 0])) {
+$output .=  "							<div class=\"star\"><i class=\"fa fa-star\"></i></div>";
+}
+else {
+$output .=  "							<div class=\"star\"><i class=\"fa fa-star-o\"></i></div>";
+}
+;
+            ($_tt_value, $_tt_error) = $_tt_list->get_next();
+        }
+    };
+    $stash->set('loop', $_tt_oldloop);
+    die $@ if $@;
+    $_tt_error = 0 if $_tt_error && $_tt_error eq Template::Constants::STATUS_DONE;
+    die $_tt_error if $_tt_error;
+};
+
+$output .=  "					</div>					\n				</div>";
+#line 103 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['hilt', 0, 'product_item', 0, 'description', 0])) {
+$output .=  "				<div class=\"product-description detail-info-entry\">";
+#line 101 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'product_item', 0, 'description', 0]);
+$output .=  "				</div>";
+}
+
+#line 113 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['hilt', 0, 'product_item', 0, 'price', 0]) && $stash->get(['hilt', 0, 'product_item', 0, 'quantity', 0])) {
+$output .=  "				<div class=\"price detail-info-entry\">";
+#line 108 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['hilt', 0, 'product_item', 0, 'price', 0, 'prev', 0])) {
+$output .=  "					<div class=\"prev\">";
+#line 107 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'product_item', 0, 'price', 0, 'prev', 0]);
+$output .=  "</div>";
+}
+
+#line 111 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['hilt', 0, 'product_item', 0, 'price', 0])) {
+$output .=  "					<div class=\"current\">";
+#line 110 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'product_item', 0, 'price', 0, 'current', 0]);
+$output .=  " грн.</div>";
+}
+
+$output .=  "				</div>";
+}
+
+$output .=  "			";
+#line 125 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['hilt', 0, 'product_item', 0, 'quantity', 0])) {
+$output .=  "				<div class=\"size-selector detail-info-entry\">\n					<div class=\"detail-info-entry-title\">Размер  <span class=\"button style-16 open-table-box\"> <i class=\"fa fa-calculator\"></i> Таблица размеров</span></div>\n					<div class=\"entry active\">xs</div>\n					<div class=\"entry\">s</div>\n					<div class=\"entry\">m</div>\n					<div class=\"entry\">l</div>\n					<div class=\"entry\">xl</div>\n					<div class=\"spacer\"></div>\n				</div>";
+}
+
+$output .=  "				";
+#line 127 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
 $output .=  $context->process('tmpl/feature/filter.html.tt');
-$output .=  "				\n				<div class=\"quantity-selector detail-info-entry\">\n					<div class=\"detail-info-entry-title\">Quantity</div>\n					<div class=\"entry number-minus\">&nbsp;</div>\n					<div class=\"entry number\">9</div>\n					<div class=\"entry number-plus\">&nbsp;</div>\n                </div>\n				\n				<div class=\"detail-info-entry\">\n					<a class=\"button style-10\"><i class=\"fa fa-shopping-cart fa-3\"></i> В корзину</a>\n					<a class=\"button style-11\"><i class=\"fa fa-heart\"></i> В сравнение</a>\n					\n					<!-- <div class=\"inline-label red\" style=\"padding: 12px; border: 2px #FFF solid;\"> <i class=\"fa fa-shopping-cart fa-3\"></i> Распродано</div> -->\n					\n					<div class=\"clear\"></div>\n				</div>\n\n				<div class=\"share-box detail-info-entry\">\n					<div class=\"title\">Поделиться </div>\n					<div class=\"socials-box\">\n						<a href=\"#\"><i class=\"fa fa-facebook\"></i></a>\n						<a href=\"#\"><i class=\"fa fa-twitter\"></i></a>\n						<a href=\"#\"><i class=\"fa fa-google-plus\"></i></a>\n						<a href=\"#\"><i class=\"fa fa-youtube\"></i></a>\n						<a href=\"#\"><i class=\"fa fa-linkedin\"></i></a>\n						<a href=\"#\"><i class=\"fa fa-instagram\"></i></a>\n					</div>\n					<div class=\"clear\"></div>\n				</div>\n			</div>\n		</div>\n	\n	\n		<div class=\"clear visible-xs visible-sm\"></div>\n\n		<div class=\"col-md-4 col-lg-3 information-entry product-sidebar\">\n			<div class=\"row\">\n				<div class=\"col-md-12 product-detail-box\">\n					<h3 class=\"product-title\">Акция</h3>\n					<div class=\"information-blocks production-logo\">\n						<div class=\"background\">\n							<div class=\"logo\"><img src=\"http://hilt.com.ua/admin/bindata/_0697079_image2.jpg\" alt=\"\"></div>\n							<a href=\"#\">Кольца, серьги, браслеты, бусы и подвески missOrnament и Malu от 49 грн</a>\n\n							<div class=\"article-container style-1 text-left\">\n								<hr>\n								<p>Изысканное украшение – это отличная изюминка для любого образа! Ведь красота в мелочах! Стразы и кристаллы будут к лицу любой девушке! Модницы в восторге!</p>\n								<p>Бижутерия – это лучшее средство подчеркнуть свою яркую индивидуальность! Красивые линии, необычные формы – все для самых красивых модниц! Благодаря стильному, необычному украшению вы можете заставить «играть» любой образ! Небольшие, стильные детали всегда говорят о хорошем вкусе человека. Украсьте свою руку таким кольцо или браслетом и все непременно его заметят! Изготовлено согласно мировым стандартам. Качество материала вас порадует.</p>\n								<p>Время самых стильных украшений!</p>\n							</div>\n						</div>\n					</div>\n\n				</div>\n			</div>\n        </div>	\n	\n	</div>\n\n<!-- #item data -->\n</div>\n\n<!-- tabs -->\n<div class=\"information-blocks\">\n	<div class=\"tabs-container style-1\">\n		<div class=\"swiper-tabs tabs-switch\">\n			<div class=\"title\">Информация о продукте</div>\n			<div class=\"list\">\n				<a class=\"tab-switcher active\">Характеристики</a>\n				<a class=\"tab-switcher\">Доставка</a>\n				<a class=\"tab-switcher\">Обсуждение</a>\n				<div class=\"clear\"></div>\n			</div>\n		</div>\n		<div>\n			<div class=\"tabs-entry\">\n				<div class=\"article-container style-1\">\n					<p>Стильный и модный купальник от Miks сделает Ваш отдых запоминающимся и комфортным. Изделия отвечают всем требованиям по качеству и безопасности.</p>\n					<hr>\n					<!-- item -->\n					<div class=\"row\">\n						<div class=\"col-md-3 col-xs-4 col-sm-4 text-right\">Описание материала: </div>\n						<div class=\"col-md-7 col-xs-8 col-sm-8\" >82% полиамид, 18 эластан</div>\n					</div>\n					<!-- item -->\n					<!-- item -->\n					<div class=\"row\">\n						<div class=\"col-md-3 col-xs-4 col-sm-4 text-right\">Страна произв.: </div>\n						<div class=\"col-md-7 col-xs-8 col-sm-8\" >Украина</div>\n					</div>\n					<!-- item -->\n					<!-- item -->\n					<div class=\"row\">\n						<div class=\"col-md-3 col-xs-4 col-sm-4 text-right\">Дополнительная информация:</div>\n						<div class=\"col-md-7 col-xs-8 col-sm-8\" >\n							<p>\n								Внимание! Согласно Приложению № 3 Постановления КМУ от 19.03.94 № 172 «О реализации отдельных положений Закона Украины «О защите прав потребителей» категория товаров, представленных в данной акции, не подлежит обмену и возврату.\n							</p>\n						</div>\n					</div>\n					<!-- item -->\n				</div>\n			</div>\n			<div class=\"tabs-entry\" >\n				<div class=\"article-container style-1\">\n					<div class=\"visible-md visible-lg\">\n					<div class=\"row\">\n						<div class=\"col-md-4 information-entry  border\">\n							Вид доставки\n						</div>\n						<div class=\"col-md-2 information-entry  border text-center\">\n							по Киеву\n						</div>\n						<div class=\"col-md-2 information-entry  border text-center\">\n							по Украине\n						</div>\n						<div class=\"col-md-2 information-entry  border text-center\">\n							по Киеву\n						</div>\n						<div class=\"col-md-2 information-entry  border text-center\">\n							по Украине\n						</div>										\n					</div>\n					<div class=\"row\">\n						<div class=\"col-md-4 information-entry  \">\n							Забрать в отделении МОСТ-Экспрес. <a href=\"https://meest-express.com.ua/ua/branches\" target=\"_blank\">Найти своё отделение</a>\n						</div>\n						<div class=\"col-md-4 information-entry  text-center\">\n							3 - 4 дня\n						</div>\n						<div class=\"col-md-4 information-entry   text-center\">\n							35 грн.\n						</div>\n					</div>\n					<div class=\"row\">\n						<div class=\"col-md-4 information-entry  \">\n							Курьером\n						</div>\n						<div class=\"col-md-2 information-entry   text-center\">\n							3 - 5 дней\n						</div>\n						<div class=\"col-md-2 information-entry  text-center\">\n							4 - 6 дней\n						</div>\n						<div class=\"col-md-4 information-entry   text-center\">\n							45 грн.\n						</div>\n					</div>\n					<div class=\"row\">\n						<div class=\"col-md-4 information-entry  \">\n							Забрать лично со склада Новой Почты.\n						</div>\n						<div class=\"col-md-4 information-entry   text-center\">\n							3 - 4 дня\n						</div>\n						<div class=\"col-md-4 information-entry  text-center\">\n							40 грн.\n						</div>\n					</div>\n					<div class=\"row\">\n						<div class=\"col-md-4 information-entry  \">\n							Получить в отделении Укрпочты (только по предоплате)\n						</div>\n						<div class=\"col-md-4 information-entry   text-center\">\n							3 - 5 дней\n						</div>\n						<div class=\"col-md-4 information-entry   text-center\">\n							35 грн. (предоплата)\n						</div>\n					</div>									\n					\n					</div>\n					<hr class=\"visible-md visible-lg\">\n					<blockquote><b>Для крупногабаритных товаров</b> стоимость и срок доставки указывается отдельно. Смотрите в описании товара или уточняйте у оператора.</blockquote>\n					<hr>\n					<div class=\"row\">\n						<div class=\"col-md-6 information-entry\">\n							<h4>Курьерская доставка компанией Новая Почта</h4>\n							<p>По Киеву</p>\n							<ul>\n								<li>Ваш заказ будет доставлен в удобное для Вас время c понедельника по субботу в течении дня с 9:00 до 18:00. </li>\n								<li>Срок доставки составляет 3 - 5 рабочих дня после оформления заказа.</li>\n								<li>Стоимость доставки составляет 45 грн.</li>\n								<li><b>Вы оплачиваете товар курьеру при получении.</b></li>\n							</ul>\n							<p>По Украине</p>\n							<ul>\n								<li>Ваш заказ будет доставлен в удобное для Вас место и время c понедельника по субботу в течении дня с 9:00 до 18:00.</li>\n								<li>Срок доставки составляет 4 - 6 рабочих дня после оформления заказа. </li>\n								<li>Стоимость доставки составляет 45 грн.</li>\n								<li><b>Вы оплачиваете товар курьеру при получении.</b></li>\n								<li>Уточните адрес и время работы отделения Новой почты в Вашем городе по ссылке: посмотреть адреса отделений Новой почты</li>\n								<li> Курьер сообщит Вам о приезде по контактному телефону. </li>\n							</ul>											\n						</div>										\n						<div class=\"col-md-6 information-entry article-container\">\n							<h4>Получить заказ лично в отделении <span class=\"red\">Мост-экспресс</span></h4>\n							<ul>\n								<li>Вы можете получить заказ в удобном для Вас отделении Мост-экспресс.</li>\n								<li>Срок доставки составляет 3 - 4 рабочих дня.</li>\n								<li><b>Вы оплачиваете товар при получении.</b> </li>\n								<li>Вы может ознакомиться с адресами и временем работы пунктов выдачи по ссылке: <a href=\"https://meest-express.com.ua/ua/branches\" target=\"_blank\">посмотреть адреса отделений Мост-экспресс </a></li>\n								<li>Товар будет находиться в отделении в течении 5 календарных дней. </li>\n								<li>Вы получите уведомление по телефону о прибытии заказа.  </li>\n							</ul>\n						</div>										\n					</div>\n					<div class=\"row\">\n					  <div class=\"col-md-6 information-entry\">\n							<h4>Получить заказ лично в пункте выдачи Новой почты</h4>\n							<ul>\n								<li>Вы можете получить заказ в удобном для Вас пункте выдачи компании Новой Почты. </li>\n								<li>Срок доставки составляет 3 - 4 рабочих дня. </li>\n								<li>Стоимость услуги составляет 40 грн. </li>\n								<li><b>Вы оплачиваете товар при получении. </b></li>\n								<li>Вы может ознакомиться с адресами и временем работы пунктов выдачи по ссылке: <a href=\"\">посмотреть адреса пунктов выдачи Новой почты </a></li>\n								<li>Товар будет находиться на складе Новой почты в течении 5 календарных дней.</li>\n								<li>Вы получите уведомление по телефону о прибытии заказа.</li>\n							</ul>\n					  </div>\n					  <div class=\"col-md-6 information-entry\">\n							<h4>Получить заказ лично в отделении Укрпочты.</h4>\n							<p>ВНИМАНИЕ! Отправка товара Укрпочтой только по предварительной оплате. Квитанцию на оплату Вам вышлет наш оператор после подтверждения заказа.</p>\n							<ul>\n								<li>Срок доставки составляет 3 - 5 календарных дней.  </li>\n								<li>Стоимость доставки составляет 35 грн.  </li>\n								<li>После поступления заказа в Ваше отделение почты, курьер Укрпочты доставит Вам уведомление. </li>\n								<li>Вам необходимо будет подойти с уведомлением, а также документом, подтверждающим Вашу личность, в отделение почты для оплаты и получения заказа.</li>\n							</ul>\n					  </div>									  \n					</div>\n					<div class=\"row\">\n						<div class=\"col-md-12\">\n							<p>Если Вы оформили заказ на сайте, сотрудник нашей компании обязательно уточнит все детали заказа по Вашему контактному телефону и оформит доставку.</p>\n						</div>										\n					</div>\n					\n				</div>\n			</div>\n			<div class=\"tabs-entry\" >\n				<div class=\"article-container style-1\">\n					<div class=\"row\">\n						<div class=\"col-md-12 information-entry\">\n							<div id=\"message_callBack\" class=\"message-box message-success\">\n								<div class=\"message-icon\"><i class=\"fa fa-check\"></i></div>\n								<div class=\"message-text\"><b>Сообщение успешно отправлено.</b></div>\n								<div class=\"message-close\"><i class=\"fa fa-times\"></i></div>\n							</div>\n							<form id=\"message_form\">\n							<h2>Помогите нам стать лучше.</h2>\n							<p><b>Что бы вы хотели поменять в магазине HILT?</b> Какие товары вы хотите у нас видеть, какого сервиса вам не хватает, какой функционал стоит ввести на сайте.</p>\n							<p>Расскажите нам о любых своих пожеланиях. Мы прислушаемся ко всем и постараемся стать лучше.</p>\n							<p>Спасибо за помощь.</p>\n							<p><label>E-mail</label><input type=\"email\" name=\"email\" value=\"\" placeholder=\"Потом вышлем Вам подарок на этот E-mail\" class=\"simple-field size-1\"></p>\n							<p><label>Текст сообщения</label><textarea name=\"text\" class=\"simple-field size-1\"></textarea></p>\n							<p>\n								<div class=\"button style-16\">Отправить<input type=\"submit\"></div>\n							</p>\n							</form>\n\n							\n							\n							<div id=\"disqus_thread\"></div>\n							<noscript>Please enable JavaScript to view the <a href=\"https://disqus.com/?ref_noscript\" rel=\"nofollow\">comments powered by Disqus.</a></noscript>\n\n						</div>\n					</div>\n				</div>\n			</div>\n		</div>\n	</div>					\n</div>\n<!-- #tabs -->\n\n			\n";
-#line 367 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+$output .=  "				";
+#line 136 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['hilt', 0, 'product_item', 0, 'quantity', 0])) {
+$output .=  "				<div class=\"quantity-selector detail-info-entry\">\n					<div class=\"detail-info-entry-title\">Количество</div>\n					<div class=\"entry number-minus\">&nbsp;</div>\n					<div class=\"entry number\">1</div>\n					<div class=\"entry number-plus\">&nbsp;</div>\n                </div>";
+}
+
+$output .=  "				";
+#line 145 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+if ($stash->get(['hilt', 0, 'product_item', 0, 'quantity', 0])) {
+$output .=  "				<div class=\"detail-info-entry\">\n					<a class=\"button style-10\"><i class=\"fa fa-shopping-cart fa-3\"></i> В корзину</a>\n					<a class=\"button style-11\"><i class=\"fa fa-heart\"></i> В сравнение</a>\n										\n					<div class=\"clear\"></div>\n				</div>";
+}
+
+$output .=  "\n				<div class=\"share-box detail-info-entry\">\n					<div class=\"title\">Поделиться </div>\n					<div class=\"socials-box\">\n						<a href=\"#\"><i class=\"fa fa-facebook\"></i></a>\n						<a href=\"#\"><i class=\"fa fa-twitter\"></i></a>\n						<a href=\"#\"><i class=\"fa fa-google-plus\"></i></a>\n						<a href=\"#\"><i class=\"fa fa-youtube\"></i></a>\n						<a href=\"#\"><i class=\"fa fa-linkedin\"></i></a>\n						<a href=\"#\"><i class=\"fa fa-instagram\"></i></a>\n					</div>\n					<div class=\"clear\"></div>\n				</div>\n			</div>\n		</div>\n	\n	\n		<div class=\"clear visible-xs visible-sm\"></div>\n\n		<div class=\"col-md-4 col-lg-3 information-entry product-sidebar\">\n			<div class=\"row\">\n				<div class=\"col-md-12 product-detail-box\">\n					<h3 class=\"product-title\">Акция</h3>\n					<div class=\"information-blocks production-logo\">\n						<div class=\"background\">\n							<div class=\"logo\"><img src=\"http://hilt.com.ua/admin/bindata/_0697079_image2.jpg\" alt=\"\"></div>\n							<a href=\"#\">Кольца, серьги, браслеты, бусы и подвески missOrnament и Malu от 49 грн</a>\n\n							<div class=\"article-container style-1 text-left\">\n								<hr>\n								<p>Изысканное украшение – это отличная изюминка для любого образа! Ведь красота в мелочах! Стразы и кристаллы будут к лицу любой девушке! Модницы в восторге!</p>\n							</div>\n						</div>\n					</div>\n\n				</div>\n			</div>\n        </div>	\n	\n	</div>\n\n<!-- #item data -->\n</div>\n\n<!-- tabs -->\n<div class=\"information-blocks\">\n	<div class=\"tabs-container style-1\">\n		<div class=\"swiper-tabs tabs-switch\">\n			<div class=\"title\">Информация о продукте</div>\n			<div class=\"list\">\n				<a class=\"tab-switcher active\">Характеристики</a>\n				<a class=\"tab-switcher\">Доставка</a>\n				<a class=\"tab-switcher\">Обсуждение</a>\n				<div class=\"clear\"></div>\n			</div>\n		</div>\n		<div>\n			<div class=\"tabs-entry\">\n				<div class=\"article-container style-1\">\n					<p>Стильный и модный купальник от Miks сделает Ваш отдых запоминающимся и комфортным. Изделия отвечают всем требованиям по качеству и безопасности.</p>\n					<hr>\n					<!-- item -->\n					<div class=\"row\">\n						<div class=\"col-md-3 col-xs-4 col-sm-4 text-right\">Описание материала: </div>\n						<div class=\"col-md-7 col-xs-8 col-sm-8\" >82% полиамид, 18 эластан</div>\n					</div>\n					<!-- item -->\n					<!-- item -->\n					<div class=\"row\">\n						<div class=\"col-md-3 col-xs-4 col-sm-4 text-right\">Страна произв.: </div>\n						<div class=\"col-md-7 col-xs-8 col-sm-8\" >Украина</div>\n					</div>\n					<!-- item -->\n					<!-- item -->\n					<div class=\"row\">\n						<div class=\"col-md-3 col-xs-4 col-sm-4 text-right\">Дополнительная информация:</div>\n						<div class=\"col-md-7 col-xs-8 col-sm-8\" >\n							<p>\n								Внимание! Согласно Приложению № 3 Постановления КМУ от 19.03.94 № 172 «О реализации отдельных положений Закона Украины «О защите прав потребителей» категория товаров, представленных в данной акции, не подлежит обмену и возврату.\n							</p>\n						</div>\n					</div>\n					<!-- item -->\n				</div>\n			</div>\n			<div class=\"tabs-entry\" >\n				<div class=\"article-container style-1\">\n					<div class=\"visible-md visible-lg\">\n					<div class=\"row\">\n						<div class=\"col-md-4 information-entry  border\">\n							Вид доставки\n						</div>\n						<div class=\"col-md-2 information-entry  border text-center\">\n							по Киеву\n						</div>\n						<div class=\"col-md-2 information-entry  border text-center\">\n							по Украине\n						</div>\n						<div class=\"col-md-2 information-entry  border text-center\">\n							по Киеву\n						</div>\n						<div class=\"col-md-2 information-entry  border text-center\">\n							по Украине\n						</div>										\n					</div>\n					<div class=\"row\">\n						<div class=\"col-md-4 information-entry  \">\n							Забрать в отделении МОСТ-Экспрес. <a href=\"https://meest-express.com.ua/ua/branches\" target=\"_blank\">Найти своё отделение</a>\n						</div>\n						<div class=\"col-md-4 information-entry  text-center\">\n							3 - 4 дня\n						</div>\n						<div class=\"col-md-4 information-entry   text-center\">\n							35 грн.\n						</div>\n					</div>\n					<div class=\"row\">\n						<div class=\"col-md-4 information-entry  \">\n							Курьером\n						</div>\n						<div class=\"col-md-2 information-entry   text-center\">\n							3 - 5 дней\n						</div>\n						<div class=\"col-md-2 information-entry  text-center\">\n							4 - 6 дней\n						</div>\n						<div class=\"col-md-4 information-entry   text-center\">\n							45 грн.\n						</div>\n					</div>\n					<div class=\"row\">\n						<div class=\"col-md-4 information-entry  \">\n							Забрать лично со склада Новой Почты.\n						</div>\n						<div class=\"col-md-4 information-entry   text-center\">\n							3 - 4 дня\n						</div>\n						<div class=\"col-md-4 information-entry  text-center\">\n							40 грн.\n						</div>\n					</div>\n					<div class=\"row\">\n						<div class=\"col-md-4 information-entry  \">\n							Получить в отделении Укрпочты (только по предоплате)\n						</div>\n						<div class=\"col-md-4 information-entry   text-center\">\n							3 - 5 дней\n						</div>\n						<div class=\"col-md-4 information-entry   text-center\">\n							35 грн. (предоплата)\n						</div>\n					</div>									\n					\n					</div>\n					<hr class=\"visible-md visible-lg\">\n					<blockquote><b>Для крупногабаритных товаров</b> стоимость и срок доставки указывается отдельно. Смотрите в описании товара или уточняйте у оператора.</blockquote>\n					<hr>\n					<div class=\"row\">\n						<div class=\"col-md-6 information-entry\">\n							<h4>Курьерская доставка компанией Новая Почта</h4>\n							<p>По Киеву</p>\n							<ul>\n								<li>Ваш заказ будет доставлен в удобное для Вас время c понедельника по субботу в течении дня с 9:00 до 18:00. </li>\n								<li>Срок доставки составляет 3 - 5 рабочих дня после оформления заказа.</li>\n								<li>Стоимость доставки составляет 45 грн.</li>\n								<li><b>Вы оплачиваете товар курьеру при получении.</b></li>\n							</ul>\n							<p>По Украине</p>\n							<ul>\n								<li>Ваш заказ будет доставлен в удобное для Вас место и время c понедельника по субботу в течении дня с 9:00 до 18:00.</li>\n								<li>Срок доставки составляет 4 - 6 рабочих дня после оформления заказа. </li>\n								<li>Стоимость доставки составляет 45 грн.</li>\n								<li><b>Вы оплачиваете товар курьеру при получении.</b></li>\n								<li>Уточните адрес и время работы отделения Новой почты в Вашем городе по ссылке: посмотреть адреса отделений Новой почты</li>\n								<li> Курьер сообщит Вам о приезде по контактному телефону. </li>\n							</ul>											\n						</div>										\n						<div class=\"col-md-6 information-entry article-container\">\n							<h4>Получить заказ лично в отделении <span class=\"red\">Мост-экспресс</span></h4>\n							<ul>\n								<li>Вы можете получить заказ в удобном для Вас отделении Мост-экспресс.</li>\n								<li>Срок доставки составляет 3 - 4 рабочих дня.</li>\n								<li><b>Вы оплачиваете товар при получении.</b> </li>\n								<li>Вы может ознакомиться с адресами и временем работы пунктов выдачи по ссылке: <a href=\"https://meest-express.com.ua/ua/branches\" target=\"_blank\">посмотреть адреса отделений Мост-экспресс </a></li>\n								<li>Товар будет находиться в отделении в течении 5 календарных дней. </li>\n								<li>Вы получите уведомление по телефону о прибытии заказа.  </li>\n							</ul>\n						</div>										\n					</div>\n					<div class=\"row\">\n					  <div class=\"col-md-6 information-entry\">\n							<h4>Получить заказ лично в пункте выдачи Новой почты</h4>\n							<ul>\n								<li>Вы можете получить заказ в удобном для Вас пункте выдачи компании Новой Почты. </li>\n								<li>Срок доставки составляет 3 - 4 рабочих дня. </li>\n								<li>Стоимость услуги составляет 40 грн. </li>\n								<li><b>Вы оплачиваете товар при получении. </b></li>\n								<li>Вы может ознакомиться с адресами и временем работы пунктов выдачи по ссылке: <a href=\"\">посмотреть адреса пунктов выдачи Новой почты </a></li>\n								<li>Товар будет находиться на складе Новой почты в течении 5 календарных дней.</li>\n								<li>Вы получите уведомление по телефону о прибытии заказа.</li>\n							</ul>\n					  </div>\n					  <div class=\"col-md-6 information-entry\">\n							<h4>Получить заказ лично в отделении Укрпочты.</h4>\n							<p>ВНИМАНИЕ! Отправка товара Укрпочтой только по предварительной оплате. Квитанцию на оплату Вам вышлет наш оператор после подтверждения заказа.</p>\n							<ul>\n								<li>Срок доставки составляет 3 - 5 календарных дней.  </li>\n								<li>Стоимость доставки составляет 35 грн.  </li>\n								<li>После поступления заказа в Ваше отделение почты, курьер Укрпочты доставит Вам уведомление. </li>\n								<li>Вам необходимо будет подойти с уведомлением, а также документом, подтверждающим Вашу личность, в отделение почты для оплаты и получения заказа.</li>\n							</ul>\n					  </div>									  \n					</div>\n					<div class=\"row\">\n						<div class=\"col-md-12\">\n							<p>Если Вы оформили заказ на сайте, сотрудник нашей компании обязательно уточнит все детали заказа по Вашему контактному телефону и оформит доставку.</p>\n						</div>										\n					</div>\n					\n				</div>\n			</div>\n			<div class=\"tabs-entry\" >\n				<div class=\"article-container style-1\">\n					<div class=\"row\">\n						<div class=\"col-md-12 information-entry\">\n							<div id=\"message_callBack\" class=\"message-box message-success\">\n								<div class=\"message-icon\"><i class=\"fa fa-check\"></i></div>\n								<div class=\"message-text\"><b>Сообщение успешно отправлено.</b></div>\n								<div class=\"message-close\"><i class=\"fa fa-times\"></i></div>\n							</div>\n							<form id=\"message_form\">\n							<h2>Помогите нам стать лучше.</h2>\n							<p><b>Что бы вы хотели поменять в магазине HILT?</b> Какие товары вы хотите у нас видеть, какого сервиса вам не хватает, какой функционал стоит ввести на сайте.</p>\n							<p>Расскажите нам о любых своих пожеланиях. Мы прислушаемся ко всем и постараемся стать лучше.</p>\n							<p>Спасибо за помощь.</p>\n							<p><label>E-mail</label><input type=\"email\" name=\"email\" value=\"\" placeholder=\"Потом вышлем Вам подарок на этот E-mail\" class=\"simple-field size-1\"></p>\n							<p><label>Текст сообщения</label><textarea name=\"text\" class=\"simple-field size-1\"></textarea></p>\n							<p>\n								<div class=\"button style-16\">Отправить<input type=\"submit\"></div>\n							</p>\n							</form>\n\n							\n							\n							<div id=\"disqus_thread\"></div>\n							<noscript>Please enable JavaScript to view the <a href=\"https://disqus.com/?ref_noscript\" rel=\"nofollow\">comments powered by Disqus.</a></noscript>\n\n						</div>\n					</div>\n				</div>\n			</div>\n		</div>\n	</div>					\n</div>\n<!-- #tabs -->\n\n			\n";
+#line 404 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
 $output .=  $context->process('pages/default/blocks/related_product_col4.html.tt');
 $output .=  "			";
-#line 369 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
+#line 406 "/var/www/hilt.mojo/templates/pages/catalog/item.html.tt"
 $output .=  $context->process('pages/default/footer.html.tt');
     } };
     if ($@) {

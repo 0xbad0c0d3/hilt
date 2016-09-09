@@ -6,8 +6,8 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
+        'modtime' => '1473412746',
         'name' => 'pages/default/blocks/related_product_col4.html.tt',
-        'modtime' => '1462370241',
     },
     BLOCK => sub {
     my $context = shift || die "template sub called without context\n";
@@ -16,8 +16,8 @@ Template::Document->new({
     my $_tt_error;
     
     eval { BLOCK: {
-$output .=  "				<!-- new block-->\n	  <div class=\"information-blocks\" >\n                   \n\n			<div class=\"row shop-grid grid-view\">\n";
-#line 44 "/var/www/hilt.mojo/templates/pages/default/blocks/related_product_col4.html.tt"
+$output .=  "				<!-- new block-->\n	  <div class=\"information-blocks\" >\n                   \n	<div class=\"latest-entries-heading\">\n		<h3 class=\"title\">Сопутствующие товары</h3>\n	</div>\n\n			<div class=\"row shop-grid grid-view\">";
+#line 46 "/var/www/hilt.mojo/templates/pages/default/blocks/related_product_col4.html.tt"
 
 # FOREACH 
 do {
@@ -45,7 +45,7 @@ $output .=  "				<div class=\"col-md-3 col-sm-4 shop-grid-item\">\n					<div cla
     die $_tt_error if $_tt_error;
 };
 
-$output .=  "\n	  </div>\n\n	  <div class=\"clear\"></div>\n	</div>\n				<!-- #new block-->";
+$output .=  "\n	  </div>\n\n	  <div class=\"clear\"></div>\n	</div>\n				<!-- #new block-->\n						";
     } };
     if ($@) {
         $_tt_error = $context->catch($@, \$output);

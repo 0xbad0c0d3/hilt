@@ -1,68 +1,11 @@
+<!--
 <div class="information-blocks">
 	<div class="latest-entries-heading">
 		<h3 class="title">Новости</h3>
 		<a href="/news" class="latest-more">Посмотреть все новости <i class="fa fa-angle-right"></i><i class="fa fa-angle-right"></i></a>
 	</div>
 	<div class="products-swiper">
-		<div class="swiper-container swiper-swiper-unique-id-4 initialized pagination-hidden" data-autoplay="0" data-loop="0" data-speed="500" data-center="0" data-slides-per-view="responsive" data-xs-slides="2" data-int-slides="2" data-sm-slides="3" data-md-slides="4" data-lg-slides="4" data-add-slides="4" id="swiper-unique-id-4">
-			<div class="swiper-wrapper">
-				<div class="swiper-slide swiper-slide-visible swiper-slide-active" > 
-					<div class="paddings-container">
-						<div class="product-slide-entry" style="max-width: 310px;">
-							<a class="product-image hover-class-1" href="#">
-								<img src="/img/wide-product-6.jpg" alt="">
-								<span class="hover-label">Read More</span>
-							</a>
-							<a class="subtitle" href="#">New collection from Armiani 2013</a>
-							<div class="date">Posted 04 November 2014</div>
-						</div>
-					</div>
-				</div>
-				<div class="swiper-slide swiper-slide-visible" > 
-					<div class="paddings-container">
-						<div class="product-slide-entry" style="max-width: 310px;">
-							<a class="product-image hover-class-1" href="#">
-								<img src="/img/wide-product-7.jpg" alt="">
-								<span class="hover-label">Read More</span>
-							</a>
-							<a class="subtitle" href="#">New collection from Armiani 2013</a>
-							<div class="date">Posted 04 November 2014</div>
-						</div>
-					</div>
-				</div>
-				<div class="swiper-slide swiper-slide-visible"> 
-					<div class="paddings-container">
-						<div class="product-slide-entry" style="max-width: 310px;">
-							<a class="product-image hover-class-1" href="#">
-								<img src="/img/wide-product-8.jpg" alt="">
-								<span class="hover-label">Read More</span>
-							</a>
-							<a class="subtitle" href="#">New collection from Armiani 2013</a>
-							<div class="date">Posted 04 November 2014</div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="swiper-slide swiper-slide-visible" > 
-					<div class="paddings-container">
-						<div class="product-slide-entry" style="max-width: 310px;">
-							<a class="product-image hover-class-1" href="#">
-								<img src="/img/wide-product-9.jpg" alt="">
-								<span class="hover-label">Read More</span>
-							</a>
-							<a class="subtitle" href="#">New collection from Armiani 2013</a>
-							<div class="date">Posted 04 November 2014</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="pagination pagination-swiper-unique-id-4">
-				<span class="swiper-pagination-switch swiper-visible-switch swiper-active-switch"></span>
-				<span class="swiper-pagination-switch swiper-visible-switch"></span>
-				<span class="swiper-pagination-switch swiper-visible-switch"></span>
-				<span class="swiper-pagination-switch swiper-visible-switch"></span>
-			</div>
-		</div>
+
 	</div>
 </div>			
-
+-->

@@ -1,5 +1,5 @@
 Одежда и обувь=clothes-and-shoes
-	Он=it
+	Он=he
 		Одежда=clothing
 			Куртки, плащи=jackets-raincoats
 			Поло=polo
@@ -33,7 +33,7 @@
 			Туфли=shoes
 			Угги=uggs
 			Слипоны=espadrilles
-	Она=it
+	Она=she
 		Одежда=clothing
 			Куртки и плащи=jackets-and-coats
 			Платья=dresses
@@ -84,9 +84,8 @@
 			Белье, пижама=lingerie-pajamas
 			Обувь=shoes
 			Аксессуары=accessories
-=
 		Для девочек=for-girls
-			Куртки, плащи.=jackets-raincoats.
+			Куртки, плащи=jackets-raincoats
 			Кофты=sweatshirts
 			Свитера=sweaters
 			Платья, юбки=dresses-skirts
@@ -113,7 +112,7 @@
 		Школьная форма=school-uniform
 		Школьные юбки=school-skirts
 	Аксессуары=accessories
-		Она=it
+		Она=she
 			Аксессуары для волос=hair-accessories
 			Для планшета / электронной книги=for-tablet-e-book
 			Для телефона=for-your
@@ -131,9 +130,9 @@
 			Ремни, пояса=belts-waist-belts
 			Сумки и рюкзаки=bags-and-backpacks
 			Часы=watch
-		Он=it
+		Он=he
 			Украшения=decoration
-			Для планшета/электронной книги=for-tablet/e-book
+			Для планшета/электронной книги=for-tablet-e-book
 			Для телефона=for-your
 			Для электронных сигарет=for-electronic-cigarettes
 			Головные уборы=hats
@@ -202,7 +201,7 @@
 		Текстиль=textiles
 		Кофе, чай=coffee-tea
 		Столовые приборы=cutlery
-	Детская=children's
+	Детская=childrens
 		Одеяла, подушки=blankets-pillows
 		Покрывала, пледы=bedspreads-blankets
 		Постельное белье=bed-linen
@@ -321,13 +320,13 @@
 		Для лица=for-the-face
 		Для тела=for-the-body
 		Для губ=lip
-		Мужская линия=men's-line
+		Мужская линия=mens-line
 		Уход за полостью рта=care-for-the-oral-cavity
 		Средства личной гигиены=personal-hygiene
 		Бритвенные принадлежности=shaving-kit
 	Перфюмерия=perfumeria
-		Женские ароматы=women's-fragrances
-		Мужские ароматы=men's-fragrances
+		Женские ароматы=womens-fragrances
+		Мужские ароматы=mens-fragrances
 		Реплики=replica
 	Аппаратная косметология=hardware-cosmetology
 		Аппараты=devices
@@ -504,7 +503,7 @@
 			Minecraft=minecraft
 			Plants vs Zombies=plants-vs-zombies
 			Игрушки Робокар Поли=toy-robocar-poli
-			Тачки - Cars=cars---cars
+			Тачки-Cars=cars
 			My Little Pony=my-little-pony
 			Littlest Pet Shop=littlest-pet-shop
 			Лошадки и игровые наборы Filly=horses-and-playsets-filly
@@ -581,7 +580,7 @@
 			Прочие мягкие игрушки=other-soft-toys
 			Рукавички для кукольного театра=gloves-for-the-puppet-theater
 		Игры=game
-			Детские настольные игры=children's-board-games
+			Детские настольные игры=childrens-board-games
 			Компьютерные и электронные игры=computer-and-electronic-games
 			Спортивные и активные игры=sports-and-active-games
 			Танцевальные коврики=dance-mats
@@ -807,7 +806,7 @@
 		Энергетические батончики и мюсли=energy-bars-and-granola
 	Велосипеды и аксессуары=bikes-and-accessories
 		Велосипеды=bikes
-		Комплектующие для велосипедов=accessories-for-bicycles
+		Комплектующие для велосипедов=complex-for-bicycles
 		Аксессуары для велосипедов=accessories-for-bicycles
 			Велокомпьютеры=tables
 			Велосипедные шлемы=bicycle-helmets

@@ -7,9 +7,9 @@
 						<span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" ></span>
 					</div>
 					<div class="range-price">
-						<div class="min-price"><b>от <span>0</span></b></div>
-						<b>-</b>
-						<div class="max-price"><b>до <span>200</span></b></div>
+						<div class="min-price"><b>от <span>[% hilt.filter.price.min %]</span></b></div>
+						<b> - </b>
+						<div class="max-price"><b>до <span>[% hilt.filter.price.max %]</span></b></div>
 					</div>
 					<a class="button style-14">ОК</a>
 				</div>
@@ -17,7 +17,7 @@
 
 			[% PROCESS tmpl/feature/filter.html.tt %]
 			
-			<div class="information-blocks">
+			<!--<div class="information-blocks">
 				<div class="block-title size-2">Размер</div>
 				<div class="size-selector">
 					<div class="entry active">xs</div>
@@ -27,7 +27,7 @@
 					<div class="entry">xl</div>
 					<div class="spacer"></div>
 				</div>
-			</div>
+			</div>-->
 
 			<div class="information-blocks">
 				<div class="block-title size-2">Бренд</div>
@@ -63,7 +63,7 @@
 				</div>
 			</div>
 
-			<div class="information-blocks">
+			<!--<div class="information-blocks">
 				<div class="block-title size-2">Цвет</div>
 				<div class="color-selector detail-info-entry">
 					<div style="background-color: #cf5d5d;" class="entry active"></div>
@@ -77,5 +77,5 @@
 					<div style="background-color: #f0f0f0;" class="entry"></div>
 					<div class="spacer"></div>
 				</div>
-			</div>
+			</div>-->
 			 

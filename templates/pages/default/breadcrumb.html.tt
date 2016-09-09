@@ -1,10 +1,13 @@
 [% UNLESS site.tmpl.param.breadcrumb %]
 <div class="breadcrumb-box">
-	<a href="#" class="button style-14 toggle-megamenu2">Каталог товаров </a>
+	<a href="#" class="button style-14 toggle-megamenu2">Каталог товаров</a>
 	[% PROCESS pages/default/blocks/megamenu4.html.tt %]
-	<a href="#">Одежда и обувь</a>
-	<a href="#">Он</a>
-	<a href="#">Одежда</a>
-	<a href="#">Куртки, плащи</a>
+	[% FOR item IN hilt.breadcrumbs %]
+		[% IF loop.last %]
+			<a href="[% item.url %]" class="item">[% item.title %]</a>
+		[% ELSE %]
+			<a href="[% item.url %]">[% item.title %]</a>
+		[% END %]
+	[% END %]
 </div>
 [% END %]

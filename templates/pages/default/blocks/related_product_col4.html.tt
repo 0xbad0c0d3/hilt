@@ -1,9 +1,11 @@
 				<!-- new block-->
 	  <div class="information-blocks" >
                    
+	<div class="latest-entries-heading">
+		<h3 class="title">Сопутствующие товары</h3>
+	</div>
 
 			<div class="row shop-grid grid-view">
-
 				[% FOREACH item IN [1,2,3,4] %]
 				<div class="col-md-3 col-sm-4 shop-grid-item">
 					<div class="product-slide-entry shift-image">
@@ -48,3 +50,4 @@
 	  <div class="clear"></div>
 	</div>
 				<!-- #new block-->
+						

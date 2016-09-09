@@ -30,6 +30,12 @@ __PACKAGE__->table("feature");
   is_auto_increment: 1
   is_nullable: 0
 
+=head2 user_id
+
+  data_type: 'integer'
+  extra: {unsigned => 1}
+  is_nullable: 0
+
 =head2 overflow
 
   data_type: 'integer'
@@ -72,6 +78,8 @@ __PACKAGE__->add_columns(
     is_auto_increment => 1,
     is_nullable => 0,
   },
+  "user_id",
+  { data_type => "integer", extra => { unsigned => 1 }, is_nullable => 0 },
   "overflow",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "title",
@@ -134,24 +142,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 feature2value
+=head2 product2feature2values
 
-Type: might_have
+Type: has_many
 
-Related object: L<Schema::Result::Feature2value>
+Related object: L<Schema::Result::Product2feature2value>
 
 =cut
 
-__PACKAGE__->might_have(
-  "feature2value",
-  "Schema::Result::Feature2value",
+__PACKAGE__->has_many(
+  "product2feature2values",
+  "Schema::Result::Product2feature2value",
   { "foreign.feature_id" => "self.feature_id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-06-30 14:26:09
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:BSTOQrJ+hYBYQ3ti7TOTKg
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-17 13:54:28
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VUWjsMFqOt6JYAiOsP6hjw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

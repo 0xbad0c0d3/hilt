@@ -64,6 +64,17 @@ __PACKAGE__->table("category");
   is_nullable: 0
   size: 500
 
+=head2 url2site
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 1000
+
+=head2 instr
+
+  data_type: 'text'
+  is_nullable: 0
+
 =head2 date_create
 
   data_type: 'datetime'
@@ -103,6 +114,10 @@ __PACKAGE__->add_columns(
   { data_type => "varchar", is_nullable => 0, size => 500 },
   "url",
   { data_type => "varchar", is_nullable => 0, size => 500 },
+  "url2site",
+  { data_type => "varchar", is_nullable => 0, size => 1000 },
+  "instr",
+  { data_type => "text", is_nullable => 0 },
   "date_create",
   {
     data_type => "datetime",
@@ -164,8 +179,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-06-06 09:42:39
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:e7MIqaLFA7KoRp33YezbQg
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-25 11:54:42
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Yoweg2znnmKP+9HzzpS6kQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

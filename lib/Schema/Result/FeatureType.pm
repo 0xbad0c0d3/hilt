@@ -86,26 +86,9 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("feature_type_id");
 
-=head1 RELATIONS
 
-=head2 feature2values
-
-Type: has_many
-
-Related object: L<Schema::Result::Feature2value>
-
-=cut
-
-__PACKAGE__->has_many(
-  "feature2values",
-  "Schema::Result::Feature2value",
-  { "foreign.feature_type_id" => "self.feature_type_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-06-30 14:26:09
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Ylh0O2T8894XdgkUkwwqqQ
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-17 13:54:28
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FDWIo867r+Px70gidPP8iw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

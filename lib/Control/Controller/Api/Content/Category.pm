@@ -1,63 +1,58 @@
 package Control::Controller::Api::Content::Category;
 use Mojo::Base 'Mojolicious::Controller';
 use Data::Dumper;
+use Mojo::JSON qw(decode_json encode_json);
 
-my ($m,$db,$page,$rows,$id) = ('','', 1, 20, 0);
+my ($m,$db,$page,$rows,$id, $init) = ('','', 1, 20, 0,'');
+my $dom = '';
 
 sub _init {
 	my $c = shift;
-	$m = $c->model('category');
-	$db = $c->db;
-	$page = $c->param('page') ? $c->param('page') : $page;
-	$rows = $c->param('rows') ? $c->param('rows') : $rows;
-	$id = defined $c->param('id') ? $c->param('id') : 0;
+	$m = $c->model('Category');
+	$init = $c->c_init();
 	1;
 }
 
 sub get {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();  
-	return $c->reply->not_found unless $id;
+	return $c->reply->not_found unless $init->{'id'};
 	
-	my $h = $m->get( $db, $id );	
+	my $h = $m->get( $id );	
 	$c->render( json => $h );
 }
 
 sub update {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();
-	
-	my $data = $c->req->json;
-	
-	unless ( $data  ) {
+		
+	unless ( $init->{'data'}  ) {
 		return $c->render( json => { failue => \1, message => 'Нет данных' } );
 	}
 	
-	if ( $data && ref $data ne 'ARRAY' ) {
+	if ( ref $init->{'data'} ne 'ARRAY' ) {
 		return $c->render( json => { failue => \1, message => 'Неправильная структура json' } );
 	}
 			
-	my ( $h, $error ) = $m->update( $db, $data );  
+	my ( $h, $error ) = $m->update( $init->{'data'} );  
 	$c->render( json => $h ? { success => \1, data => $h } : { failue => \1, message => $error } );
 	
 }
 
 sub set {
 	my $c = shift;
-	return $c->reply->not_found unless $c->_init();
-	
-	my $data = $c->req->json;
+	return $c->reply->not_found unless $c->_init();	
 	my $res = [];
 	
-	unless ( $data  ) {
+	unless ( $init->{'data'}  ) {
 		return $c->render( json => { failue => \1, message => 'Нет данных' } );
 	}
 	
-	if ( $data && ref $data ne 'ARRAY' ) {
+	if ( ref $init->{'data'} ne 'ARRAY' ) {
 		return $c->render( json => { failue => \1, message => 'Неправильная структура json' } );
 	}
 	  
-	my ( $h, $error ) = $m->set( $c, $db, $data );
+	my ( $h, $error ) = $m->set( $init->{'data'} );
 	
 	$c->render( json => $h ? { success => \1, data => $h } : { failue => \1, message => $error } );  
 }
@@ -65,18 +60,16 @@ sub set {
 sub remove {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();
-	
-	my $data = $c->req->json;
-	
-	unless ( $data  ) {
+		
+	unless ( $init->{'data'}  ) {
 		return $c->render( json => { failue => \1, message => 'Нет данных' } );
 	}
 	
-	if ( $data && ref $data ne 'ARRAY' ) {
+	if ( ref $init->{'data'} ne 'ARRAY' ) {
 		return $c->render( json => { failue => \1, message => 'Неправильная структура json' } );
 	}
 	
-	my ( $h, $error ) = $m->remove( $db, $data );
+	my ( $h, $error ) = $m->remove( $init->{'data'} );
 	$c->render( json => $h ? { success => \1, data => $h } : { failue => \1, message => $error } );
   
 }
@@ -85,10 +78,10 @@ sub list {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();
 	
-	$c->render( json => $m->list( $db, $page, $rows ) );  
+	$c->render( json => $m->list( $init->{'page'}, $init->{'rows'} ) );  
 }
 
-my $dom = '';
+
 sub megamenu {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();
@@ -98,17 +91,18 @@ sub megamenu {
 
 	#$dom->at('div#megamenu')->append_content('
 	#	<div class="block-title size-3">Каталог товаров</div>
-	#	<div class="accordeon_1"></div>
+	#	<div class="accordeon_0"></div>
 	#');
 
 	$dom->at('div#megamenu2')->append_content('
-		<div class="accordeon_1"></div>
+		<div class="accordeon_0"></div>
 	');
 
 
-	$c->_megamenu( { parent_id => 1 }, 0, '/catalog' );
+	$c->_megamenu( { parent_id => 0 }, 0, '/catalog' );
 
-	open (my $fh, '>', $c->config->{'template'}->{'path'}.'/pages/default/blocks/megamenu4.html.tt');	
+	open (my $fh, '>', $c->config->{'template'}->{'path'}.'/pages/default/blocks/megamenu4.html.tt');
+	#open (my $fh, '>', $c->config->{'template'}->{'path'}.'/pages/default/blocks/megamenu3.html.tt');	
 	say $fh $dom;	
 	close ($fh);
 	say "OK";
@@ -121,13 +115,13 @@ sub _megamenu {
 	my $filter = shift;
 	my $level = shift;
 	my $url_site = shift;
-	my $data = $m->find( $db, $filter );
+	my $data = $m->find( $filter );
 
 	say "\t" x $level . $filter->{'parent_id'};
 	
 	if( @{ $data } ){
 		for my $item ( @{ $data } ){
-			my $data_child = $m->find( $db, { parent_id => $item->{'category_id'} } );
+			my $data_child = $m->find( { parent_id => $item->{'category_id'} } );
 			my $url = $url_site."/".$item->{'url'};
 			
 			if( scalar @{$data_child} ){				
@@ -195,6 +189,44 @@ sub _megamenu {
 	}
 	
 	$dom;
+}
+
+my $js = [];
+sub admin_megamenu {
+	my $c = shift;
+	return $c->reply->not_found unless $c->_init();
+	my $js = $c->_admin_megamenu( { parent_id => 0 }, 0, 'Главная');
+	$js = encode_json( $js );
+	my $txt = "var treeData = $js";
+	open (my $fh,'>',  $c->config->{'template'}->{'path'}.'/admin/content/product/megamenu.html.tt');
+	say $fh $txt;
+	close( $fh );
+	$c->render( text => 'Ok' );
+}
+
+sub _admin_megamenu {
+	my $c = shift;
+	my $filter = shift;
+	my $level = shift;
+	my $url_site = shift;
+	my $data = $m->find( $db, $filter );
+	my $jsm = [];
+	say "\t" x $level . $filter->{'parent_id'};
+	
+	if( @{ $data } ){
+		for my $item ( @{ $data } ){
+			my $data_child = $m->find( $db, { parent_id => $item->{'category_id'} } );
+			my $url = $url_site." -> ".$item->{'title'};
+			if( scalar @{$data_child} ){
+				my $ret = $c->_admin_megamenu( { parent_id => $item->{'category_id'} }, $level+1, $url );
+				push @{$jsm}, { title => $item->{'title'}, key => $item->{'category_id'}, isFolder => \1, unselectable => \1, children => $ret };
+			}
+			else{
+				push @{$jsm},  { title => $item->{'title'}, key => $item->{'category_id'}, path_name => $url };
+			}
+		}
+	}	
+	$jsm;
 }
 
 1;

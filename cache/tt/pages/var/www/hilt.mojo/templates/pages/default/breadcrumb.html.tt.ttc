@@ -6,8 +6,8 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
+        'modtime' => '1471594287',
         'name' => 'pages/default/breadcrumb.html.tt',
-        'modtime' => '1469706914',
     },
     BLOCK => sub {
     my $context = shift || die "template sub called without context\n";
@@ -16,12 +16,59 @@ Template::Document->new({
     my $_tt_error;
     
     eval { BLOCK: {
-#line 10 "/var/www/hilt.mojo/templates/pages/default/breadcrumb.html.tt"
+#line 13 "/var/www/hilt.mojo/templates/pages/default/breadcrumb.html.tt"
 if (!($stash->get(['site', 0, 'tmpl', 0, 'param', 0, 'breadcrumb', 0]))) {
-$output .=  "<div class=\"breadcrumb-box\">\n	<a href=\"#\" class=\"button style-14 toggle-megamenu2\">Каталог товаров </a>";
+$output .=  "<div class=\"breadcrumb-box\">\n	<a href=\"#\" class=\"button style-14 toggle-megamenu2\">Каталог товаров</a>";
 #line 4 "/var/www/hilt.mojo/templates/pages/default/breadcrumb.html.tt"
 $output .=  $context->process('pages/default/blocks/megamenu4.html.tt');
-$output .=  "	<a href=\"#\">Одежда и обувь</a>\n	<a href=\"#\">Он</a>\n	<a href=\"#\">Одежда</a>\n	<a href=\"#\">Куртки, плащи</a>\n</div>";
+#line 11 "/var/www/hilt.mojo/templates/pages/default/breadcrumb.html.tt"
+
+# FOREACH 
+do {
+    my ($_tt_value, $_tt_error, $_tt_oldloop);
+    my $_tt_list = $stash->get(['hilt', 0, 'breadcrumbs', 0]);
+    
+    unless (UNIVERSAL::isa($_tt_list, 'Template::Iterator')) {
+        $_tt_list = Template::Config->iterator($_tt_list)
+            || die $Template::Config::ERROR, "\n"; 
+    }
+
+    ($_tt_value, $_tt_error) = $_tt_list->get_first();
+    eval { $_tt_oldloop = $stash->get('loop') };
+    $stash->set('loop', $_tt_list);
+    eval {
+FOR1:   while (! $_tt_error) {
+            $stash->{'item'} = $_tt_value;
+#line 10 "/var/www/hilt.mojo/templates/pages/default/breadcrumb.html.tt"
+if ($stash->get(['loop', 0, 'last', 0])) {
+$output .=  "			<a href=\"";
+#line 7 "/var/www/hilt.mojo/templates/pages/default/breadcrumb.html.tt"
+$output .=  $stash->get(['item', 0, 'url', 0]);
+$output .=  "\" class=\"item\">";
+#line 7 "/var/www/hilt.mojo/templates/pages/default/breadcrumb.html.tt"
+$output .=  $stash->get(['item', 0, 'title', 0]);
+$output .=  "</a>";
+}
+else {
+$output .=  "			<a href=\"";
+#line 9 "/var/www/hilt.mojo/templates/pages/default/breadcrumb.html.tt"
+$output .=  $stash->get(['item', 0, 'url', 0]);
+$output .=  "\">";
+#line 9 "/var/www/hilt.mojo/templates/pages/default/breadcrumb.html.tt"
+$output .=  $stash->get(['item', 0, 'title', 0]);
+$output .=  "</a>";
+}
+;
+            ($_tt_value, $_tt_error) = $_tt_list->get_next();
+        }
+    };
+    $stash->set('loop', $_tt_oldloop);
+    die $@ if $@;
+    $_tt_error = 0 if $_tt_error && $_tt_error eq Template::Constants::STATUS_DONE;
+    die $_tt_error if $_tt_error;
+};
+
+$output .=  "</div>";
 }
 
     } };

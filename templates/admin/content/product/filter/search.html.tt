@@ -7,18 +7,36 @@
                   <div class="panel-body">
                     <form class="" role="form">
 											<div class="row">
-												<div class="col-sm-4">
+
+												<div class="col-sm-3">
 													<div class="form-group form-group-default">
-														<label>Название </label>
+														<label>Код товара</label>
 														<input type="text" class="form-control" required="">
 													</div>
 												</div>
-												<div class="col-sm-4">
+												
+												<div class="col-sm-3">
+													<div class="form-group form-group-default">
+														<label>Название</label>
+														<input type="text" class="form-control" required="">
+													</div>
+												</div>
+												
+												<div class="col-sm-3">
 													<div class="form-group form-group-default">
 														<label>Категория </label>
 														<input type="text" class="form-control" required="">
 													</div>													
 												</div>
+
+												<div class="col-sm-3">
+													<div class="form-group form-group-default">
+														<label>Поставщик</label>
+														<input type="text" class="form-control" required="">
+													</div>													
+												</div>
+												
+												<!--
 												<div class="col-sm-4">
 													<div class="form-group form-group-default form-group-default-select2">
 															<label>Статус </label>
@@ -29,7 +47,9 @@
 																</select>
 
 													</div>													
-												</div>
+												</div>-->
+												
+												
 											</div>
 
                     </form>

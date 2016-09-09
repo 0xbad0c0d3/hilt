@@ -1,38 +1,140 @@
 package Control::Model::Product;
 use Mojo::Base 'MojoX::Model';
+use Try::Tiny;
+use Data::Dumper;
 
-my %prod = (
-  product_id => 0,  
-  title => 'Майка Ника фиолетовая',
-  description => 'Майка на тонких бретельках, выполненная из приятной к телу натуральной ткани, обеспечит Вам удобство и комфорт.',
-  img => ['/site/images/0630559.jpg', '/site/images/0630559.jpg', '/site/images/0630559.jpg'],
-  brand => 'Lans',
-  price => {
-	prev => 142,
-	current => 57,
-  },
-  features => {
-	size => ['s','m','xl','xxl'],
-	color => [ ['blue','blue'], ['while','#fff'],['black','#000'] ]
-  }
-);
+sub get_product2category {
+	my $model = shift;
+	my $data = shift;
+	my $attr = shift;
+	my $db = $model->app->db;
+	
+	my $r = $db->resultset('Product2category')->search( $data ,{
+		rows => $attr->{'rows'},
+		page => $attr->{'page'},
+		group_by => ['product_id']
+	});  
 
-sub get_products {
-  my $c = @_;    
-  my @products = ();
+	$r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
+	my @res = $r->all();
   
-  for my $item ( 1..8 ) {
-	my $id = sprintf( "%08d", int( rand(100_000) ) );
-	$prod{'product_id'} = sprintf( "%08d", $id);
-	$prod{'url'} = "/catalog/clothing-and-shoes/he/jackets-coats/${id}-swimsuit-in-ethnic-style.html";
-	push @products, \%prod;
-  }	
-  return \@products;
+	my $rs = $db->resultset('Product2category')->search(
+		$data,
+		{
+			columns => [ qw/product_id/ ],
+			distinct => 1
+		}
+	);
+	  
+	my $count = $rs->count;
+	
+	my @products = ();
+	for my $item ( @res ){
+		my $data = $model->get_v_product_info({ category_id => $item->{'category_id'}, product_id => $item->{'product_id'} });
+		$item->{'data'} = $data if %{$data};
+		push @products, $item->{'product_id'} if $data->{'quantity'};
+	}
+	
+	$rs = $db->resultset('ProductPrice')->search({
+		'product_id' => { IN => \@products },
+	},{
+		columns => [
+			{ 'min' => { min => 'me.current'} },
+			{ 'max' => { max => 'me.current'} }
+		]
+	});
+	
+	$rs->result_class('DBIx::Class::ResultClass::HashRefInflator');  
+	my @res2 = $rs->all();
+	
+	{ success =>\1, count=> $count, page => $attr->{'page'}, rows => $attr->{'rows'},  data=>\@res,
+		filter => {
+			price => {
+				min => int($res2[0]->{'min'}/100),
+				max => int($res2[0]->{'max'}/100)
+			}
+		}
+	};	
+	
 }
 
-sub get_product_item {
-  my $c = shift;
-  return {};
+sub get_product {
+	my $model = shift;
+	my $data = shift;
+	my $db = $model->app->db;
+	my $h = {};	
+	my $res = $db->resultset('Product')->find( $data );
+
+	if( $res ){
+		for my $key ( $res->columns ) {
+			$h->{ $key } = $res->$key if defined $res->$key;
+		}
+		return $h;
+	}
+	return undef;
 }
+
+sub get_v_product_info {
+	my $model = shift;
+	my $data = shift;
+	my $db = $model->app->db;
+	my $h = {};
+	my $res = $db->resultset('VProductInfo')->find( $data );
+	if( $res ){
+		for my $key ( $res->columns ) {
+			$h->{ $key } = $res->$key if defined $res->$key;
+		}
+		my $price = $model->get_product_price( { product_id => $h->{'product_id'} } );
+		$h->{'price'} = $price;
+		return $h;
+	}
+	return undef;	
+}
+
+sub get_product_price {
+	my $model = shift;
+	my $data = shift;
+	my $db = $model->app->db;
+	my $h = {};
+	my $res = $db->resultset('ProductPrice')->find( $data );
+	if( $res ){
+		for my $key ( $res->columns ) {
+			$h->{ $key } = $res->$key if defined $res->$key;
+		}
+		$h->{'current'} = int($h->{'current'}/100) if $h->{'current'};
+		$h->{'prev'} = int($h->{'prev'}/100) if $h->{'prev'};
+		return $h;
+	}
+	return undef;
+}
+
+sub set_product {
+	my $model = shift;
+	my $data = shift;
+	my $db = $model->app->db;
+	my $h = {};
+
+	if( $h = $model->get_product( $data ) ){
+		return $h;
+	}
+
+	$db->storage->txn_begin();
+	try {
+		my $res = $db->resultset('Product')->create( $data );
+		
+		for my $key ( $res->columns ) {
+			$h->{ $key } = $res->$key if defined $res->$key;
+		}
+		
+		$db->storage->txn_commit();
+		return $h;
+	}
+	catch {
+		my $err = $_;
+		$db->storage->txn_rollback();
+		return undef, $err;
+	};  
+}
+
 
 1;

@@ -6,7 +6,7 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
-        'modtime' => '1467380688',
+        'modtime' => '1472505506',
         'name' => 'admin/content/product/item.html.tt',
     },
     BLOCK => sub {
@@ -17,20 +17,23 @@ Template::Document->new({
     
     eval { BLOCK: {
 #line 1 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
-$output .=  $context->process('admin/header.html.tt', { 'breadcrumb' => 'Форма для пиццы 24см,h-2.5см' });
-$output .=  "\n      \n      \n\n          <!-- START CONTAINER FLUID -->\n          <div class=\"container-fluid container-fixed-lg\">\n            <!-- BEGIN PlACE PAGE CONTENT HERE -->\n            \n            \n\n            <!-- START PANEL -->\n            <div class=\"panel panel-white\">\n              <div class=\"panel-body\">\n              <h5>ФОРМА ДЛЯ ПИЦЦЫ 24СМ,H-2.5СМ</h5>\n              <p>код продукта: p13232</p>\n              </div>\n              <div class=\"panel-body\">\n\n                      <ul class=\"nav nav-tabs nav-tabs-linetriangle\">\n                        <li class=\"active\">\n                          <a data-toggle=\"tab\" href=\"#home\"><span>Основные</span></a>\n                        </li>\n                        <li class=\"\">\n                          <a data-toggle=\"tab\" href=\"#feature\"><span>Характеристики</span></a>\n                        </li>\n                        <li class=\"\">\n                          <a data-toggle=\"tab\" href=\"#category\"><span>Категории</span></a>\n                        </li>\n                        <li class=\"\">\n                          <a data-toggle=\"tab\" href=\"#media\"><span>Медиа</span></a>\n                        </li>\n                      </ul>\n                      \n                      <div class=\"tab-content\">\n                        <div class=\"tab-pane active\" id=\"home\">";
-#line 39 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
+$output .=  $context->process('admin/header.html.tt', { 'breadcrumb' => $stash->get(['hilt', 0, 'admin', 0, 'product_item', 0, 'title', 0]) });
+$output .=  "\n      \n      \n\n          <!-- START CONTAINER FLUID -->\n          <div class=\"container-fluid container-fixed-lg\">\n            <!-- BEGIN PlACE PAGE CONTENT HERE -->\n            \n            \n\n            <!-- START PANEL -->\n            <div class=\"panel panel-white\">\n              <div class=\"panel-body\">\n                <div class=\"col-md-6\">\n                  <h5>";
+#line 18 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'admin', 0, 'product_item', 0, 'title', 0]);
+$output .=  "</h5>\n                  <p>код продукта: p";
+#line 19 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
+$output .=  $stash->get(['hilt', 0, 'admin', 0, 'product_item', 0, 'product_id', 0]);
+$output .=  "</p>\n                </div>\n                <div class=\"col-md-6\">\n                  <h5>Категории</h5>\n                  <div id=\"ProductCategory\"></div>\n                </div>\n              </div>\n              <div class=\"panel-body\">\n\n                      <ul class=\"nav nav-tabs nav-tabs-linetriangle\">\n                        <li class=\"active\">\n                          <a data-toggle=\"tab\" href=\"#home\"><span>Основные</span></a>\n                        </li>\n                        <li class=\"\">\n                          <a data-toggle=\"tab\" href=\"#feature\"><span>Характеристики</span></a>\n                        </li>\n                        <li class=\"\">\n                          <a data-toggle=\"tab\" href=\"#photo\"><span>Фото</span></a>\n                        </li>\n                      </ul>\n                      \n                      <div class=\"tab-content\">\n                        <div class=\"tab-pane active\" id=\"home\">";
+#line 42 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
 $output .=  $context->process('admin/content/product/item/tab_1.html.tt');
 $output .=  "                        </div>\n                        <div class=\"tab-pane\" id=\"feature\">";
-#line 42 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
+#line 45 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
 $output .=  $context->process('admin/content/product/item/tab_2.html.tt');
-$output .=  "                        </div>\n                        \n                        <div class=\"tab-pane\" id=\"category\">";
-#line 46 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
+$output .=  "                        </div>\n                        \n                        <div class=\"tab-pane\" id=\"photo\">";
+#line 49 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
 $output .=  $context->process('admin/content/product/item/tab_3.html.tt');
-$output .=  "                        </div>\n\n                        <div class=\"tab-pane\" id=\"media\">";
-#line 50 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
-$output .=  $context->process('admin/content/product/item/tab_4.html.tt');
-$output .=  "                        </div>\n                        \n                      </div>                      \n\n              </div>\n            </div>\n            <!-- END PANEL -->\n            \n            \n\n          <!-- END CONTAINER FLUID -->            \n            \n            <!-- END PLACE PAGE CONTENT HERE -->\n          </div>\n \n \n\n\n\n";
+$output .=  "                        </div>\n\n                        \n                      </div>                      \n\n              </div>\n            </div>\n            <!-- END PANEL -->\n            \n            \n\n          <!-- END CONTAINER FLUID -->            \n            \n            <!-- END PLACE PAGE CONTENT HERE -->\n          </div>\n \n \n\n\n\n";
 #line 71 "/var/www/hilt.mojo/templates/admin/content/product/item.html.tt"
 $output .=  $context->process('admin/footer.html.tt');
     } };

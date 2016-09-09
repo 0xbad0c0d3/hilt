@@ -1,5 +1,5 @@
 [% PROCESS admin/header.html.tt
-  breadcrumb = 'Форма для пиццы 24см,h-2.5см'
+  breadcrumb = hilt.admin.product_item.title 
 %]
 
       
@@ -14,8 +14,14 @@
             <!-- START PANEL -->
             <div class="panel panel-white">
               <div class="panel-body">
-              <h5>ФОРМА ДЛЯ ПИЦЦЫ 24СМ,H-2.5СМ</h5>
-              <p>код продукта: p13232</p>
+                <div class="col-md-6">
+                  <h5>[% hilt.admin.product_item.title %]</h5>
+                  <p>код продукта: p[% hilt.admin.product_item.product_id %]</p>
+                </div>
+                <div class="col-md-6">
+                  <h5>Категории</h5>
+                  <div id="ProductCategory"></div>
+                </div>
               </div>
               <div class="panel-body">
 
@@ -27,10 +33,7 @@
                           <a data-toggle="tab" href="#feature"><span>Характеристики</span></a>
                         </li>
                         <li class="">
-                          <a data-toggle="tab" href="#category"><span>Категории</span></a>
-                        </li>
-                        <li class="">
-                          <a data-toggle="tab" href="#media"><span>Медиа</span></a>
+                          <a data-toggle="tab" href="#photo"><span>Фото</span></a>
                         </li>
                       </ul>
                       
@@ -42,13 +45,10 @@
                            [% PROCESS admin/content/product/item/tab_2.html.tt %]
                         </div>
                         
-                        <div class="tab-pane" id="category">
+                        <div class="tab-pane" id="photo">
                           [% PROCESS admin/content/product/item/tab_3.html.tt %]
                         </div>
 
-                        <div class="tab-pane" id="media">
-                          [% PROCESS admin/content/product/item/tab_4.html.tt %]
-                        </div>
                         
                       </div>                      
 

@@ -129,7 +129,6 @@ sub remove {
 
 sub list {
 	my ($model, $db, $page, $rows ) = @_;
-	
 	$r = $db->resultset('User')->search( undef,{
 		rows => $rows,
 		page => $page

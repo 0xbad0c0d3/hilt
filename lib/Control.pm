@@ -5,6 +5,7 @@ use FindBin qw($Bin);
 use Mojo::Log;
 use open qw(:std :utf8);
 use utf8;
+use Data::Dumper;
 
 my($r, $api, $conf, $admin);
 
@@ -18,7 +19,12 @@ sub startup {
 	#$self->app->mode('production');
 	$self->plugin('Config');
 	$self->config( hypnotoad => $self->app->config->{'hypnotoad'} );
-	$self->log(Mojo::Log->new( path => '/var/www/hilt.mojo/logs/hilt.log', level => 'info' ));
+	$self->log(
+		Mojo::Log->new(
+			path => '/var/www/hilt.mojo/logs/hilt.log',
+			level => 'info'
+		)
+	);
 		
 	$self->secrets($self->app->config->{'secrets'});
 	$self->sessions->cookie_name( $self->app->config->{'session'}->{'cookie_name'} );
@@ -29,7 +35,7 @@ sub startup {
 	$self->plugin('Control::Plugin::Session');
 	$self->plugin('Control::Plugin::Pages');
 	$self->plugin('Control::Plugin::Pagination');
-	#$self->plugin('Control::Plugin::Utils');
+
 	$self->plugin('Control::Plugin::MAIL');
 	$self->plugin('Control::Plugin::Markdown');
 	$self->plugin('Control::Plugin::DB');
@@ -60,13 +66,12 @@ sub startup {
 		c_init => sub  {
 			my $c = shift;
 			my $par = shift;
-			my $data = {};
+			my $data = {};			
 			$data->{'data'} = $c->req->json();
-			$data->{'data'} = $c->req->params->to_hash() if ( $c->req->params );
+			$data->{'data'} =  $c->req->params->to_hash() if ( $c->req->params && %{$c->req->params->to_hash()} );
 
 			$data->{'page'} = $data->{'data'}->{'page'} ? $data->{'data'}->{'page'} : 1;
 			$data->{'rows'} = $data->{'data'}->{'rows'} ? $data->{'data'}->{'rows'} : $self->app->config->{'list'}->{'rows'};
-			$data->{'db'} = $c->db;
 			$data->{'id'} = $data->{'data'}->{'id'} || $c->stash('id');
 			return $data;
 		},
@@ -87,6 +92,25 @@ sub startup {
 		}
 		$c->stash( {error =>  $c->flash('error')} ) if $c->flash('error');
 		$c->timed;
+		
+		$c->stash->{ $c->config->{'project_name'} }->{'get_origin_image'} = sub {
+			my $id = shift or return undef;
+			my $all = shift;
+			my $m = $c->model('Image');
+			my $path = '';
+			my $res = $m->get_origin( {image_id => $id} );
+			return $all ? $res : $res->{'url_path'};
+		};
+
+		$c->stash->{ $c->config->{'project_name'} }->{'get_product_image'} = sub {
+			my $product_id = shift or return undef;
+			my $id = shift or return undef;
+			my $w = shift or return undef;
+			my $m = $c->model('Image');
+			my $path = '';
+			my $res = $m->get_product_image({ product_id => $product_id, image_id => $id, w=>$w });
+			return $res;
+		};
 		return 1;
 	});
 	
@@ -103,7 +127,6 @@ sub startup {
 				return $c->render( status => 403, text => "Forbidden!" );
             }
 			
-
             return 1;
         }
 	);	
@@ -121,9 +144,10 @@ sub startup {
 	)->over( session => 1 );
 	
 	$r->get('/popup/:item' => [ format => ['html','json'] ] )->to('popup#item');
+	$r->get('/simg/*item' => [ format => ['jpg','jpeg','gif','png'] ] )->to('image#get');
 	
-	$r->get('/catalog/*path/:html' => [ format => ['html'] ] )->to('catalog#item');
-	$r->get('/catalog/*html' => [ format => 'html' ] )->to('catalog#default');
+	$r->get('/catalog/*path/:item' => [ format => ['html'] ] )->to('catalog#item');
+	$r->get('/catalog/*path' => [ format => 'html' ] )->to('catalog#default');
 	$r->get('/catalog/*path')->to('catalog#default');
 	$r->get('/catalog')->to('catalog#default');
 	
@@ -148,6 +172,13 @@ sub startup {
 	
 	####################
 	$api = $r->any('/api');
+		$api->any('/test')->to( cb => sub {
+			my $c = shift;
+			my $data = $c->c_init();
+			say Dumper( $data, $c->req->json );
+			
+			$c->render( json => $data );
+		});
 		# users
 		$api->post('/user')->over( is_admin => 1 )->to('api-user#set');
 		$api->put('/user')->over( is_admin => 1 )->to('api-user#update');
@@ -179,6 +210,8 @@ sub startup {
 		$api->get('/content/category/list')->to('api-content-category#list');
 		$api->get('/content/category/megamenu')->to('api-content-category#megamenu');
 		$api->get('/content/category/:id' => [ format => ['json'], id => qr/\d+/  ] )->to('api-content-category#get');
+		
+		$api->get('/content/category/admin_megamenu')->to('api-content-category#admin_megamenu');
 		# feature
 		$api->delete('/content/feature')->to('api-content-feature#remove');
 		$api->put('/content/feature')->to('api-content-feature#update');

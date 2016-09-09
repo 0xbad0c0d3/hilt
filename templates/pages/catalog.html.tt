@@ -11,6 +11,7 @@
 					[% hilt.products_pagination %]
 				</div>
 				<div class="shop-grid-controls">
+					<!--
 					<div class="entry">
 						<div class="inline-text">Сортировать по:</div>
 						<div class="simple-drop-down">
@@ -21,7 +22,7 @@
 							</select>
 						</div>
 						<div class="sort-button"></div>
-					</div>
+					</div> -->
 					<div class="entry">
 						<div class="view-button active grid"><i class="fa fa-th"></i></div>
 						<div class="view-button list"><i class="fa fa-list"></i></div>
@@ -32,14 +33,20 @@
 			</div>
 			<div class="row shop-grid grid-view">
 
-				[% FOREACH item IN hilt.products %]
+				[% FOREACH item IN hilt.products.data %]
 				<div class="col-md-3 col-sm-4 shop-grid-item">
-					<div class="product-slide-entry shift-image">
+					<div class="product-slide-entry shift-image1">
+						[% IF item.images %]
 						<div class="product-image">
-							[% FOREACH i IN [0,1] %]
-								<img src="[% item.img.$i %]" alt="[% item.title %]">
+							[% FOREACH i IN item.images %]
+								[% IF i.w == 192 %]
+								<img src="[% i.url_path %]" alt="[% item.title %]">
+								[% LAST %]
+								[% END %]
 							[% END %]
-							<div class="product-image-label type-1"><span>-40%</span></div>
+							[% IF item.sale %]
+							<div class="product-image-label type-1"><span>-[% item.sale.value %] [% item.sale.type %]</span></div>
+							[% END %]
 							<div class="bottom-line left-attached">
 								<a class="bottom-line-a square"><i class="fa fa-shopping-cart"></i></a>
 								<a class="bottom-line-a square"><i class="fa fa-heart"></i></a>
@@ -47,26 +54,43 @@
 								<a class="bottom-line-a square product-pre"><i class="fa fa-expand"></i></a>
 							</div>
 						</div>
-						<a class="tag" href="#">[% item.brand %] </a>
-						<a class="title" href="[% item.url %]">[% item.title %]</a>
+						[% END %]
+						[% IF item.brand %]
+						<a class="tag" href="#">[% item.brand %]</a>
+						[% END %]
+						<a class="title" href="/catalog[% item.data.url2site %]/[% item.data.url %].html">[% item.data.title %]</a>
 						<div class="rating-box">
-							<div class="star"><i class="fa fa-star"></i></div>
-							<div class="star"><i class="fa fa-star"></i></div>
-							<div class="star"><i class="fa fa-star"></i></div>
-							<div class="star"><i class="fa fa-star"></i></div>
-							<div class="star"><i class="fa fa-star"></i></div>
+							[% FOR r IN [1..5] %]
+								[% IF r <= item.data.rating %]
+								<div class="star"><i class="fa fa-star"></i></div>
+								[% ELSE %]
+								<div class="star"><i class="fa fa-star-o"></i></div>
+								[% END %]
+							[% END %]
 						</div>
+						[% IF  item.data.description  %]
 						<div class="article-container style-1">
-							<p>[% item.description %]</p>
+							<p>[% item.data.description %]</p>
 						</div>
-						<div class="price">
-							<div class="prev">[% item.price.prev %] грн</div>
-							<div class="current">[% item.price.current %] грн.</div>
-						</div>
+						[% END %]
+						[% IF item.data.quantity %]
+							[% IF item.data.price %]
+							<div class="price">
+								[% IF item.data.price.prev %]
+								<div class="prev">[% item.data.price.prev %]</div>
+								[% END %]
+								[% IF item.data.price.current %]
+								<div class="current">[% item.data.price.current %] грн.</div>
+								[% END %]
+							</div>
+							[% END %]
+						[% END %]
+						[% IF item.data.quantity %]
 						<div class="list-buttons">
 							<a class="button style-10">В корзину</a>
 							<a class="button style-11"><i class="fa fa-heart"></i> Сравнение</a>
 						</div>
+						[% END %]
 					</div>
 					<div class="clear"></div>
 				</div>
@@ -76,25 +100,12 @@
 			</div>
 			
 			<div class="page-selector">
-				<div class="description">1-12 из 450</div>
+				<div class="description">[% hilt.products.page %]-[% hilt.products.rows %] из [% hilt.products.count %]</div>
 				[% hilt.products_pagination %]
 				<div class="clear"></div>
 			</div>
 		</div>
 		<div class="col-md-3 col-md-pull-9 col-sm-4 col-sm-pull-8 blog-sidebar">
-
-			<div class="information-blocks">
-				<div class="block-title size-2">Категории</div>
-				<div class="row">
-					<div class="col-xs-6">
-						[% FOREACH item IN ['Куртки, плащи','Поло','Футболки','Рубашки','Пиджаки','Кофты','Свитера','Толстовки','Пиджаки, костюмы','Брюки'] %]
-						<label class="checkbox-entry">
-							<input type="checkbox"> <span class="check"></span>  [% item %]
-						</label>
-						[% END %]
-					</div>
-				</div>
-			</div>
 			
 		[% PROCESS pages/catalog/blocks/filters.html.tt %]		
 		
@@ -102,9 +113,6 @@
 	</div>
 </div>
 
-
-
-[% PROCESS pages/default/blocks/last_news_col4.html.tt %]
 
 [% PROCESS pages/default/footer.html.tt %]
 

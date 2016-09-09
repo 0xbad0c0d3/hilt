@@ -11,7 +11,8 @@ sub _init {
 }
 
 sub find {
-	my ($model, $db, $filter) = @_;
+	my ($model, $filter) = @_;
+	my $db = $model->app->db;
 	$r = $db->resultset('Category')->search( $filter );
 	$r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
 	my @res = $r->all();
@@ -19,8 +20,9 @@ sub find {
 }
 
 sub get {
-	my ($model, $db, $cid) = @_;
-		
+	my ($model, $cid) = @_;
+	my $db = $model->app->db;
+	
 	$r = $db->resultset('Category')->find( { category_id => $cid }  );  
 	my %h = ();
 	for my $key ( $r ? $r->columns : () ) {
@@ -30,10 +32,11 @@ sub get {
 }
 
 sub set {
-	my ( $model, $c, $db, $data ) = @_;
+	my ( $model, $data ) = @_;
+	my $db = $model->app->db;	
 	my (@data, @res, %data) = ((),(),());  
 	@data = @{ $data };
-	
+
 	$db->storage->txn_begin();
 	try {
 		for my $item ( @data ) {
@@ -75,7 +78,8 @@ sub set {
 }
 
 sub update {
-	my ( $model, $db, $data ) = @_;
+	my ( $model, $data ) = @_;
+	my $db = $model->app->db;	
 	my (@data, @res) = ((),());  
 	@data = @{ $data };
 	
@@ -110,7 +114,8 @@ sub update {
 }
 
 sub remove {
-	my ( $model, $db, $data ) = @_;
+	my ( $model, $data ) = @_;
+	my $db = $model->app->db;	
 	my (@data, @res) = ((),());  
 	@data = @{ $data };
 	
@@ -136,7 +141,8 @@ sub remove {
 }
 
 sub list {
-	my ($model, $db, $page, $rows ) = @_;
+	my ($model, $page, $rows ) = @_;
+	my $db = $model->app->db;	
 	
 	$r = $db->resultset('Category')->search( undef,{
 		rows => $rows,

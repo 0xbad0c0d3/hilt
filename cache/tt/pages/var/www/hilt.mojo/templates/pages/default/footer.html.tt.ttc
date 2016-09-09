@@ -6,7 +6,7 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
-        'modtime' => '1467717226',
+        'modtime' => '1472138419',
         'name' => 'pages/default/footer.html.tt',
     },
     BLOCK => sub {
