@@ -55,7 +55,6 @@ sub item {
 
 sub set {
 	my $c = shift;
-	return return $c->reply->not_found unless $c->_init();
-	
+	return return $c->reply->not_found unless $c->_init();	
 }
 1;

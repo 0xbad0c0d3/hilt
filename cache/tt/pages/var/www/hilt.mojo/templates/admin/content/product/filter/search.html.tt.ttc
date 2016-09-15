@@ -6,7 +6,7 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
-        'modtime' => '1472392952',
+        'modtime' => '1473775225',
         'name' => 'admin/content/product/filter/search.html.tt',
     },
     BLOCK => sub {

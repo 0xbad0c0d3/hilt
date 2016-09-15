@@ -147,7 +147,7 @@ sub list {
 	$r = $db->resultset('Category')->search( undef,{
 		rows => $rows,
 		page => $page,
-		order_by => [ 'sort']
+		order_by => ['sort']
 	});  
 	$r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
 	my @res = $r->all();

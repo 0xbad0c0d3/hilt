@@ -122,10 +122,12 @@ sub startup {
 			my $user = $c->session( $self->config->{'session'}->{'cookie_name'} );
 
             if ( $token && $token ne $user->{'csrf'} ) {
-				my $path = $c->tx->req->url->to_abs->to_string;
+				#my $path = $c->tx->req->url->to_abs->to_string;
+				my $path = $c->req->url->to_abs->to_string;
+				
                 $c->app->log->debug("CSRFProtect: Wrong CSRF protection token for [$path]!");
 				return $c->render( status => 403, text => "Forbidden!" );
-            }
+            }			
 			
             return 1;
         }

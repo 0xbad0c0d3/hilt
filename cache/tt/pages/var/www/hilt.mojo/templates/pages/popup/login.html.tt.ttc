@@ -6,8 +6,8 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
+        'modtime' => '1473775225',
         'name' => 'pages/popup/login.html.tt',
-        'modtime' => '1467726669',
     },
     BLOCK => sub {
     my $context = shift || die "template sub called without context\n";

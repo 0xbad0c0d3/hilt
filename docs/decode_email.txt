@@ -13,4 +13,19 @@ IN (
 )
 GROUP BY tb1.id
 ORDER BY tb1.id DESC 
+LIMIT 0 , 50SELECT DECODE( email,  'xxsnvl4' ) , 
+PASSWORD FROM  `hilt_users` 
+LIMIT 10
+
+
+
+SELECT tb1. * , COUNT( tb2.id ) 
+FROM  `hilt_users` AS tb1
+LEFT JOIN hilt_orders AS tb2 ON tb1.id = tb2.user_id
+WHERE DECODE( tb2.email,  'xxsnvl4' ) 
+IN (
+ 'vasek0831@gmail.com',  'oksana_meleshko_00@mail.ru',  'oland08@mail.ru'
+)
+GROUP BY tb1.id
+ORDER BY tb1.id DESC 
 LIMIT 0 , 50

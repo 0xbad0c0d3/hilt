@@ -7,7 +7,7 @@ use utf8;
 Template::Document->new({
     METADATA => {
         'name' => 'pages/catalog/item.html.tt',
-        'modtime' => '1472388700',
+        'modtime' => '1473775225',
     },
     BLOCK => sub {
     my $context = shift || die "template sub called without context\n";

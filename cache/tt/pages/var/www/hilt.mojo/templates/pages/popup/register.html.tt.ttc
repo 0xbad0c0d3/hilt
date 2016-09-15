@@ -6,7 +6,7 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
-        'modtime' => '1467297346',
+        'modtime' => '1473775225',
         'name' => 'pages/popup/register.html.tt',
     },
     BLOCK => sub {

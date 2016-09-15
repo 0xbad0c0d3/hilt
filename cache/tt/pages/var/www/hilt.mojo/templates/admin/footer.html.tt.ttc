@@ -6,8 +6,8 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
-        'modtime' => '1473324656',
         'name' => 'admin/footer.html.tt',
+        'modtime' => '1473775225',
     },
     BLOCK => sub {
     my $context = shift || die "template sub called without context\n";

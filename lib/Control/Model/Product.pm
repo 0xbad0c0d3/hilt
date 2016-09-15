@@ -50,8 +50,8 @@ sub get_product2category {
 	{ success =>\1, count=> $count, page => $attr->{'page'}, rows => $attr->{'rows'},  data=>\@res,
 		filter => {
 			price => {
-				min => int($res2[0]->{'min'}/100),
-				max => int($res2[0]->{'max'}/100)
+				min => $res2[0]->{'min'} ? int($res2[0]->{'min'}/100) : 0,
+				max => $res2[0]->{'max'} ? int($res2[0]->{'max'}/100) : 0
 			}
 		}
 	};	
@@ -62,9 +62,9 @@ sub get_product {
 	my $model = shift;
 	my $data = shift;
 	my $db = $model->app->db;
-	my $h = {};	
+	my $h = {};
 	my $res = $db->resultset('Product')->find( $data );
-
+	
 	if( $res ){
 		for my $key ( $res->columns ) {
 			$h->{ $key } = $res->$key if defined $res->$key;
@@ -79,7 +79,7 @@ sub get_v_product_info {
 	my $data = shift;
 	my $db = $model->app->db;
 	my $h = {};
-	my $res = $db->resultset('VProductInfo')->find( $data );
+	my $res = $db->resultset('VProductInfo')->find( $data );	
 	if( $res ){
 		for my $key ( $res->columns ) {
 			$h->{ $key } = $res->$key if defined $res->$key;
@@ -87,7 +87,7 @@ sub get_v_product_info {
 		my $price = $model->get_product_price( { product_id => $h->{'product_id'} } );
 		$h->{'price'} = $price;
 		return $h;
-	}
+	}	
 	return undef;	
 }
 
@@ -108,6 +108,9 @@ sub get_product_price {
 	return undef;
 }
 
+#
+#  in \%data
+#
 sub set_product {
 	my $model = shift;
 	my $data = shift;
@@ -117,7 +120,7 @@ sub set_product {
 	if( $h = $model->get_product( $data ) ){
 		return $h;
 	}
-
+	
 	$db->storage->txn_begin();
 	try {
 		my $res = $db->resultset('Product')->create( $data );

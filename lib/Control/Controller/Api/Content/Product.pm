@@ -6,12 +6,8 @@ my ($m,$db,$page,$rows,$id,$data, $init) = ('','', 1, 20, 0, '','');
 
 sub _init {
 	my $c = shift;
-	$m = $c->model('product');
+	$m = $c->model('Product');
 	$init = $c->c_init();
-	$db = $c->db;	
-	$page = $c->param('page') ? $c->param('page') : $page;
-	$rows = $c->param('rows') ? $c->param('rows') : $rows;
-	$id = $init->{'id'};
 	$data = $init->{'data'};
 	1;
 }
@@ -21,7 +17,7 @@ sub get {
 	return $c->reply->not_found unless $c->_init();  
 	return $c->reply->not_found unless $id;
 	
-	my $h = $m->get( $db, $id );
+	my $h = $m->get( $id );
 	
 	$c->render( json => $h );
 }
@@ -30,17 +26,16 @@ sub update {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();
 	
-	my $data = $c->req->json;
 	
 	unless ( $data  ) {
-	return $c->render( json => { failue => \1, message => 'Нет данных' } );
+		return $c->render( json => { failue => \1, message => 'Нет данных' } );
 	}
 	
 	if ( $data && ref $data ne 'ARRAY' ) {
-	return $c->render( json => { failue => \1, message => 'Неправильная структура json' } );
+		return $c->render( json => { failue => \1, message => 'Неправильная структура json' } );
 	}
 			
-	my ( $h, $error ) = $m->update( $db, $data );  
+	my ( $h, $error ) = $m->update( $data ); 
 	$c->render( json => $h ? { success => \1, data => $h } : { failue => \1, message => $error } );
 }
 
@@ -74,9 +69,12 @@ sub set {
 	
 	if( @error ){
 		$c->app->log->error('not all param: '. join( ",", @error ));
-		return $c->render( json => { failue => \1, message => 'not all param: '. join( ",", @error ) } );
+		return $c->render( json => {
+			failue => \1,
+			message => 'not all param: '. join( ",", @error )
+		});
 	}
-	
+
 	%data = map {
 		if( $data->{$_} ){
 			$_ => $data->{$_};
@@ -85,31 +83,16 @@ sub set {
 			();
 		}
 	} @all;
+	
 	my ($res, $errstr ) = $m->set_product( \%data );
 	
 	if( $res && $res->{'product_id'} && @{ $data->{'files'} } ){
 		my $r = $c->app->ua->post('/api/image/product/'. $res->{'product_id'} => form => {
-			files => $data->{'files'}
+			files => $data->{'files'},
+			token => exists $data->{'token'} ? $data->{'token'} : ''
 		});
 	}
-=item	
-	return $c->reply->not_found unless $c->_init();
-	
-	my $data = $c->req->json;
-	
-	unless ( $data  ) {
-		$c->app->log->error('Нет данных');
-		return $c->render( json => { failue => \1, message => 'Нет данных' } );
-	}
-	
-	if ( $data && ref $data ne 'ARRAY' ) {
-		$c->app->log->error('Неправильная структура json');
-		return $c->render( json => { failue => \1, message => 'Неправильная структура json' } );
-	}
-	
-	my ( $h, $error ) = $m->set( $c, $db, $data );
-	$c->render( json => $h ? { success => \1, data => $h } : { failue => \1, message => $error } );
-=cut
+
 	$c->render( json => $res );
 }
 
@@ -120,14 +103,20 @@ sub remove {
 	my $data = $c->req->json;
 	
 	unless ( $data  ) {
-	return $c->render( json => { failue => \1, message => 'Нет данных' } );
+		return $c->render( json => {
+			failue => \1,
+			message => 'Нет данных'
+		} );
 	}
 	
 	if ( $data && ref $data ne 'ARRAY' ) {
-	return $c->render( json => { failue => \1, message => 'Неправильная структура json' } );
+		return $c->render( json => {
+			failue => \1,
+			message => 'Неправильная структура json'
+		} );
 	}
 	
-	my ( $h, $error ) = $m->remove( $db, $data );
+	my ( $h, $error ) = $m->remove( $data );
 	$c->render( json => $h ? { success => \1, data => $h } : { failue => \1, message => $error } );
 
 }
@@ -136,6 +125,6 @@ sub list {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();
 	
-	$c->render( json => $m->list( $db, $page, $rows ) );  
+	$c->render( json => $m->list( $init->{'page'}, $init->{'rows'} ) );  
 }
 1;

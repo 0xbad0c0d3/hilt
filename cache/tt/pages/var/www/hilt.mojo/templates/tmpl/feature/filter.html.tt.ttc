@@ -7,7 +7,7 @@ use utf8;
 Template::Document->new({
     METADATA => {
         'name' => 'tmpl/feature/filter.html.tt',
-        'modtime' => '1465204914',
+        'modtime' => '1473775225',
     },
     BLOCK => sub {
     my $context = shift || die "template sub called without context\n";

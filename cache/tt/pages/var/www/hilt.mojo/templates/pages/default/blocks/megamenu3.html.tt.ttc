@@ -6,8 +6,8 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
+        'modtime' => '1473775225',
         'name' => 'pages/default/blocks/megamenu3.html.tt',
-        'modtime' => '1471592391',
     },
     BLOCK => sub {
     my $context = shift || die "template sub called without context\n";

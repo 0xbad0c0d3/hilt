@@ -6,7 +6,7 @@ use utf8;
 
 Template::Document->new({
     METADATA => {
-        'modtime' => '1472189213',
+        'modtime' => '1473775225',
         'name' => 'pages/catalog/blocks/filters.html.tt',
     },
     BLOCK => sub {
