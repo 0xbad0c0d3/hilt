@@ -1,17 +1,14 @@
 package Control::Controller::Api::Content::Feature;
 use Mojo::Base 'Mojolicious::Controller';
 
-my ($m,$db,$page,$rows,$id, $data) = ('','', 1, 20, 0, undef);
+my ($m,$id, $data,$init) = ('',0, undef,{});
 
 sub _init {
   my $c = shift;
-  $m = $c->model('feature');
-  $db = $c->db;
-  $page = $c->param('page') ? $c->param('page') : $page;
-  $rows = $c->param('rows') ? $c->param('rows') : $rows;
-  $id = defined $c->param('id') ? $c->param('id') : 0;
-
-  $data = $c->req->json;	
+  $m = $c->model('Feature');
+	$init = $c->c_init();
+  $id = $init->{'id'};
+  $data = $init->{'data'};	
   1;
 }
 
@@ -20,7 +17,7 @@ sub get {
   return $c->reply->not_found unless $c->_init();  
   return $c->reply->not_found unless $id;
   
-  my $h = $m->get( $db, $id );
+  my $h = $m->get( $id );
   
   $c->render( json => $h );
 }
@@ -37,7 +34,7 @@ sub update {
 	return $c->render( json => { failue => \1, message => 'Неправильная структура json' } );
   }
   	  
-  my ( $h, $error ) = $m->update( $db, $data );  
+  my ( $h, $error ) = $m->update( $data );  
   $c->render( json => $h ? { success => \1, data => $h } : { failue => \1, message => $error } );
 }
 
@@ -53,7 +50,7 @@ sub set {
 		return $c->render( json => { failue => \1, message => 'Неправильная структура json' } );
   }
   
-  my ( $h, $error ) = $m->set( $c, $db, $data );
+  my ( $h, $error ) = $m->set( $data );
   $c->render( json => $h ? { success => \1, data => $h } : { failue => \1, message => $error } );  
 }
 
@@ -69,7 +66,7 @@ sub remove {
 		return $c->render( json => { failue => \1, message => 'Неправильная структура json' } );
   }
 
-  my ( $h, $error ) = $m->remove( $db, $data );
+  my ( $h, $error ) = $m->remove( $data );
   $c->render( json => $h ? { success => \1, data => $h } : { failue => \1, message => $error } );
   
 }
@@ -78,6 +75,6 @@ sub list {
   my $c = shift;
   return $c->reply->not_found unless $c->_init();
   
-  $c->render( json => $m->list( $db, $page, $rows ) );  
+  $c->render( json => $m->list( $init->{'page'}, $init->{'rows'} ) );  
 }
 1;
