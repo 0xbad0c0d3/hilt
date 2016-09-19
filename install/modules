@@ -23,7 +23,6 @@ Session::Token
 Mail::Sender
 Mojolicious::Plugin::RemoteAddr
 Lingua::Translit
-
 MojoX-Encode-Gzip
 Mojolicious::Plugin::BrowserDetect
 Mojolicious::Plugin::CSRFProtect
@@ -46,4 +45,7 @@ sudo git commit -m 'megamenu'
 sudo git commit -a -m 'megamenu' все изменения
 sudo git push origin
 sudo git rm --cached logs/hilt.log
+
+
+
 
