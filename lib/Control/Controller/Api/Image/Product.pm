@@ -2,21 +2,18 @@ package Control::Controller::Api::Image::Product;
 use Mojo::Base 'Mojolicious::Controller';
 use Data::Dumper;
 
-my ( $files, $m, $ms, $db, $page, $rows, $id, $data, $init, $tmp_path_dir ) = ('', '', '', '', 0, 0, 0, [], {},'' );
+my ( $files, $m, $ms, $id, $data, $init, $tmp_path_dir ) = ('', '', '', 0, [], {},'' );
 my $q = 90;
 
 sub _init {
 	my $c = shift;
-	$m = $c->model('image');
+	$m = $c->model('Image');
 	$init = $c->c_init();
-	$db = $c->db;
-	$page = $init->{'page'};
-	$rows = $init->{'rows'};
 	$id = $init->{'id'};
 	$data = $init->{'data'};
 	$files = $c->req->every_upload('files');
 	$tmp_path_dir = $c->app->config->{'image'}->{'tmp_path_dir'};
-	$m && $db && $files ? 1 : 0;	
+	$m && $files ? 1 : 0;	
 }
 
 sub set {
@@ -120,13 +117,13 @@ sub get {
 	$filter{'w'} = $init->{'data'}->{'w'} if $init->{'data'}->{'w'};
 	$filter{'h'} = $init->{'data'}->{'h'} if $init->{'data'}->{'h'};
 
-	my $json = $m->product_list( $c, \%filter );
+	my $json = $m->product_list( \%filter );
 	
 	for my $item ( @{ $json->{'data'} } ) {
 		$hash{ $item->{'image_id'} } = 1;
 	}
 	for my $id ( keys %hash ) {
-		my $data = $m->get_origin( $c, { image_id => $id } );
+		my $data = $m->get_origin( { image_id => $id } );
 		push @{ $json->{'origin'} }, $data;
 	}	
 

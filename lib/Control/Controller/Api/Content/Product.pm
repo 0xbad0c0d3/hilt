@@ -2,7 +2,7 @@ package Control::Controller::Api::Content::Product;
 use Mojo::Base 'Mojolicious::Controller';
 use Data::Dumper;
 
-my ($m,$db,$page,$rows,$id,$data, $init) = ('','', 1, 20, 0, '','');
+my ($m,$db,$id,$data, $init) = ('','', 0, '','');
 
 sub _init {
 	my $c = shift;

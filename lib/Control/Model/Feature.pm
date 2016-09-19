@@ -12,8 +12,8 @@ sub _init {
 }
 
 sub get {
-  my ($model, $db, $cid) = @_;
-    
+  my ($model, $cid) = @_;
+  my $db = $model->app->db;  
   $r = $db->resultset('Feature')->find( { feature_id => $cid }  );  
   my %h = ();
   for my $key ( $r ? $r->columns : () ) {
@@ -23,7 +23,8 @@ sub get {
 }
 
 sub set {
-  my ( $model, $c, $db, $data ) = @_;
+  my ( $model, $data ) = @_;
+  my $db = $model->app->db;
   my (@data, @res, %data) = ((),(),());  
   @data = @{ $data };
 	@trim = qw(title title_en);
@@ -69,7 +70,8 @@ sub set {
 }
 
 sub update {
-  my ( $model, $db, $data ) = @_;
+  my ( $model, $data ) = @_;
+  my $db = $model->app->db;
   my (@data, @res) = ((),());  
   @data = @{ $data };
   @trim = qw(feature_id title title_en);
@@ -110,7 +112,8 @@ sub update {
 }
 
 sub remove {
-  my ( $model, $db, $data ) = @_;
+  my ( $model, $data ) = @_;
+  my $db = $model->app->db;
   my (@data, @res) = ((),());  
   @data = @{ $data };
   
@@ -136,8 +139,8 @@ sub remove {
 }
 
 sub list {
-  my ($model, $db, $page, $rows ) = @_;
-
+  my ($model, $page, $rows ) = @_;
+  my $db = $model->app->db;
   $r = $db->resultset('Feature')->search( undef,{
     rows => $rows,
     page => $page
@@ -161,7 +164,8 @@ sub list {
 
 
 sub feature2value_set {
-  my ( $model, $c, $db, $data ) = @_;
+  my ( $model, $data ) = @_;
+  my $db = $model->app->db;
   my (@data, @res, %data) = ((),(),());  
   @data = @{ $data };
   @trim = qw(feature_id type_id value);
@@ -211,19 +215,22 @@ sub feature2value_set {
 
 
 sub feature2value_get {
-  my ( $model, $c, $db, $data ) = @_;
+  my ( $model, $data ) = @_;
+  my $db = $model->app->db;
   my (@data, @res, %data) = ((),(),());  
 }
 
 
 sub feature2value_update {
-  my ( $model, $c, $db, $data ) = @_;
+  my ( $model, $data ) = @_;
+  my $db = $model->app->db;
   my (@data, @res, %data) = ((),(),());  
 }
 
 
 sub feature2value_remove {
-  my ( $model, $c, $db, $data ) = @_;
+  my ( $model, $data ) = @_;
+  my $db = $model->app->db;
   my (@data, @res, %data) = ((),(),());  
 }
 1;
