@@ -21,7 +21,7 @@ sub startup {
 	$self->config( hypnotoad => $self->app->config->{'hypnotoad'} );
 	$self->log(
 		Mojo::Log->new(
-			path => '/var/www/hilt.mojo/logs/hilt.log',
+			path => $self->app->config->{'logs'}->{'path'},
 			level => 'info'
 		)
 	);

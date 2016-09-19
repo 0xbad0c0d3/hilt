@@ -9,7 +9,7 @@ sub register {
 	
 	$app->helper( mini_css => sub {
 		my ($c, $css) = @_;
-		$css = '/var/www/hilt.mojo/public'.$css;
+		$css = $c->app->config->{'css'}->{'path'} . $css;
 		say Dumper( minify($css) );
 		return '' unless $css;
 		return minify($css);

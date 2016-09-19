@@ -134,7 +134,7 @@ for my $sheet ( @{$excel->{Worksheet}} ) {
 	
 }
 
-say Dumper( $db_data );
+#say Dumper( $db_data );
 for my $pr ( @{$db_data} ) {
 	my $feature = $pr->{'feature'};
 		delete $pr->{'feature'};
@@ -146,6 +146,7 @@ for my $pr ( @{$db_data} ) {
 
 sub add_product {
 	my $data = shift or do { return undef };
+	$data->{'token'} = $conf->{'api'}->{'token'};
 	my $res = $ua->post('/api/content/product/set' => form => $data );
 }
 
