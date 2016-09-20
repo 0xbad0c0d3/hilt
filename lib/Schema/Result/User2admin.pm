@@ -37,9 +37,9 @@ __PACKAGE__->table("user2admin");
   extra: {unsigned => 1}
   is_nullable: 0
 
-0 - ?? ???????
-1 - ???????
-2 - ????????????
+0 - íå àêòèâíà
+1 - àêòèâíà
+2 - çàáëîêèðîâàí
 
 =head2 user_admin_group_id
 
@@ -119,8 +119,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-05-25 12:57:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:EXpwt35YspWAzNZGfcF7qw
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2016-09-19 16:17:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KP9uWTZKbFegXYQtgpKMZQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

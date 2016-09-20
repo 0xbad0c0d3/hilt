@@ -42,9 +42,9 @@ __PACKAGE__->table("order2product");
   extra: {unsigned => 1}
   is_nullable: 0
 
-1 - ?? ?????????????
-2 - ?????????????
-3 - ??????
+1 - íå óêîìïëåêòîâàí
+2 - óêîìïëåêòîâàí
+3 - îòìåíà
 
 =head2 description
 
@@ -52,7 +52,7 @@ __PACKAGE__->table("order2product");
   is_nullable: 1
   size: 500
 
-??? ????????????????
+äëÿ àäèíèñòðèðîâàíèÿ
 
 =head2 price
 
@@ -127,8 +127,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("order_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-05-25 12:57:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:BT3/dmBGqoafc6Nzkoz1OQ
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2016-09-19 16:17:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:NoXKCf87t/tkWk45c6vFcQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

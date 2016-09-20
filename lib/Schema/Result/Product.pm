@@ -37,7 +37,7 @@ __PACKAGE__->table("product");
   is_foreign_key: 1
   is_nullable: 0
 
-??? ????? ???????
+Êòî çàâåë ïðîäóêò
 
 =head2 supplier_id
 
@@ -94,6 +94,12 @@ __PACKAGE__->table("product");
   data_type: 'integer'
   default_value: 0
   is_nullable: 0
+
+=head2 vendor
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 45
 
 =head2 url
 
@@ -216,6 +222,8 @@ __PACKAGE__->add_columns(
   },
   "rating",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "vendor",
+  { data_type => "varchar", is_nullable => 0, size => 45 },
   "url",
   { data_type => "varchar", is_nullable => 0, size => 255 },
   "title",
@@ -269,6 +277,21 @@ Related object: L<Schema::Result::Product2category>
 __PACKAGE__->has_many(
   "product2categories",
   "Schema::Result::Product2category",
+  { "foreign.product_id" => "self.product_id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+=head2 product2feature2value
+
+Type: might_have
+
+Related object: L<Schema::Result::Product2feature2value>
+
+=cut
+
+__PACKAGE__->might_have(
+  "product2feature2value",
+  "Schema::Result::Product2feature2value",
   { "foreign.product_id" => "self.product_id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
@@ -334,8 +357,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-25 17:43:10
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Q9R2tNYmArelBEjG89IK5A
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2016-09-19 16:17:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:AuA5nW3h1ajVnrVUaYS0KA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

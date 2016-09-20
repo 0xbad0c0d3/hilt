@@ -36,8 +36,8 @@ __PACKAGE__->table("feature_group");
   default_value: 0
   is_nullable: 0
 
-0 - ?????? ?? ????? (?????????)
-1 - ??????? ?? ?????
+0 - ñêðûòà íà ñàéòå (âèçóàëüíî)
+1 - àêòèâíà íà ñàéòå
 
 =head2 title
 
@@ -123,8 +123,8 @@ __PACKAGE__->might_have(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-05-25 12:57:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:c8Gctxo0mKti8aWHpt4k9Q
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2016-09-19 16:17:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:V/gTE9xWfW6oz/LzL7Bfzw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

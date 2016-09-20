@@ -50,9 +50,9 @@ __PACKAGE__->table("user");
   default_value: 0
   is_nullable: 0
 
-0 -  ?????? ??????
-1 - ?????? ??????
-2 - ?????? ????????????
+0 -  äîñòóï çàêðûò
+1 - äîñòóï îòêðûò
+2 - äîñòóï çàáëîêèðîâàí
 
 =head2 mail
 
@@ -67,7 +67,7 @@ __PACKAGE__->table("user");
   is_nullable: 0
   size: 255
 
-???
+Èìÿ
 
 =head2 last_name
 
@@ -76,7 +76,7 @@ __PACKAGE__->table("user");
   is_nullable: 0
   size: 255
 
-???????
+Ôàìèëèÿ
 
 =head2 patronymic
 
@@ -91,7 +91,7 @@ __PACKAGE__->table("user");
   is_nullable: 0
   size: 500
 
-?? ??????? ?????
+Ñî ñòàðîãî ñàéòà
 
 =head2 address
 
@@ -100,7 +100,7 @@ __PACKAGE__->table("user");
   is_nullable: 0
   size: 500
 
-????? ????????
+Àäðåñ äîñòàâêè
 
 
 =head2 date_create
@@ -117,7 +117,7 @@ __PACKAGE__->table("user");
   default_value: 'CURRENT_TIMESTAMP'
   is_nullable: 0
 
-????????
+Îò÷åñòâî
 
 =head2 access_delete
 
@@ -337,8 +337,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-17 13:54:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:W9WVoNN26NlCi7K5g3Kj1w
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2016-09-19 16:17:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:sZg2ZIPoN9WMKEYKrDxIhw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -21,6 +21,7 @@ __PACKAGE__->table_class("DBIx::Class::ResultSource::View");
 =cut
 
 __PACKAGE__->table("v_product_info");
+__PACKAGE__->result_source_instance->view_definition("select `tb1`.`category_id` AS `category_id`,`tb2`.`product_id` AS `product_id`,`tb2`.`user_id` AS `user_id`,`tb2`.`supplier_id` AS `supplier_id`,`tb2`.`depth` AS `depth`,`tb2`.`width` AS `width`,`tb2`.`heigth` AS `heigth`,`tb2`.`weight` AS `weight`,`tb2`.`quantity` AS `quantity`,`tb2`.`unit_id` AS `unit_id`,`tb2`.`rating` AS `rating`,`tb2`.`url` AS `url`,`tb2`.`title` AS `title`,`tb2`.`tag_title` AS `tag_title`,`tb2`.`description` AS `description`,`tb2`.`tag_description` AS `tag_description`,`tb2`.`tag_keywords` AS `tag_keywords`,`tb2`.`date_create` AS `date_create`,`tb2`.`date_update` AS `date_update`,`tb3`.`title` AS `category_name`,`tb3`.`url2site` AS `url2site`,`tb3`.`instr` AS `instr`,`tb3`.`url` AS `caterory_url`,`tb4`.`code` AS `unit_code`,`tb4`.`code2` AS `unit_code2`,`tb4`.`name` AS `unit_name` from (((`hilt`.`product2category` `tb1` join `hilt`.`product` `tb2` on((`tb1`.`product_id` = `tb2`.`product_id`))) join `hilt`.`category` `tb3` on((`tb1`.`category_id` = `tb3`.`category_id`))) join `hilt`.`unit` `tb4` on((`tb2`.`unit_id` = `tb4`.`unit_id`)))");
 
 =head1 ACCESSORS
 
@@ -43,7 +44,7 @@ __PACKAGE__->table("v_product_info");
   extra: {unsigned => 1}
   is_nullable: 0
 
-??? ????? ???????
+Êòî çàâåë ïðîäóêò
 
 =head2 supplier_id
 
@@ -295,8 +296,8 @@ __PACKAGE__->add_columns(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-25 11:55:35
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:owbj6Jq34XNctZVgQQBmJQ
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2016-09-19 16:17:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ZTAgTRgyGwSNeTN36VFVvQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -43,8 +43,8 @@ __PACKAGE__->table("feature2value");
   extra: {unsigned => 1}
   is_nullable: 0
 
-0 - ???
-1 - ??
+0 - íåò
+1 - äà
 
 =head2 value
 
@@ -105,8 +105,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-17 13:54:28
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:l9s2SJ5E2bguCZvInvO2Fw
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2016-09-19 16:17:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Q3z0NChlY/NGcY1QUyucTA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

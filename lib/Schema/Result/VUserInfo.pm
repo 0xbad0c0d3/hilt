@@ -21,6 +21,7 @@ __PACKAGE__->table_class("DBIx::Class::ResultSource::View");
 =cut
 
 __PACKAGE__->table("v_user_info");
+__PACKAGE__->result_source_instance->view_definition("select `tb1`.`user_id` AS `user_id`,`tb1`.`old_id` AS `old_id`,`tb1`.`sex` AS `sex`,`tb1`.`access` AS `access`,`tb1`.`mail` AS `mail`,`tb1`.`first_name` AS `first_name`,`tb1`.`last_name` AS `last_name`,`tb1`.`patronymic` AS `patronymic`,`tb1`.`fio` AS `fio`,`tb1`.`address` AS `address`,`tb1`.`date_create` AS `date_create`,`tb1`.`date_update` AS `date_update`,`tb1`.`access_delete` AS `access_delete`,`tb2`.`access_id` AS `access_id`,`tb2`.`user_admin_group_id` AS `user_admin_group_id`,`tb3`.`manager_id` AS `manager_id` from ((`hilt`.`user` `tb1` left join `hilt`.`user2admin` `tb2` on((`tb1`.`user_id` = `tb2`.`user_id`))) left join `hilt`.`manager` `tb3` on((`tb1`.`user_id` = `tb3`.`user_id`)))");
 
 =head1 ACCESSORS
 
@@ -51,9 +52,9 @@ __PACKAGE__->table("v_user_info");
   default_value: 0
   is_nullable: 0
 
-0 -  ?????? ??????
-1 - ?????? ??????
-2 - ?????? ????????????
+0 -  äîñòóï çàêðûò
+1 - äîñòóï îòêðûò
+2 - äîñòóï çàáëîêèðîâàí
 
 =head2 mail
 
@@ -68,7 +69,7 @@ __PACKAGE__->table("v_user_info");
   is_nullable: 0
   size: 255
 
-???
+Èìÿ
 
 =head2 last_name
 
@@ -77,7 +78,7 @@ __PACKAGE__->table("v_user_info");
   is_nullable: 0
   size: 255
 
-???????
+Ôàìèëèÿ
 
 =head2 patronymic
 
@@ -92,7 +93,7 @@ __PACKAGE__->table("v_user_info");
   is_nullable: 0
   size: 500
 
-?? ??????? ?????
+Ñî ñòàðîãî ñàéòà
 
 =head2 address
 
@@ -101,7 +102,7 @@ __PACKAGE__->table("v_user_info");
   is_nullable: 0
   size: 500
 
-????? ????????
+Àäðåñ äîñòàâêè
 
 
 =head2 date_create
@@ -118,7 +119,7 @@ __PACKAGE__->table("v_user_info");
   default_value: '0000-00-00 00:00:00'
   is_nullable: 0
 
-????????
+Îò÷åñòâî
 
 =head2 access_delete
 
@@ -133,9 +134,9 @@ __PACKAGE__->table("v_user_info");
   extra: {unsigned => 1}
   is_nullable: 1
 
-0 - ?? ???????
-1 - ???????
-2 - ????????????
+0 - íå àêòèâíà
+1 - àêòèâíà
+2 - çàáëîêèðîâàí
 
 =head2 user_admin_group_id
 
@@ -213,8 +214,8 @@ __PACKAGE__->add_columns(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-17 13:54:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1MYRL750XPMuxR3fEmc2kw
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2016-09-19 16:17:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:aU8LSBkRqZBbRMcJOhgSfA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -30,7 +30,7 @@ __PACKAGE__->table("stat_user2source");
   is_foreign_key: 1
   is_nullable: 0
 
-?????? ?????
+Êàíàëû âõîäà
 
 =head2 source
 
@@ -96,8 +96,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-05-25 12:57:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:MHnidPlK1vBcyU2vi8qV8Q
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2016-09-19 16:17:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:O/9kIezmHzkAm7yqmaOzGg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

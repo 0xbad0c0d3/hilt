@@ -42,9 +42,9 @@ __PACKAGE__->table("feature");
   default_value: 0
   is_nullable: 0
 
-0 - ?? ??????? ?? ?????
-1 - ??????? ??????? ( ???? ? ?????? ? ? ???????? )
-2 - ??????? ??????? ( ?????? ??????? ? ???? ? ???????? )
+0 - íå àêòèâíà íà ñàéòå
+1 - àêòèâíà ãëàâíàÿ ( åñòü â ôèëüòð è â ïðîäóêòå )
+2 - àêòèâíà ïðîñòàÿ ( ñêðûòà ôèëüòðå è åñòü â ïðîäóêòå )
 
 =head2 title
 
@@ -142,24 +142,9 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 product2feature2values
 
-Type: has_many
-
-Related object: L<Schema::Result::Product2feature2value>
-
-=cut
-
-__PACKAGE__->has_many(
-  "product2feature2values",
-  "Schema::Result::Product2feature2value",
-  { "foreign.feature_id" => "self.feature_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-17 13:54:28
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VUWjsMFqOt6JYAiOsP6hjw
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2016-09-19 16:17:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:aDKE9Hyx4EF6Rs4yBAMPyw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
