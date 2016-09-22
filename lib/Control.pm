@@ -225,6 +225,9 @@ sub startup {
 		$api->post('/image/product/:id' )->to('api-image-product#set');
 		$api->get('/image/product/list/:id' )->over( is_admin => 1 )->to('api-image-product#list');
 		$api->get('/image/product/:id')->to('api-image-product#get');
+		# banner
+		$api->get('/image/banner/main/list')->to('api-image-banner#list_main');
+		$api->post('/image/banner/main')->over( is_admin => 1)->to('api-image-banner#add_main');
 	
 	####################
 	# admin
