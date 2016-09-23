@@ -39,13 +39,6 @@ __PACKAGE__->table("product");
 
 ??? ????? ???????
 
-=head2 supplier_id
-
-  data_type: 'integer'
-  extra: {unsigned => 1}
-  is_foreign_key: 1
-  is_nullable: 0
-
 =head2 depth
 
   data_type: 'integer'
@@ -94,6 +87,12 @@ __PACKAGE__->table("product");
   data_type: 'integer'
   default_value: 0
   is_nullable: 0
+
+=head2 barcode
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 32
 
 =head2 url
 
@@ -164,13 +163,6 @@ __PACKAGE__->add_columns(
     is_foreign_key => 1,
     is_nullable => 0,
   },
-  "supplier_id",
-  {
-    data_type => "integer",
-    extra => { unsigned => 1 },
-    is_foreign_key => 1,
-    is_nullable => 0,
-  },
   "depth",
   {
     data_type => "integer",
@@ -216,6 +208,8 @@ __PACKAGE__->add_columns(
   },
   "rating",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "barcode",
+  { data_type => "varchar", is_nullable => 0, size => 32 },
   "url",
   { data_type => "varchar", is_nullable => 0, size => 255 },
   "title",
@@ -273,6 +267,21 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 product2feature2value
+
+Type: might_have
+
+Related object: L<Schema::Result::Product2feature2value>
+
+=cut
+
+__PACKAGE__->might_have(
+  "product2feature2value",
+  "Schema::Result::Product2feature2value",
+  { "foreign.product_id" => "self.product_id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
 =head2 product_price
 
 Type: might_have
@@ -286,21 +295,6 @@ __PACKAGE__->might_have(
   "Schema::Result::ProductPrice",
   { "foreign.product_id" => "self.product_id" },
   { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 supplier
-
-Type: belongs_to
-
-Related object: L<Schema::Result::Supplier>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "supplier",
-  "Schema::Result::Supplier",
-  { supplier_id => "supplier_id" },
-  { is_deferrable => 1, on_delete => "NO ACTION", on_update => "NO ACTION" },
 );
 
 =head2 unit
@@ -334,8 +328,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-25 17:43:10
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Q9R2tNYmArelBEjG89IK5A
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-20 15:38:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0p4mVq2FUWsmu2KXj259AQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

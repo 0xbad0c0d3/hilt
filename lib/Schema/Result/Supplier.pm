@@ -92,21 +92,6 @@ __PACKAGE__->set_primary_key("supplier_id");
 
 =head1 RELATIONS
 
-=head2 products
-
-Type: has_many
-
-Related object: L<Schema::Result::Product>
-
-=cut
-
-__PACKAGE__->has_many(
-  "products",
-  "Schema::Result::Product",
-  { "foreign.supplier_id" => "self.supplier_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
 =head2 supplier2managers
 
 Type: has_many
@@ -138,8 +123,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-17 13:54:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Wt+v8OFZOEyZ5Hfv2pYn2w
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-20 15:38:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TXYbTd1I1hvgp5XGYlUSow
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

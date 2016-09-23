@@ -33,6 +33,7 @@ __PACKAGE__->table("product_price");
 =head2 currency_id
 
   data_type: 'integer'
+  default_value: 2
   extra: {unsigned => 1}
   is_foreign_key: 1
   is_nullable: 0
@@ -45,6 +46,13 @@ __PACKAGE__->table("product_price");
   is_nullable: 0
 
 =head2 prev
+
+  data_type: 'integer'
+  default_value: 0
+  extra: {unsigned => 1}
+  is_nullable: 0
+
+=head2 supplier
 
   data_type: 'integer'
   default_value: 0
@@ -78,6 +86,7 @@ __PACKAGE__->add_columns(
   "currency_id",
   {
     data_type => "integer",
+    default_value => 2,
     extra => { unsigned => 1 },
     is_foreign_key => 1,
     is_nullable => 0,
@@ -90,6 +99,13 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
   },
   "prev",
+  {
+    data_type => "integer",
+    default_value => 0,
+    extra => { unsigned => 1 },
+    is_nullable => 0,
+  },
+  "supplier",
   {
     data_type => "integer",
     default_value => 0,
@@ -153,12 +169,12 @@ __PACKAGE__->belongs_to(
   "product",
   "Schema::Result::Product",
   { product_id => "product_id" },
-  { is_deferrable => 1, on_delete => "NO ACTION", on_update => "NO ACTION" },
+  { is_deferrable => 1, on_delete => "CASCADE", on_update => "NO ACTION" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-25 17:43:10
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:M4qIumiyJWP1eUpKOSbGOA
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-21 14:35:28
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lVxWSXcEp7EFIrmy7OudlQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

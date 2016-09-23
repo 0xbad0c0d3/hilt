@@ -6,8 +6,12 @@ use FindBin qw($Bin);
 use utf8;
 use Data::Dumper;
 
-my $txt_1 = "Просто так	";
-my $txt_2 = "	Просто так 2";
+my $h = {};
+$h->{ "	Просто так 2"} = 1234;
 
-my $count = $txt_2 =~s/(\t+)/$1/ig;
-say Dumper( $count );
+for my $key ( keys %{ $h }){
+    $key = trim( $key );
+    say Dumper( $key );
+}
+
+say Dumper ($h);

@@ -50,13 +50,13 @@ __PACKAGE__->table("feature");
 
   data_type: 'varchar'
   is_nullable: 0
-  size: 45
+  size: 90
 
 =head2 title_en
 
   data_type: 'varchar'
   is_nullable: 0
-  size: 45
+  size: 90
 
 =head2 date_create
 
@@ -83,9 +83,9 @@ __PACKAGE__->add_columns(
   "overflow",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "title",
-  { data_type => "varchar", is_nullable => 0, size => 45 },
+  { data_type => "varchar", is_nullable => 0, size => 90 },
   "title_en",
-  { data_type => "varchar", is_nullable => 0, size => 45 },
+  { data_type => "varchar", is_nullable => 0, size => 90 },
   "date_create",
   {
     data_type => "datetime",
@@ -101,13 +101,11 @@ __PACKAGE__->add_columns(
 
 =item * L</feature_id>
 
-=item * L</overflow>
-
 =back
 
 =cut
 
-__PACKAGE__->set_primary_key("feature_id", "overflow");
+__PACKAGE__->set_primary_key("feature_id");
 
 =head1 UNIQUE CONSTRAINTS
 
@@ -117,13 +115,11 @@ __PACKAGE__->set_primary_key("feature_id", "overflow");
 
 =item * L</title>
 
-=item * L</title_en>
-
 =back
 
 =cut
 
-__PACKAGE__->add_unique_constraint("title_UNIQUE", ["title", "title_en"]);
+__PACKAGE__->add_unique_constraint("title_UNIQUE", ["title"]);
 
 =head1 RELATIONS
 
@@ -142,24 +138,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 product2feature2values
+=head2 feature2values
 
 Type: has_many
 
-Related object: L<Schema::Result::Product2feature2value>
+Related object: L<Schema::Result::Feature2value>
 
 =cut
 
 __PACKAGE__->has_many(
-  "product2feature2values",
-  "Schema::Result::Product2feature2value",
+  "feature2values",
+  "Schema::Result::Feature2value",
   { "foreign.feature_id" => "self.feature_id" },
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-17 13:54:28
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:VUWjsMFqOt6JYAiOsP6hjw
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-23 15:05:49
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:I+zNa/7rwwD8TEcABGdUJg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

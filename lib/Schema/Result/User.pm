@@ -54,6 +54,12 @@ __PACKAGE__->table("user");
 1 - ?????? ??????
 2 - ?????? ????????????
 
+=head2 access_delete
+
+  data_type: 'integer'
+  default_value: 1
+  is_nullable: 0
+
 =head2 mail
 
   data_type: 'varchar'
@@ -119,12 +125,6 @@ __PACKAGE__->table("user");
 
 ????????
 
-=head2 access_delete
-
-  data_type: 'integer'
-  default_value: 1
-  is_nullable: 0
-
 =cut
 
 __PACKAGE__->add_columns(
@@ -141,6 +141,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_nullable => 1 },
   "access",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
+  "access_delete",
+  { data_type => "integer", default_value => 1, is_nullable => 0 },
   "mail",
   { data_type => "varchar", is_nullable => 0, size => 255 },
   "first_name",
@@ -167,8 +169,6 @@ __PACKAGE__->add_columns(
     default_value => "CURRENT_TIMESTAMP",
     is_nullable => 0,
   },
-  "access_delete",
-  { data_type => "integer", default_value => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -337,8 +337,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-17 13:54:29
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:W9WVoNN26NlCi7K5g3Kj1w
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-20 15:38:16
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:Nyeb0wPd6jl1wlKPexUkDg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

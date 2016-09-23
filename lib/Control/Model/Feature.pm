@@ -2,7 +2,6 @@ package Control::Model::Feature;
 use Mojo::Base 'MojoX::Model';
 use Try::Tiny;
 use Data::Dumper;
-use Mojo::Util qw(trim);
 
 my ($r,$count,$rs,$exception,$id,@trim) = ('',0,0,'',());
 
@@ -12,54 +11,37 @@ sub _init {
 }
 
 sub get {
-  my ($model, $cid) = @_;
+  my ($model, $data) = @_;
   my $db = $model->app->db;  
-  $r = $db->resultset('Feature')->find( { feature_id => $cid }  );  
+  $r = $db->resultset('Feature')->find( $data );  
   my %h = ();
   for my $key ( $r ? $r->columns : () ) {
     $h{$key} = $r->$key;
   }
-  \%h;					
+  %h ? \%h : undef;
 }
 
 sub set {
   my ( $model, $data ) = @_;
   my $db = $model->app->db;
-  my (@data, @res, %data) = ((),(),());  
-  @data = @{ $data };
-	@trim = qw(title title_en);
+  my %columns = map{ $_ => 1 } $db->source("Feature")->columns;
+  my ($feature,$value) = ( {},'' );
+  
+  for my $key ( keys %{ $data } ) {
+    my $find = 0;
+    if( !$find && exists $columns{$key} && $key !~/^(feature_id)$/i ) {
+      $feature->{ $key } = $data->{ $key };
+    }    
+  }
   
   $db->storage->txn_begin();
-  try {
-    for my $item ( @data ) {
-      next unless ref $item eq 'HASH';
-			
-			for my $t ( @trim ){
-				$item->{ $t } = trim( $item->{ $t } ) if exists $item->{ $t };
-			}
-      
-			$r = $db->resultset('Feature')->search( {
-					title => trim( $item->{'title'} ),
-					title_en => trim( $item->{'title_en'} )
-				}, {
-					columns => qw(feature_id)
-			});
-			
-      if ( my $cd = $r->next  ) {
-				$id = $cd->get_column('feature_id');
-				
-        push @res, { feature_id => $id, title => $item->{'title'}, title_en => $item->{'title_en'} };
-        next;
-      }
-
-			%data =  map { $_ => $item->{$_} } grep { $_ !~ /feature_id/i } keys %{ $item };
-      
-      my $res = $db->resultset('Feature')->create( \%data );
-      my $id = $res->feature_id;
-      push @res, { feature_id => $id, message => "create"};
-    }
+  try {			
+    my %h = ();
+    my $res = $db->resultset('Feature')->create( $feature );
+    my $id = $res->feature_id;    
+    %h = map { $_ => $res->$_ } keys %columns;
     $db->storage->txn_commit();
-    return \@res;    
+    return \%h;
   }
   catch {
     my $err = $_;
@@ -70,39 +52,28 @@ sub set {
 }
 
 sub update {
-  my ( $model, $data ) = @_;
+  my ( $model, $feature_id, $data ) = @_;
   my $db = $model->app->db;
-  my (@data, @res) = ((),());  
-  @data = @{ $data };
-  @trim = qw(feature_id title title_en);
+  my $feature = {};  
 	
   $db->storage->txn_begin();
-  try {
-    for my $item ( @data ) {
-      next unless ref $item eq 'HASH';
-			
-			for my $t ( @trim ){
-				$item->{ $t } = trim( $item->{ $t } ) if exists $item->{ $t };
-			}
-			
-      $r = $db->resultset('Feature')->find( { feature_id => $item->{'feature_id'} }  );
-      unless ($r) {
-        push @res, { feature_id => $item->{'feature_id'}, message => "not exists"};
-        next;
-      }
-			for my $key ( grep { $_ ne 'feature_id' } keys %{$item} ) {
+  
+  try {			    
+    $r = $db->resultset('Feature')->find( { feature_id => $feature_id }  );
+    if ($r) {        
+			for my $key ( grep { $_ !~ /^(feature_id|data_create)$/i } keys %{ $feature } ) {
 				if( $r->has_column( $key ) ){
-					$r->$key( $item->{$key} );
+					$r->$key( $feature->{$key} );
 				}
 			}
 			if ( $r->has_column('date_update') ) {
 				$r->date_update(\'NOW()');
 			}	  
       $r->update;
-      push @res, { category_id => $item->{'feature_id'}, message => "update"};
     }
     $db->storage->txn_commit();
-    return \@res;    
+    return $feature;    
+  
   }
   catch {
     my $err = $_;
@@ -163,47 +134,88 @@ sub list {
 }
 
 
-sub feature2value_set {
+sub set_feature2product {
+  my ( $model, $product_id, $feature ) = @_;
+  my $db = $model->app->db;
+  my ($data, $res, $res2) = ([],undef,undef);
+  
+  #
+  # Название характеристики
+  #
+  for my $title ( keys %{ $feature } ){
+    $res = $model->get( { title => $title } );
+    if( $res ){
+      $res->{'value'} = $feature->{ $title }; 
+      push @{$data}, $res;
+    }
+    else{
+      $res2 = $model->set( { title => $title, user_id => 1 } );
+      if ( $res2 ) {
+        $res2->{'value'} = $feature->{ $title }; 
+        push @{$data}, $res2;
+      }
+    }
+  } # for
+  
+  #
+  # Значение характеристики
+  #
+  for my $item ( @{ $data } ){
+    my %feature2value = ();
+    
+    if( $item->{'value'} && ref $item->{'value'} eq "HASH" ){    
+      %feature2value = %{ $item->{'value'} };     
+    }
+    else{
+      %feature2value = ( $item->{'value'} => '' );
+    }
+    
+    while ( my ($key,$value) = each %feature2value ) {      
+      
+      my $res = $model->get_feature2value({
+        feature_id => $item->{'feature_id'},
+        value => $key
+      });
+      
+      unless ( $res ) {
+        $res = $model->set_feature2value( {
+          feature_id => $item->{'feature_id'},
+          value => $key
+        } );
+      }
+      
+      #
+      # Связка с продуктом + дополнительное значение
+      #
+      if( $value ){
+        
+      }
+      
+      #say Dumper('feature2value', $res);
+    }
+    
+  } # for
+}
+
+sub set_feature2value {
   my ( $model, $data ) = @_;
   my $db = $model->app->db;
-  my (@data, @res, %data) = ((),(),());  
-  @data = @{ $data };
-  @trim = qw(feature_id type_id value);
-
+  my ($columns, $feature2value ) = ([],{});  
+  
+  @{$columns} = $db->source('Feature2value')->columns;
+  
+  for my $item ( grep { $_ !~ /^(feature2value_id)$/i } @{$columns} ) {
+    $feature2value->{ $item } = $data->{ $item }
+      if $data->{ $item };
+  }
   
   $db->storage->txn_begin();
   try {
-    for my $item ( @data ) {
-      next unless ref $item eq 'HASH';
-
-			for my $t ( @trim ){
-				$item->{ $t } = trim( $item->{ $t } ) if exists $item->{ $t };
-			}
-      
-			$r = $db->resultset('Feature2value')->search( {
-					feature_id => $item->{'feature_id'},
-					type_id => $item->{'type_id'},
-					value => $item->{'value'}
-				}, {
-				select => [
-					{ count => 'feature_id' }
-				],
-				as => [ 'count' ]
-			});
-			
-      if ( $count = $r->next->get_column('count') ) {				
-        push @res, { feature_id => $id, type_id => $item->{'type_id'}, value => $item->{'value'} };
-        next;
-      }			
-
-			%data =  map { $_ => $item->{$_} } keys %{ $item };
-      
-      my $res = $db->resultset('Feature2value')->create( \%data );
-      my $id = $res->feature_id;
-      push @res, { feature_id => $id, message => "create", data => \%data };
-    }
+    my %h = ();
+    my $res = $db->resultset('Feature2value')->create( $feature2value );
+    %h = map { $_ => $res->$_ } @{$columns};
     $db->storage->txn_commit();
-    return \@res;    
+    return \%h;    
   }
   catch {
     my $err = $_;
@@ -213,24 +225,70 @@ sub feature2value_set {
 	
 }
 
-
-sub feature2value_get {
+sub get_feature2value {
   my ( $model, $data ) = @_;
   my $db = $model->app->db;
-  my (@data, @res, %data) = ((),(),());  
+  my ($columns, $feature2value ) = ([],{});
+  my %h = ();
+
+  @{$columns} = $db->source('Feature2value')->columns;
+  
+  for my $item ( @{$columns} ) {
+    $feature2value->{ $item } = $data->{ $item }
+      if $data->{ $item };
+  }
+    
+  my $res_rs = $db->resultset('Feature2value')->search( $feature2value );
+  my $res = $res_rs->next;
+  if( $res ) {
+    %h = map { $_ => $res->$_ } @{$columns};
+  }
+  
+  return %h ? \%h : undef;  
 }
 
 
-sub feature2value_update {
+sub update_feature2value {
   my ( $model, $data ) = @_;
   my $db = $model->app->db;
-  my (@data, @res, %data) = ((),(),());  
+  my ($columns, $feature2value ) = ([],{});
+  my %h = ();
+  
+  @{$columns} = $db->source('Feature2value')->columns;
+
+  my $res = $db->resultset("Feature2value")->find( {
+    feature2value_id => $data->{ 'feature2value_id' }
+  });
+
+  if( $res ){
+
+    $db->storage->txn_begin();  
+    try {
+      for my $item ( grep { $_ !~ /feature2value_id/i } @{$columns} ){
+        $res->$item( $data->{ $item } );
+      }
+      if ( $r->has_column('date_update') ) {
+        $r->date_update(\'NOW()');
+      }	      
+      $res->update();
+      $db->storage->txn_commit();
+      return $data;
+    }
+    catch {
+      my $err = $_;
+      $db->storage->txn_rollback();
+      return undef, $err;      
+    };
+    
+  }
+  
+  return undef;
 }
 
-
-sub feature2value_remove {
+sub remove_feature2value {
   my ( $model, $data ) = @_;
   my $db = $model->app->db;
-  my (@data, @res, %data) = ((),(),());  
+  my (@data, @res, %data) = ((),(),());
 }
+
 1;

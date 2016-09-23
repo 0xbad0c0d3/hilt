@@ -58,6 +58,49 @@ sub get_product2category {
 	
 }
 
+sub set_product2category {
+	my $model = shift;
+	my $data = shift;
+	my $db = $model->app->db;
+	my $h = {};
+	
+	$db->storage->txn_begin();
+	
+	try {
+		my $res = $db->resultset('Product2category')->create( $data );
+		for my $key ( $res->columns ) {
+			$h->{ $key } = $res->$key if defined $res->$key;
+		}		
+		$db->storage->txn_commit();
+		return $h;
+	}
+	catch {
+		my $err = $_;
+		$db->storage->txn_rollback();
+		return undef, $err;
+	};	
+}
+
+sub remove_product2category{
+	my $model = shift;
+	my $product_id = shift;
+	my $db = $model->app->db;
+	
+	$db->storage->txn_begin();
+	
+	try {
+		$db->resultset('Product2category')->search({ product_id => $product_id })->delete();
+		$db->storage->txn_commit();
+		return 1;
+	}
+	catch {
+		my $err = $_;
+		$db->storage->txn_rollback();
+		return undef, $err;
+	};
+	
+}
+
 sub get_product {
 	my $model = shift;
 	my $data = shift;
@@ -108,6 +151,36 @@ sub get_product_price {
 	return undef;
 }
 
+sub set_product_price {
+	my $model = shift;
+	my $data = shift;
+	my $db = $model->app->db;
+	my $h = {};
+	my $res = $db->resultset('ProductPrice')->find( { product_id => $data->{'product_id'} } );
+	my @cols = $db->source('ProductPrice')->columns;
+
+	$db->storage->txn_begin();
+	try {
+		if( $res ){
+			$res->current( $data->{'price_current'} ) if $data->{'price_current'};
+			$res->prev( $data->{'price_prev'} ) if $data->{'price_prev'};
+			$res->supplier( $data->{'price_supplier'} ) if $data->{'price_supplier'};
+			$res->date_update(\'NOW()');
+			$res->update();
+		}
+		else{
+			$res = $db->resultset('ProductPrice')->create( $data );
+		}
+		$db->storage->txn_commit();
+		return $data;
+	}
+	catch {
+		my $err = $_;
+		$db->storage->txn_rollback();
+		return undef, $err;
+	}; 	
+}
+
 #
 #  in \%data
 #
@@ -116,10 +189,6 @@ sub set_product {
 	my $data = shift;
 	my $db = $model->app->db;
 	my $h = {};
-
-	if( $h = $model->get_product( $data ) ){
-		return $h;
-	}
 	
 	$db->storage->txn_begin();
 	try {
@@ -139,5 +208,29 @@ sub set_product {
 	};  
 }
 
+sub update_product {
+	my $model = shift;
+	my $product_id = shift;
+	my $data = shift;
+	my $db = $model->app->db;
+	my $h = {};
+	my $res = $db->resultset('Product')->find( { product_id => $product_id } );
+	
+	for my $item ( qw/product_id date_create date_update/ ){
+		delete $data->{'product_id'};
+	}
+	
+	if( $res ){
+		for my $key ( $res->columns ) {
+			$res->$key( $data->{$key} ) if $data->{$key};
+		}
+		$res->date_update(\'NOW()');
+		$res->update();
+		$data->{'product_id'} = $product_id;
+		return $data;
+	}
+	
+	return undef;	
+}
 
 1;

@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `hilt` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `hilt`;
 -- MySQL dump 10.13  Distrib 5.7.15, for Linux (x86_64)
 --
 -- Host: localhost    Database: hilt
@@ -216,12 +218,12 @@ CREATE TABLE `feature` (
   `feature_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `overflow` int(1) NOT NULL DEFAULT '0' COMMENT '0 - не активна на сайте\n1 - активна главная ( есть в фильтр и в продукте )\n2 - активна простая ( скрыта фильтре и есть в продукте )',
-  `title` varchar(45) NOT NULL,
-  `title_en` varchar(45) NOT NULL,
+  `title` varchar(90) NOT NULL,
+  `title_en` varchar(90) NOT NULL,
   `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '\n',
-  PRIMARY KEY (`feature_id`,`overflow`),
-  UNIQUE KEY `title_UNIQUE` (`title`,`title_en`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`feature_id`),
+  UNIQUE KEY `title_UNIQUE` (`title`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,7 +232,7 @@ CREATE TABLE `feature` (
 
 LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
-INSERT INTO `feature` VALUES (1,1,1,'Цвет','color','2016-06-06 09:56:33'),(2,1,1,'Размер','size','2016-06-06 10:10:40'),(3,1,1,'Бренд','brand','2016-06-06 10:19:43'),(4,1,1,'Страна производитель','manufacturer country','2016-06-06 10:21:36'),(5,1,1,'Материал','material','2016-08-05 14:14:32'),(6,1,1,'Пол','sex','2016-08-05 14:16:28'),(8,1,1,'Литраж','displacement','2016-08-05 16:01:49'),(9,1,1,'Фосфатая','fosfatny','2016-08-05 16:05:25'),(10,1,1,'Бесфосфатная','besfosfatny','2016-08-05 16:05:25'),(11,1,1,'Обьем','bulk','2016-08-05 16:07:06'),(12,1,1,'Состав','composition','2016-08-05 16:11:09'),(13,1,1,'Цоколь','plinth','2016-08-05 16:13:49');
+INSERT INTO `feature` VALUES (1,1,1,'Цвет','color','2016-06-06 09:56:33'),(2,1,1,'Размер','size','2016-06-06 10:10:40'),(3,1,1,'Бренд','brand','2016-06-06 10:19:43'),(4,1,1,'Страна производитель','manufacturer country','2016-06-06 10:21:36'),(5,1,1,'Материал','material','2016-08-05 14:14:32'),(6,1,1,'Пол','sex','2016-08-05 14:16:28'),(8,1,1,'Литраж','displacement','2016-08-05 16:01:49'),(9,1,1,'Фосфатая','fosfatny','2016-08-05 16:05:25'),(10,1,1,'Бесфосфатная','besfosfatny','2016-08-05 16:05:25'),(11,1,1,'Обьем','bulk','2016-08-05 16:07:06'),(12,1,1,'Состав','composition','2016-08-05 16:11:09'),(13,1,1,'Цоколь','plinth','2016-08-05 16:13:49'),(20,1,0,'Уход за изделием','','2016-09-22 17:39:52');
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,10 +274,11 @@ CREATE TABLE `feature2value` (
   `feature2value_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `feature_id` int(10) unsigned NOT NULL,
   `default` int(1) unsigned NOT NULL DEFAULT '0' COMMENT '0 - нет\n1 - да',
-  `value` varchar(45) NOT NULL,
+  `value` varchar(255) NOT NULL,
   PRIMARY KEY (`feature2value_id`),
-  KEY `index2` (`feature_id`,`value`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  KEY `feature_id_UNIQUE` (`feature_id`,`value`),
+  CONSTRAINT `fk_feature2value_1` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`feature_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,7 +287,7 @@ CREATE TABLE `feature2value` (
 
 LOCK TABLES `feature2value` WRITE;
 /*!40000 ALTER TABLE `feature2value` DISABLE KEYS */;
-INSERT INTO `feature2value` VALUES (1,1,0,'#c9459f;'),(2,3,0,'Beach');
+INSERT INTO `feature2value` VALUES (21,20,0,'Деликатная машинная и ручная стирка 30С, без сушки в центрафуге. Гладить можно с увлажнителем.'),(22,4,0,'Венгрия'),(23,2,0,'XL'),(24,2,0,'L'),(25,1,0,'Синий'),(26,3,0,'Adelin Fostayn'),(27,5,0,'СПАНДЕКС'),(28,5,0,'ХЛОПОК');
 /*!40000 ALTER TABLE `feature2value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -359,7 +362,7 @@ CREATE TABLE `image` (
   `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`image_id`),
   UNIQUE KEY `md5_UNIQUE` (`md5_hex`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -368,7 +371,7 @@ CREATE TABLE `image` (
 
 LOCK TABLES `image` WRITE;
 /*!40000 ALTER TABLE `image` DISABLE KEYS */;
-INSERT INTO `image` VALUES (3,'5ea51a4bfa682e218c422513ed258d32',1200,1200,'tower_12345.jpg','tower_12345.jpg','/var/www/hilt.mojo/photo/origin/5e/a5/tower_12345.jpg',1,'2016-07-25 17:53:01'),(4,'77ca01bc2e0f4d802aac72fbe3365923',1200,1200,'logo.png','logo.jpg','/var/www/hilt.mojo/photo/origin/77/ca/logo.png',1,'2016-07-25 17:53:01'),(5,'2ca731e2e40064b0e0c9dc00b9156929',1200,1200,'1920.jpg','1920.jpg','/var/www/hilt.mojo/photo/origin/2c/a7/1920.jpg',1,'2016-07-26 10:54:05'),(6,'ab3cbfd755a38f239826eb6f83355007',1200,1200,'head.jpg','head.jpg','/var/www/hilt.mojo/photo/origin/ab/3c/head.jpg',1,'2016-08-23 11:04:44'),(7,'27b33d47ac407583b9b6ed718ba4c5a5',1200,1200,'2.jpg','2.jpg','/var/www/hilt.mojo/photo/origin/27/b3/2.jpg',1,'2016-08-23 14:30:48'),(8,'2a0d8e36a041fde1d6cbbbb68feceb60',1200,1200,'1.jpg','1.jpg','/var/www/hilt.mojo/photo/origin/2a/0d/1.jpg',1,'2016-08-23 14:30:48'),(9,'ac25fb27be1473f64c4e627691e18eff',1200,1200,'3.jpg','3.jpg','/var/www/hilt.mojo/photo/origin/ac/25/3.jpg',1,'2016-08-23 14:30:49'),(10,'758581b1656b0744226384edc1d11208',1200,1200,'2.jpg','2.jpg','/var/www/hilt.mojo/photo/origin/75/85/2.jpg',1,'2016-08-23 14:47:47'),(11,'7de25b8e6bad40f043d4975f63f7e678',1200,1200,'1.jpg','1.jpg','/var/www/hilt.mojo/photo/origin/7d/e2/1.jpg',1,'2016-08-23 14:47:47'),(12,'fa15c81c505aec494ad7667ab7660c81',1200,1200,'3.jpg','3.jpg','/var/www/hilt.mojo/photo/origin/fa/15/3.jpg',1,'2016-08-23 14:47:48'),(13,'44dc033eb1b1f34411495463c912b535',1200,1200,'4.jpg','4.jpg','/var/www/hilt.mojo/photo/origin/44/dc/4.jpg',1,'2016-08-23 17:05:56');
+INSERT INTO `image` VALUES (3,'5ea51a4bfa682e218c422513ed258d32',1200,1200,'tower_12345.jpg','tower_12345.jpg','/var/www/hilt.mojo/photo/origin/5e/a5/tower_12345.jpg',1,'2016-07-25 17:53:01'),(4,'77ca01bc2e0f4d802aac72fbe3365923',1200,1200,'logo.png','logo.jpg','/var/www/hilt.mojo/photo/origin/77/ca/logo.png',1,'2016-07-25 17:53:01'),(5,'2ca731e2e40064b0e0c9dc00b9156929',1200,1200,'1920.jpg','1920.jpg','/var/www/hilt.mojo/photo/origin/2c/a7/1920.jpg',1,'2016-07-26 10:54:05'),(6,'ab3cbfd755a38f239826eb6f83355007',1200,1200,'head.jpg','head.jpg','/var/www/hilt.mojo/photo/origin/ab/3c/head.jpg',1,'2016-08-23 11:04:44'),(7,'27b33d47ac407583b9b6ed718ba4c5a5',1200,1200,'2.jpg','2.jpg','/var/www/hilt.mojo/photo/origin/27/b3/2.jpg',1,'2016-08-23 14:30:48'),(8,'2a0d8e36a041fde1d6cbbbb68feceb60',1200,1200,'1.jpg','1.jpg','/var/www/hilt.mojo/photo/origin/2a/0d/1.jpg',1,'2016-08-23 14:30:48'),(9,'ac25fb27be1473f64c4e627691e18eff',1200,1200,'3.jpg','3.jpg','/var/www/hilt.mojo/photo/origin/ac/25/3.jpg',1,'2016-08-23 14:30:49'),(10,'758581b1656b0744226384edc1d11208',1200,1200,'2.jpg','2.jpg','/var/www/hilt.mojo/photo/origin/75/85/2.jpg',1,'2016-08-23 14:47:47'),(11,'7de25b8e6bad40f043d4975f63f7e678',1200,1200,'1.jpg','1.jpg','/var/www/hilt.mojo/photo/origin/7d/e2/1.jpg',1,'2016-08-23 14:47:47'),(12,'fa15c81c505aec494ad7667ab7660c81',1200,1200,'3.jpg','3.jpg','/var/www/hilt.mojo/photo/origin/fa/15/3.jpg',1,'2016-08-23 14:47:48'),(13,'44dc033eb1b1f34411495463c912b535',1200,1200,'4.jpg','4.jpg','/var/www/hilt.mojo/photo/origin/44/dc/4.jpg',1,'2016-08-23 17:05:56'),(14,'bd01655f618f9b801b430f6ae8506cf7',1200,1200,'1.jpg','1.jpg','/var/www/hilt/photo/origin/bd/01/1.jpg',1,'2016-09-21 12:02:59'),(15,'bf9d82f480699bb5c9616c6940886d76',1200,1200,'1_2.jpg','1_2.jpg','/var/www/hilt/photo/origin/bf/9d/1_2.jpg',1,'2016-09-21 12:06:09'),(16,'0e0dd1b5ddd6ffd02b584970de346243',1200,1200,'2.jpg','2.jpg','/var/www/hilt/photo/origin/0e/0d/2.jpg',1,'2016-09-21 13:44:50'),(17,'72d5b9d94976ae1eaf3ec9b8e69d474c',1200,1200,'2_2.jpg','2_2.jpg','/var/www/hilt/photo/origin/72/d5/2_2.jpg',1,'2016-09-21 13:46:57');
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,7 +398,7 @@ CREATE TABLE `image2product` (
   UNIQUE KEY `md5_hex_UNIQUE` (`md5_hex`,`path`),
   KEY `fk_image2product_1_idx` (`product_id`),
   KEY `index` (`product_id`,`image_id`,`w`,`h`)
-) ENGINE=InnoDB AUTO_INCREMENT=136 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -404,7 +407,7 @@ CREATE TABLE `image2product` (
 
 LOCK TABLES `image2product` WRITE;
 /*!40000 ALTER TABLE `image2product` DISABLE KEYS */;
-INSERT INTO `image2product` VALUES (106,12345,4,121,141,'4dad497be426b09e9150bd3d0c8470b5','/var/www/hilt.mojo/photo/121_141/4d/ad/logo.jpg','2016-07-26 10:51:39',1,'logo.jpg','logo.jpg'),(107,12345,4,465,624,'77b06c6fd023efc41b50dcb48d975778','/var/www/hilt.mojo/photo/465_624/77/b0/logo.jpg','2016-07-26 10:51:39',1,'logo.jpg','logo.jpg'),(108,12345,4,192,265,'77b06c6fd023efc41b50dcb48d975778','/var/www/hilt.mojo/photo/192_265/77/b0/logo.jpg','2016-07-26 10:51:40',1,'logo.jpg','logo.jpg'),(109,12345,5,121,141,'0fe7fd7da8ebbfd90621ae65e6402c45','/var/www/hilt.mojo/photo/121_141/0f/e7/1920.jpg','2016-07-26 10:54:05',1,'1920.jpg','1920.jpg'),(110,12345,5,465,624,'cb8a63fb9b5b64f4b0722bff0d45881e','/var/www/hilt.mojo/photo/465_624/cb/8a/1920.jpg','2016-07-26 10:54:05',1,'1920.jpg','1920.jpg'),(111,12345,5,192,265,'e6c9897dd9fd179a7870e27c4ef82187','/var/www/hilt.mojo/photo/192_265/e6/c9/1920.jpg','2016-07-26 10:54:05',1,'1920.jpg','1920.jpg'),(112,5,6,192,265,'f1d544b7f2efbcf31e5438ab832bba25','/var/www/hilt.mojo/photo/192_265/f1/d5/head.jpg','2016-08-23 11:04:45',1,'head.jpg','head.jpg'),(113,5,6,121,141,'66f34ce66fda011bd9609eade327c9df','/var/www/hilt.mojo/photo/121_141/66/f3/head.jpg','2016-08-23 11:04:45',1,'head.jpg','head.jpg'),(114,5,6,465,624,'bff1db80614390016f56056c51d0dd79','/var/www/hilt.mojo/photo/465_624/bf/f1/head.jpg','2016-08-23 11:04:45',1,'head.jpg','head.jpg'),(115,6,7,192,265,'02a2368251f2e3b88b12d01145d193df','/var/www/hilt.mojo/photo/192_265/02/a2/2.jpg','2016-08-23 14:30:49',1,'2.jpg','2.jpg'),(116,6,8,192,265,'48242ff97d743ee13dadd35894d2c54b','/var/www/hilt.mojo/photo/192_265/48/24/1.jpg','2016-08-23 14:30:49',1,'1.jpg','1.jpg'),(117,6,9,192,265,'5f2218112d5fdfe1be43ca1a178ef627','/var/www/hilt.mojo/photo/192_265/5f/22/3.jpg','2016-08-23 14:30:49',1,'3.jpg','3.jpg'),(118,6,7,121,141,'d5994d09a898ace626a22b5cd2a31e2c','/var/www/hilt.mojo/photo/121_141/d5/99/2.jpg','2016-08-23 14:30:50',1,'2.jpg','2.jpg'),(119,6,8,121,141,'476b836d7f1748faea76e5d7491facfc','/var/www/hilt.mojo/photo/121_141/47/6b/1.jpg','2016-08-23 14:30:50',1,'1.jpg','1.jpg'),(120,6,9,121,141,'0eee85e7d72509f22063205528abd84d','/var/www/hilt.mojo/photo/121_141/0e/ee/3.jpg','2016-08-23 14:30:50',1,'3.jpg','3.jpg'),(121,6,7,465,624,'aa0551935001bb113a0ccc57cd5b9a8a','/var/www/hilt.mojo/photo/465_624/aa/05/2.jpg','2016-08-23 14:30:50',1,'2.jpg','2.jpg'),(122,6,8,465,624,'34ed2bccdaaa6fd0bd42b5492a1609f0','/var/www/hilt.mojo/photo/465_624/34/ed/1.jpg','2016-08-23 14:30:50',1,'1.jpg','1.jpg'),(123,6,9,465,624,'707833a23514912326c6f5c1c93f4ff8','/var/www/hilt.mojo/photo/465_624/70/78/3.jpg','2016-08-23 14:30:51',1,'3.jpg','3.jpg'),(124,7,10,465,624,'304c1002e8890dfd7155ca553aebc9a7','/var/www/hilt.mojo/photo/465_624/30/4c/2.jpg','2016-08-23 14:47:49',1,'2.jpg','2.jpg'),(125,7,11,465,624,'48c9ac0e62c41fe3a707ea6e496e795b','/var/www/hilt.mojo/photo/465_624/48/c9/1.jpg','2016-08-23 14:47:49',1,'1.jpg','1.jpg'),(126,7,12,465,624,'480638c040e3b68452127f2116052cc8','/var/www/hilt.mojo/photo/465_624/48/06/3.jpg','2016-08-23 14:47:49',1,'3.jpg','3.jpg'),(127,7,10,121,141,'131ad43c1fa1d58ce4898f524acb481c','/var/www/hilt.mojo/photo/121_141/13/1a/2.jpg','2016-08-23 14:47:49',1,'2.jpg','2.jpg'),(128,7,11,121,141,'a2afe4e179befc304492e54856f88f4c','/var/www/hilt.mojo/photo/121_141/a2/af/1.jpg','2016-08-23 14:47:50',1,'1.jpg','1.jpg'),(129,7,12,121,141,'7266adfe34a8ed41b47e6e033e052a8c','/var/www/hilt.mojo/photo/121_141/72/66/3.jpg','2016-08-23 14:47:50',1,'3.jpg','3.jpg'),(130,7,10,192,265,'b18d68133df34f9c33d5bd0b098eb76c','/var/www/hilt.mojo/photo/192_265/b1/8d/2.jpg','2016-08-23 14:47:50',1,'2.jpg','2.jpg'),(131,7,11,192,265,'ff7286d0d48cd0812b56c0feeab62a92','/var/www/hilt.mojo/photo/192_265/ff/72/1.jpg','2016-08-23 14:47:50',1,'1.jpg','1.jpg'),(132,7,12,192,265,'808c38c4a47205b031417902a450b489','/var/www/hilt.mojo/photo/192_265/80/8c/3.jpg','2016-08-23 14:47:51',1,'3.jpg','3.jpg'),(133,7,13,121,141,'0928e493ec3cf0eeec77b6c41af24e20','/var/www/hilt.mojo/photo/121_141/09/28/4.jpg','2016-08-23 17:05:56',1,'4.jpg','4.jpg'),(134,7,13,192,265,'368a5bcf5fc8dd128a562af632ee815d','/var/www/hilt.mojo/photo/192_265/36/8a/4.jpg','2016-08-23 17:05:56',1,'4.jpg','4.jpg'),(135,7,13,465,624,'859cba1e53bf62add07d73329a366566','/var/www/hilt.mojo/photo/465_624/85/9c/4.jpg','2016-08-23 17:05:57',1,'4.jpg','4.jpg');
+INSERT INTO `image2product` VALUES (1,3,14,465,624,'49827628c19b3ab2bef12510a3a0a559','/var/www/hilt/photo/465_624/49/82/1.jpg','2016-09-21 12:02:59',1,'1.jpg','1.jpg'),(2,3,14,192,265,'b82857f2915e835e93241abd832a2e27','/var/www/hilt/photo/192_265/b8/28/1.jpg','2016-09-21 12:02:59',1,'1.jpg','1.jpg'),(3,3,14,121,141,'d6e164de850007a388ba18fac15367bb','/var/www/hilt/photo/121_141/d6/e1/1.jpg','2016-09-21 12:02:59',1,'1.jpg','1.jpg'),(4,3,15,465,624,'982563076df5bbc1eb209f8c77328380','/var/www/hilt/photo/465_624/98/25/1_2.jpg','2016-09-21 12:06:10',1,'1_2.jpg','1_2.jpg'),(5,3,15,192,265,'819c493072e29e1c1b8d7297383a96dd','/var/www/hilt/photo/192_265/81/9c/1_2.jpg','2016-09-21 12:06:10',1,'1_2.jpg','1_2.jpg'),(6,3,15,121,141,'977092e2c033c0479143c16df3c805b7','/var/www/hilt/photo/121_141/97/70/1_2.jpg','2016-09-21 12:06:10',1,'1_2.jpg','1_2.jpg'),(7,5,16,465,624,'6e8e4f6531eacbb348cebb8beccf73de','/var/www/hilt/photo/465_624/6e/8e/2.jpg','2016-09-21 13:44:51',1,'2.jpg','2.jpg'),(8,5,16,192,265,'157f113d93ad8ddf0ec69e62fa8137bf','/var/www/hilt/photo/192_265/15/7f/2.jpg','2016-09-21 13:44:51',1,'2.jpg','2.jpg'),(9,5,16,121,141,'d7753ffd51075b53ed958131c4634adb','/var/www/hilt/photo/121_141/d7/75/2.jpg','2016-09-21 13:44:51',1,'2.jpg','2.jpg'),(10,5,17,465,624,'674e5e98582f3492042ada676368ad67','/var/www/hilt/photo/465_624/67/4e/2_2.jpg','2016-09-21 13:46:58',1,'2_2.jpg','2_2.jpg'),(11,5,17,192,265,'2911e258fc6653906f77dd4252839840','/var/www/hilt/photo/192_265/29/11/2_2.jpg','2016-09-21 13:46:58',1,'2_2.jpg','2_2.jpg'),(12,5,17,121,141,'114645493a002c94951af24406326916','/var/www/hilt/photo/121_141/11/46/2_2.jpg','2016-09-21 13:46:58',1,'2_2.jpg','2_2.jpg');
 /*!40000 ALTER TABLE `image2product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -526,7 +529,6 @@ DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product` (
   `product_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL COMMENT 'Кто завел продукт',
-  `supplier_id` int(10) unsigned NOT NULL,
   `depth` int(10) unsigned NOT NULL DEFAULT '0',
   `width` int(10) unsigned NOT NULL DEFAULT '0',
   `heigth` int(10) unsigned NOT NULL DEFAULT '0',
@@ -534,7 +536,7 @@ CREATE TABLE `product` (
   `quantity` int(10) unsigned NOT NULL DEFAULT '0',
   `unit_id` int(10) unsigned NOT NULL DEFAULT '1',
   `rating` int(1) NOT NULL DEFAULT '0',
-  `vendor` varchar(45) NOT NULL,
+  `barcode` varchar(32) NOT NULL,
   `url` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `tag_title` varchar(255) NOT NULL DEFAULT '',
@@ -546,12 +548,10 @@ CREATE TABLE `product` (
   PRIMARY KEY (`product_id`),
   KEY `fk_product_1_idx` (`unit_id`),
   KEY `fk_product_2_idx` (`user_id`),
-  KEY `fk_product_3_idx` (`supplier_id`),
-  KEY `index5` (`supplier_id`,`vendor`),
+  KEY `index5` (`barcode`),
   CONSTRAINT `fk_product_1` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`unit_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_product_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_product_3` FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`supplier_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_product_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -560,7 +560,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (5,1,1,0,0,0,0,100,1,5,'','url','Шляпа Beach','','Легкая и элегантная соломенная шляпка - то, что нужно жарким летом. Такая шляпа хорошо защищает от ультрафиолета и в то же время позволяет воздуху циркулировать, что делает ее незаменимой в жару. Шляпа сплетена качественно: соломинки плотно прилегают друг к другу, что обеспечивает ее долговечность. К тому же эта соломенная шляпа гармонично вписывается почти в любой летний образ.','','','2016-08-17 14:26:58','2016-08-17 14:26:58'),(6,1,1,0,0,0,0,100,1,2,'','dress-berry','Платье Ягодка','','Стильное платье, которое очарует Вас с первого взгляда. Подчеркивайте свою красоту и получайте удовольствие от комплиментов!','','','2016-08-23 14:26:38','2016-08-23 14:26:38'),(7,1,1,0,0,0,0,0,1,1,'','black-and-coral-dress-queen','Черно-коралловое Платье Квин','Черно-коралловое Платье Квин','Стильное, красивое, безупречно подчеркивающее фигуру - это платье непременно придется по душе каждой леди. Готовьтесь быть в центре внимания!','Стильное, красивое, безупречно подчеркивающее фигуру - это платье непременно придется по душе каждой леди. Готовьтесь быть в центре внимания!','','2016-08-23 14:45:26','2016-08-23 14:45:26');
+INSERT INTO `product` VALUES (3,1,0,0,0,0,5,1,2,'34567','kardigan-rouz','Кардиган Роуз','','Комфортный кардиган свободного силуэта с рукавом 7/8. По полочке для удобства предусмотрены накладные карманы. Изделие украшает контрастная отделка. Комфортен и практичен в ношении.','','','2016-09-20 15:42:24','2016-09-23 15:49:48'),(4,1,0,0,0,0,5,1,5,'12345','futbolka-ecco-muzhskaya-zelenaya','Футболка Ecco мужская зеленая','','Описание','','','2016-09-20 15:42:24','2016-09-20 16:53:26'),(5,1,0,0,0,0,5,1,2,'34568','kardigan-emmi','Кардиган Эмми','','Стильный кардиган свободного силуэта с отворотами, выполненный из качественного материала. Модель с укороченным рукавом, без застежки. Отличный вариант для повседневного гардероба!','','','2016-09-21 13:19:22','2016-09-23 15:49:49');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -575,7 +575,6 @@ CREATE TABLE `product2category` (
   `category_id` int(10) unsigned NOT NULL,
   `product_id` int(10) unsigned NOT NULL,
   `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`category_id`,`product_id`),
   UNIQUE KEY `category_id_UNIQUE` (`category_id`,`product_id`),
   KEY `fk_product2category_1_idx` (`product_id`),
@@ -590,7 +589,7 @@ CREATE TABLE `product2category` (
 
 LOCK TABLES `product2category` WRITE;
 /*!40000 ALTER TABLE `product2category` DISABLE KEYS */;
-INSERT INTO `product2category` VALUES (4,5,'2016-08-22 09:42:45','2016-08-22 09:42:45'),(6,6,'2016-09-08 18:07:01','2016-09-08 18:07:01'),(46,6,'2016-08-23 14:28:02','2016-08-23 14:28:02'),(46,7,'2016-08-23 14:45:57','2016-08-23 14:45:57');
+INSERT INTO `product2category` VALUES (46,3,'2016-09-23 15:49:48'),(46,4,'2016-09-20 16:53:26'),(46,5,'2016-09-23 15:49:49');
 /*!40000 ALTER TABLE `product2category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -604,6 +603,7 @@ DROP TABLE IF EXISTS `product2feature2value`;
 CREATE TABLE `product2feature2value` (
   `product_id` int(10) unsigned NOT NULL,
   `feature2value_id` int(10) unsigned NOT NULL,
+  `sub_value` varchar(45) NOT NULL DEFAULT '',
   PRIMARY KEY (`product_id`),
   KEY `fk_product2feature2value_2_idx` (`feature2value_id`),
   CONSTRAINT `fk_product2feature2value_2` FOREIGN KEY (`feature2value_id`) REFERENCES `feature2value` (`feature2value_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -617,7 +617,6 @@ CREATE TABLE `product2feature2value` (
 
 LOCK TABLES `product2feature2value` WRITE;
 /*!40000 ALTER TABLE `product2feature2value` DISABLE KEYS */;
-INSERT INTO `product2feature2value` VALUES (5,2);
 /*!40000 ALTER TABLE `product2feature2value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -630,16 +629,17 @@ DROP TABLE IF EXISTS `product_price`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product_price` (
   `product_id` int(10) unsigned NOT NULL,
-  `currency_id` int(10) unsigned NOT NULL,
+  `currency_id` int(10) unsigned NOT NULL DEFAULT '2',
   `current` int(10) unsigned NOT NULL DEFAULT '0',
   `prev` int(10) unsigned NOT NULL DEFAULT '0',
+  `supplier` int(10) unsigned NOT NULL DEFAULT '0',
   `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`product_id`),
   KEY `fk_product_price_1_idx` (`currency_id`),
   KEY `index3` (`currency_id`,`current`),
   CONSTRAINT `fk_product_price_1` FOREIGN KEY (`currency_id`) REFERENCES `currency` (`currency_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_product_price_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_product_price_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -649,7 +649,7 @@ CREATE TABLE `product_price` (
 
 LOCK TABLES `product_price` WRITE;
 /*!40000 ALTER TABLE `product_price` DISABLE KEYS */;
-INSERT INTO `product_price` VALUES (5,2,10000,12000,'2016-08-22 10:25:22','2016-08-22 10:25:22'),(6,2,76900,139800,'2016-08-23 14:27:37','2016-08-23 14:27:37'),(7,2,81400,148000,'2016-08-23 14:46:33','2016-08-23 14:46:33');
+INSERT INTO `product_price` VALUES (3,2,84000,0,0,'2016-09-21 14:40:44','2016-09-23 15:49:48'),(5,2,94000,0,0,'2016-09-21 14:40:46','2016-09-23 15:49:50');
 /*!40000 ALTER TABLE `product_price` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -800,6 +800,7 @@ CREATE TABLE `user` (
   `old_id` int(10) unsigned NOT NULL,
   `sex` int(1) DEFAULT NULL COMMENT '0 - male\n1 - femail',
   `access` int(1) NOT NULL DEFAULT '0' COMMENT '0 -  доступ закрыт\n1 - доступ открыт\n2 - доступ заблокирован',
+  `access_delete` int(1) NOT NULL DEFAULT '1',
   `mail` varchar(255) NOT NULL,
   `first_name` varchar(255) NOT NULL DEFAULT '' COMMENT 'Имя',
   `last_name` varchar(255) NOT NULL DEFAULT '' COMMENT 'Фамилия',
@@ -808,7 +809,6 @@ CREATE TABLE `user` (
   `address` varchar(500) NOT NULL DEFAULT '' COMMENT 'Адрес доставки\n',
   `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Отчество',
-  `access_delete` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`user_id`,`mail`),
   UNIQUE KEY `mail_UNIQUE` (`mail`),
   KEY `index4` (`access`)
@@ -821,7 +821,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,0,1,1,'hotjobs@yandex.ru','Сергей','Штогаренко','Андреевич','','','2016-05-24 16:50:46','2016-05-26 16:04:11',0),(3,0,1,1,'flashersha@gmail.com','Пупкин-2','Баер','','','','2016-05-25 17:52:48','2016-05-26 16:04:11',1),(14,0,1,1,'hotjobs@ya.ru','Пупкин-4','Контенщик','','','','2016-05-26 16:32:59','2016-05-26 16:32:59',1),(15,0,1,1,'andrey@shtogarenko.pp.ua','Сергей','Копирайтер','','','','2016-05-26 17:00:59','2016-05-26 17:00:59',1);
+INSERT INTO `user` VALUES (1,0,1,1,0,'hotjobs@yandex.ru','Сергей','Штогаренко','Андреевич','','','2016-05-24 16:50:46','2016-05-26 16:04:11'),(3,0,1,1,1,'flashersha@gmail.com','Пупкин-2','Баер','','','','2016-05-25 17:52:48','2016-05-26 16:04:11'),(14,0,1,1,1,'hotjobs@ya.ru','Пупкин-4','Контенщик','','','','2016-05-26 16:32:59','2016-05-26 16:32:59'),(15,0,1,1,1,'andrey@shtogarenko.pp.ua','Сергей','Копирайтер','','','','2016-05-26 17:00:59','2016-05-26 17:00:59');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -907,7 +907,7 @@ CREATE TABLE `user2session` (
 
 LOCK TABLES `user2session` WRITE;
 /*!40000 ALTER TABLE `user2session` DISABLE KEYS */;
-INSERT INTO `user2session` VALUES ('0b17168ccdec757b92828a4c59b442c3',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:44:47'),('170500b30cb904b00e5e13b3c77be948',1,'127.0.0.1',0,'6bc7f39a49172c82ff5afb2d951d8bc3','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.113 Safari/537.36','2016-09-14 13:56:07'),('2a9cb24f0dfa3aab4c43ff93f3466873',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:15:55'),('35a6a2ab9a2dab149e981ba239f118c8',1,'127.0.0.1',0,'6bc7f39a49172c82ff5afb2d951d8bc3','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.113 Safari/537.36','2016-09-14 14:05:55'),('3fb50e6b50719e3b9bc50304084baafb',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:59:34'),('642b236a66539738b641fc3ded96c00f',1,'192.168.1.3',0,'5edaa0d7cdcfd01ae7718147b0d7ba2c','Mozilla/5.0 (Linux; Android 4.4.2; YOGA Tablet 2-1050L Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.89 Safari/537.36','2016-08-25 13:30:38'),('6df6131051142ba4efecee366a0c431b',1,'127.0.0.1',0,'77d4665d09fc560e08b87156fefd27a8','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36','2016-09-06 09:20:54'),('8127daca894257ee203631a2bfb0db4a',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:20:26'),('93eac93b672db866cc7736af0a3f0bbe',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 16:51:31'),('9754519613793723ad254811aac2dea7',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-12 14:36:36'),('ada9ae62ee49bc19b288ed526c6a0c0a',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-12 14:15:33'),('b2ff380148cadb4122448c723ae25a31',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:50:32'),('b892174d6efdc8f88742235c07beabd7',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:22:11'),('bd52762bf1a2451aefbb1342e5888cad',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-12 14:24:01'),('c05fb6ad8548b443b16c43ee0253520f',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-21 16:56:12'),('d5608caa34d0d5061e87ac8b89b3144c',1,'127.0.0.1',0,'77d4665d09fc560e08b87156fefd27a8','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36','2016-08-23 18:05:43'),('db19d00ba6d8bc4293acec3d4b8c6e12',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 16:06:13'),('e4f12c50538ebdf6040d0a741d2d521c',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 16:34:29');
+INSERT INTO `user2session` VALUES ('0b17168ccdec757b92828a4c59b442c3',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:44:47'),('170500b30cb904b00e5e13b3c77be948',1,'127.0.0.1',0,'6bc7f39a49172c82ff5afb2d951d8bc3','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.113 Safari/537.36','2016-09-14 13:56:07'),('2a9cb24f0dfa3aab4c43ff93f3466873',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:15:55'),('35a6a2ab9a2dab149e981ba239f118c8',1,'127.0.0.1',0,'4997998da8e02aa049e9dbdf3d1cb200','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36','2016-09-14 14:05:55'),('3fb50e6b50719e3b9bc50304084baafb',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:59:34'),('520bc710c6b3211f4b6c6bdba5b2c506',1,'127.0.0.1',0,'4997998da8e02aa049e9dbdf3d1cb200','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.116 Safari/537.36','2016-09-19 14:07:20'),('642b236a66539738b641fc3ded96c00f',1,'192.168.1.3',0,'5edaa0d7cdcfd01ae7718147b0d7ba2c','Mozilla/5.0 (Linux; Android 4.4.2; YOGA Tablet 2-1050L Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.89 Safari/537.36','2016-08-25 13:30:38'),('6df6131051142ba4efecee366a0c431b',1,'127.0.0.1',0,'77d4665d09fc560e08b87156fefd27a8','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36','2016-09-06 09:20:54'),('8127daca894257ee203631a2bfb0db4a',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:20:26'),('93eac93b672db866cc7736af0a3f0bbe',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 16:51:31'),('9754519613793723ad254811aac2dea7',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-12 14:36:36'),('ada9ae62ee49bc19b288ed526c6a0c0a',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-12 14:15:33'),('b2ff380148cadb4122448c723ae25a31',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:50:32'),('b892174d6efdc8f88742235c07beabd7',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 15:22:11'),('bd52762bf1a2451aefbb1342e5888cad',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-12 14:24:01'),('c05fb6ad8548b443b16c43ee0253520f',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-21 16:56:12'),('d5608caa34d0d5061e87ac8b89b3144c',1,'127.0.0.1',0,'77d4665d09fc560e08b87156fefd27a8','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36','2016-08-23 18:05:43'),('db19d00ba6d8bc4293acec3d4b8c6e12',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 16:06:13'),('e4f12c50538ebdf6040d0a741d2d521c',1,'127.0.0.1',0,'5a243ddaa41c25c28bf4d3a7849af769','Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36','2016-07-05 16:34:29');
 /*!40000 ALTER TABLE `user2session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -937,6 +937,25 @@ INSERT INTO `user_admin_group` VALUES (1,'root','2016-05-24 16:46:43'),(2,'Ба�
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `v_product2feature`
+--
+
+DROP TABLE IF EXISTS `v_product2feature`;
+/*!50001 DROP VIEW IF EXISTS `v_product2feature`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `v_product2feature` AS SELECT 
+ 1 AS `feature_id`,
+ 1 AS `title`,
+ 1 AS `title_en`,
+ 1 AS `feature2value_id`,
+ 1 AS `default`,
+ 1 AS `value`,
+ 1 AS `product_id`,
+ 1 AS `sub_value`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `v_product_info`
 --
 
@@ -948,13 +967,13 @@ SET character_set_client = utf8;
  1 AS `category_id`,
  1 AS `product_id`,
  1 AS `user_id`,
- 1 AS `supplier_id`,
  1 AS `depth`,
  1 AS `width`,
  1 AS `heigth`,
  1 AS `weight`,
  1 AS `quantity`,
  1 AS `unit_id`,
+ 1 AS `barcode`,
  1 AS `rating`,
  1 AS `url`,
  1 AS `title`,
@@ -1001,6 +1020,24 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Final view structure for view `v_product2feature`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_product2feature`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_product2feature` AS select `tb1`.`feature_id` AS `feature_id`,`tb1`.`title` AS `title`,`tb1`.`title_en` AS `title_en`,`tb2`.`feature2value_id` AS `feature2value_id`,`tb2`.`default` AS `default`,`tb2`.`value` AS `value`,`tb3`.`product_id` AS `product_id`,`tb3`.`sub_value` AS `sub_value` from ((`feature` `tb1` left join `feature2value` `tb2` on((`tb1`.`feature_id` = `tb2`.`feature_id`))) left join `product2feature2value` `tb3` on((`tb2`.`feature2value_id` = `tb3`.`feature2value_id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `v_product_info`
 --
 
@@ -1013,7 +1050,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_product_info` AS select `tb1`.`category_id` AS `category_id`,`tb2`.`product_id` AS `product_id`,`tb2`.`user_id` AS `user_id`,`tb2`.`supplier_id` AS `supplier_id`,`tb2`.`depth` AS `depth`,`tb2`.`width` AS `width`,`tb2`.`heigth` AS `heigth`,`tb2`.`weight` AS `weight`,`tb2`.`quantity` AS `quantity`,`tb2`.`unit_id` AS `unit_id`,`tb2`.`rating` AS `rating`,`tb2`.`url` AS `url`,`tb2`.`title` AS `title`,`tb2`.`tag_title` AS `tag_title`,`tb2`.`description` AS `description`,`tb2`.`tag_description` AS `tag_description`,`tb2`.`tag_keywords` AS `tag_keywords`,`tb2`.`date_create` AS `date_create`,`tb2`.`date_update` AS `date_update`,`tb3`.`title` AS `category_name`,`tb3`.`url2site` AS `url2site`,`tb3`.`instr` AS `instr`,`tb3`.`url` AS `caterory_url`,`tb4`.`code` AS `unit_code`,`tb4`.`code2` AS `unit_code2`,`tb4`.`name` AS `unit_name` from (((`product2category` `tb1` join `product` `tb2` on((`tb1`.`product_id` = `tb2`.`product_id`))) join `category` `tb3` on((`tb1`.`category_id` = `tb3`.`category_id`))) join `unit` `tb4` on((`tb2`.`unit_id` = `tb4`.`unit_id`))) */;
+/*!50001 VIEW `v_product_info` AS select `tb1`.`category_id` AS `category_id`,`tb2`.`product_id` AS `product_id`,`tb2`.`user_id` AS `user_id`,`tb2`.`depth` AS `depth`,`tb2`.`width` AS `width`,`tb2`.`heigth` AS `heigth`,`tb2`.`weight` AS `weight`,`tb2`.`quantity` AS `quantity`,`tb2`.`unit_id` AS `unit_id`,`tb2`.`barcode` AS `barcode`,`tb2`.`rating` AS `rating`,`tb2`.`url` AS `url`,`tb2`.`title` AS `title`,`tb2`.`tag_title` AS `tag_title`,`tb2`.`description` AS `description`,`tb2`.`tag_description` AS `tag_description`,`tb2`.`tag_keywords` AS `tag_keywords`,`tb2`.`date_create` AS `date_create`,`tb2`.`date_update` AS `date_update`,`tb3`.`title` AS `category_name`,`tb3`.`url2site` AS `url2site`,`tb3`.`instr` AS `instr`,`tb3`.`url` AS `caterory_url`,`tb4`.`code` AS `unit_code`,`tb4`.`code2` AS `unit_code2`,`tb4`.`name` AS `unit_name` from (((`product2category` `tb1` join `product` `tb2` on((`tb1`.`product_id` = `tb2`.`product_id`))) join `category` `tb3` on((`tb1`.`category_id` = `tb3`.`category_id`))) join `unit` `tb4` on((`tb2`.`unit_id` = `tb4`.`unit_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -1045,4 +1082,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-14 14:53:27
+-- Dump completed on 2016-09-23 16:53:07

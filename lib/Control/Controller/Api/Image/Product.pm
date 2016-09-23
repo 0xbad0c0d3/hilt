@@ -13,7 +13,7 @@ sub _init {
 	$data = $init->{'data'};
 	$files = $c->req->every_upload('files');
 	$tmp_path_dir = $c->app->config->{'image'}->{'tmp_path_dir'};
-	$m && $files ? 1 : 0;	
+	$m && $files ? 1 : 0;
 }
 
 sub set {
@@ -96,7 +96,9 @@ sub set {
 		my $tmp_file = "$tmp_path_dir/$name";
 		$c->img_tmp_remove( $tmp_file );
 	}
+	
 	my @arr = (@{$data}, @{$data_original});
+	
 	if( @arr ){
 		$c->render( json => { success =>\1 , data => \@arr } );
 	}

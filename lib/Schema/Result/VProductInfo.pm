@@ -45,12 +45,6 @@ __PACKAGE__->table("v_product_info");
 
 ??? ????? ???????
 
-=head2 supplier_id
-
-  data_type: 'integer'
-  extra: {unsigned => 1}
-  is_nullable: 0
-
 =head2 depth
 
   data_type: 'integer'
@@ -92,6 +86,12 @@ __PACKAGE__->table("v_product_info");
   default_value: 1
   extra: {unsigned => 1}
   is_nullable: 0
+
+=head2 barcode
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 32
 
 =head2 rating
 
@@ -206,8 +206,6 @@ __PACKAGE__->add_columns(
   },
   "user_id",
   { data_type => "integer", extra => { unsigned => 1 }, is_nullable => 0 },
-  "supplier_id",
-  { data_type => "integer", extra => { unsigned => 1 }, is_nullable => 0 },
   "depth",
   {
     data_type => "integer",
@@ -250,6 +248,8 @@ __PACKAGE__->add_columns(
     extra => { unsigned => 1 },
     is_nullable => 0,
   },
+  "barcode",
+  { data_type => "varchar", is_nullable => 0, size => 32 },
   "rating",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "url",
@@ -295,8 +295,8 @@ __PACKAGE__->add_columns(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-08-25 11:55:35
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:owbj6Jq34XNctZVgQQBmJQ
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-20 15:40:56
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:eWXMpA3M/yoOAcs6kCPmjA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

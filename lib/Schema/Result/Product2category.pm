@@ -44,13 +44,6 @@ __PACKAGE__->table("product2category");
   default_value: 'CURRENT_TIMESTAMP'
   is_nullable: 0
 
-=head2 date_update
-
-  data_type: 'datetime'
-  datetime_undef_if_invalid: 1
-  default_value: 'CURRENT_TIMESTAMP'
-  is_nullable: 0
-
 =cut
 
 __PACKAGE__->add_columns(
@@ -69,13 +62,6 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
   },
   "date_create",
-  {
-    data_type => "datetime",
-    datetime_undef_if_invalid => 1,
-    default_value => "CURRENT_TIMESTAMP",
-    is_nullable => 0,
-  },
-  "date_update",
   {
     data_type => "datetime",
     datetime_undef_if_invalid => 1,
@@ -131,8 +117,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-05-25 12:57:13
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:79fa6pMq+2mGltBVKeXftQ
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-20 16:40:39
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:feYKEKZbCok5d/V5qDnBxg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

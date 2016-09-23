@@ -47,12 +47,13 @@ sub set {
 		$c->app->log->error('not valid param');
 		return $c->render( json => { failue => \1, message => 'not valid param' } );
 	}
-	my @mandatory = qw(user_id supplier_id quantity unit_id url title description);
-	my @entry = qw(depth width heigth weight tag_title tag_description tag_keywords);	
+	
+	my @mandatory = ();
+	my @entry = qw(url title description barcode rating user_id depth width heigth weight tag_title tag_description tag_keywords quantity unit_id);
 	my @keys_in = keys %{$data};
 	my @all = ( @mandatory, @entry );
 	my @error = ();
-	my %data = ();
+	my (%data) = ();
 	
 	for my $item ( @mandatory ){
 		my $find = 0;
@@ -84,13 +85,64 @@ sub set {
 		}
 	} @all;
 	
-	my ($res, $errstr ) = $m->set_product( \%data );
+	my ( $res, $errstr ) = ('','');
 	
-	if( $res && $res->{'product_id'} && @{ $data->{'files'} } ){
+	#
+	# Проверка на штрихкод или наименование
+	#
+	if( $data->{'barcode'} ){
+		$res = $m->get_product( { barcode => $data->{'barcode'} } );
+	}
+	else{
+		$res = $m->get_product( { url => $data{'url'}, title => $data{'title'} } );
+	}
+
+	if( $res && ref $res eq "HASH" && %{$res} ) {
+		( $res, $errstr ) = $m->update_product( $res->{'product_id'}, $data );
+	}
+	else{
+		( $res, $errstr ) = $m->set_product( \%data );
+	}
+	
+	#
+	# Категории
+	#
+	if( $res && $data->{'category_id'} && $res->{'product_id'} ){
+		my @cats = ref $data->{'category_id'} eq "ARRAY" ?
+			@{ $data->{'category_id'} } : $data->{'category_id'};
+		
+		my ( $res2,$err ) = $m->remove_product2category( $res->{'product_id'} );
+		if( $res2 ){
+			for my $category ( @cats ){
+				$m->set_product2category( {
+					product_id => $res->{'product_id'},
+					category_id => $category
+				} );
+			}
+		}
+	}
+	
+	#
+	# Картинки
+	#
+	if( $res && $res->{'product_id'} && $data->{'files'} && @{ $data->{'files'} } ){
 		my $r = $c->app->ua->post('/api/image/product/'. $res->{'product_id'} => form => {
 			files => $data->{'files'},
-			token => exists $data->{'token'} ? $data->{'token'} : ''
+			token => exists $data->{'token'} ? $data->{'token'} : $c->app->config->{'api'}->{'token'}
 		});
+	}
+	#
+	# Стоимость товара
+	#
+	if( $res && $res->{'product_id'} && ( $data->{'price_current'} || $data->{'price_prev'} || $data->{'price_supplier'} ) ){
+		#say Dumper( $res );
+		my $h = { product_id => $res->{'product_id'} };
+		for my $item ( qw/price_current price_prev price_supplier/ ) {
+			if( $data->{ $item } ){
+				$h->{ $item } = $data->{$item};
+			}
+		}
+		my ($res, $err) = $m->set_product_price( $h );
 	}
 
 	$c->render( json => $res );

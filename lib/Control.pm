@@ -68,7 +68,12 @@ sub startup {
 			my $par = shift;
 			my $data = {};			
 			$data->{'data'} = $c->req->json();
-			$data->{'data'} =  $c->req->params->to_hash() if ( $c->req->params && %{$c->req->params->to_hash()} );
+			$data->{'data'} = $c->req->params->to_hash() if ( $c->req->params && %{$c->req->params->to_hash()} );
+			
+			if( $data->{'data'}->{'token'} ){
+				$c->stash( 'token', $data->{'data'}->{'token'} );
+				delete $data->{'data'}->{'token'};
+			}
 
 			$data->{'page'} = $data->{'data'}->{'page'} ? $data->{'data'}->{'page'} : 1;
 			$data->{'rows'} = $data->{'data'}->{'rows'} ? $data->{'data'}->{'rows'} : $self->app->config->{'list'}->{'rows'};
@@ -111,24 +116,25 @@ sub startup {
 			my $res = $m->get_product_image({ product_id => $product_id, image_id => $id, w=>$w });
 			return $res;
 		};
+		
+
+		my $token = $c->req->headers->header('X-CSRF-Token') || $c->param('csrf');
+		my $user = $c->session( $self->config->{'session'}->{'cookie_name'} );
+
+		if ( $token && $token ne $user->{'csrf'} ) {
+			my $path = $c->req->url->to_abs->to_string;
+			
+			$c->app->log->debug("CSRFProtect: Wrong CSRF protection token for [$path]!");
+			return $c->render( status => 403, text => "Forbidden!" );
+		}			
+
 		return 1;
 	});
 	
     $self->hook(
         before_routes => sub {
             my ($c) = @_;
-
-			my $token = $c->req->headers->header('X-CSRF-Token') || $c->param('csrf');
-			my $user = $c->session( $self->config->{'session'}->{'cookie_name'} );
-
-            if ( $token && $token ne $user->{'csrf'} ) {
-				#my $path = $c->tx->req->url->to_abs->to_string;
-				my $path = $c->req->url->to_abs->to_string;
 				
-                $c->app->log->debug("CSRFProtect: Wrong CSRF protection token for [$path]!");
-				return $c->render( status => 403, text => "Forbidden!" );
-            }			
-			
             return 1;
         }
 	);	
@@ -219,12 +225,15 @@ sub startup {
 		$api->put('/content/feature')->to('api-content-feature#update');
 		$api->post('/content/feature')->to('api-content-feature#set');
 		$api->get('/content/feature/list')->to('api-content-feature#list');
-		$api->get('/content/feature/:id')->to('api-content-feature#get');
+		$api->get('/content/feature/:id' => [ id => qr/^\d+$/ ] )->to('api-content-feature#get');
+		
+		$api->any('/content/feature2product/:id')->to('api-content-feature#set_feature2product');
+		
 		# images
-		$api->delete('/image/product/:id' )->over( is_admin => 1 )->to('api-image-product#delete');
-		$api->post('/image/product/:id' )->to('api-image-product#set');
-		$api->get('/image/product/list/:id' )->over( is_admin => 1 )->to('api-image-product#list');
-		$api->get('/image/product/:id')->to('api-image-product#get');
+		$api->delete('/image/product/:id' => [ id => qr/^\d+$/ ] )->over( is_admin => 1 )->to('api-image-product#delete');
+		$api->post('/image/product/:id' => [ id => qr/^\d+$/ ] )->to('api-image-product#set');
+		$api->get('/image/product/list/:id' => [ id => qr/^\d+$/ ] )->over( is_admin => 1 )->to('api-image-product#list');
+		$api->get('/image/product/:id' => [ id => qr/^\d+$/ ])->to('api-image-product#get');
 	
 	####################
 	# admin
