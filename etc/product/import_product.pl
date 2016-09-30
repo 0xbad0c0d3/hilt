@@ -83,7 +83,6 @@ for my $sheet ( @{$excel->{Worksheet}} ) {
 			if( $tmp_hash->{'img'} ) {
 				my @img = map{ "$Bin/" . trim($_) } split /[,]/, $tmp_hash->{'img'};
 				$tmp_hash->{'files'} = \@img;
-				say Dumper( $tmp_hash->{'files'} );
 			}
 			#
 			# Парсим категории
@@ -104,7 +103,7 @@ for my $sheet ( @{$excel->{Worksheet}} ) {
 					my ($item_size,$count) = map{ trim($_) } split (":");
 					$quantity += $count;
 					if( $item_size && $count ){
-						$item_size => $count;
+						uc($item_size) => $count;
 					}
 					else{
 						();
@@ -123,7 +122,7 @@ for my $sheet ( @{$excel->{Worksheet}} ) {
 				my %data = map {
 					my ($item_name,$percent) = map{ trim($_) } split (":");
 					if( $item_name && $percent ){
-						$item_name => $percent;
+						ucfirst(lc($item_name)) => $percent;
 					}
 					else{
 						();
@@ -176,15 +175,14 @@ for my $pr ( @{$db_data} ) {
 		}
 	}
 	
-	if( $feature ) {
+	if( $feature && 1==0 ) {
 		print "Send feature to product " . $json->{'product_id'} ." => ";
 		my ($json,$err) = add_feature( $json->{'product_id'}, $feature );
 		if( $err ){
-			say Dumper( 'error add_feature => ', $err );
+			say Dumper( 'error add_feature => ', Dumper($err) );
 		}
 		else{
 			print Dumper( $json );
-			#print $jsonsuccess'};
 			say " OK";
 		}
 	}
@@ -194,9 +192,16 @@ for my $pr ( @{$db_data} ) {
 sub add_img {
 	my $product_id = shift or do { return undef };
 	my $files = shift or do { return undef };
-
 	my $tx = $ua->post('http://127.0.0.1:3000/api/image/product/' . $product_id => form => {
-		files => [ map { { file => $_} } @{$files} ],
+		files => [ map {
+			if( -f $_ ) {
+				{ file => $_ };
+			}
+			else{
+				();
+			}
+		}
+		@{$files} ],
 		token => $conf->{'api'}->{'token'}
 	} );
 	

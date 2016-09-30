@@ -156,9 +156,11 @@ sub set_product_price {
 	my $data = shift;
 	my $db = $model->app->db;
 	my $h = {};
-	my $res = $db->resultset('ProductPrice')->find( { product_id => $data->{'product_id'} } );
-	my @cols = $db->source('ProductPrice')->columns;
-
+	my $res = $db->resultset('ProductPrice')->find( {
+		product_id => $data->{'product_id'}
+	} );
+	my %cols = map{ $_ => 1 } $db->source('ProductPrice')->columns;
+	
 	$db->storage->txn_begin();
 	try {
 		if( $res ){
@@ -169,7 +171,16 @@ sub set_product_price {
 			$res->update();
 		}
 		else{
-			$res = $db->resultset('ProductPrice')->create( $data );
+			
+			for my $item ( keys %{ $data } ){
+				my $value = $data->{ $item };
+				$item =~s /price_//ig;
+				if( $cols{$item} ){
+					$h->{ $item } = $value;
+				}
+			}
+			
+			$res = $db->resultset('ProductPrice')->create( $h );
 		}
 		$db->storage->txn_commit();
 		return $data;

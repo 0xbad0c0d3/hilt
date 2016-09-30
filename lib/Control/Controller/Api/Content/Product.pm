@@ -136,7 +136,10 @@ sub set {
 	#
 	if( $res && $res->{'product_id'} && ( $data->{'price_current'} || $data->{'price_prev'} || $data->{'price_supplier'} ) ){
 		#say Dumper( $res );
-		my $h = { product_id => $res->{'product_id'} };
+		my $h = {
+			product_id => $res->{'product_id'}
+		};
+		
 		for my $item ( qw/price_current price_prev price_supplier/ ) {
 			if( $data->{ $item } ){
 				$h->{ $item } = $data->{$item};

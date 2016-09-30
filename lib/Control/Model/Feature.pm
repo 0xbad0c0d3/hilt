@@ -91,12 +91,12 @@ sub remove {
   $db->storage->txn_begin();
   try {
     for my $id ( @data ) {
-      $r = $db->resultset('Feature')->find( { feature_id => $id }  );
-      unless ($r) {
+      my $res = $db->resultset('Feature')->find( { feature_id => $id }  );
+      unless ( $res ) {
         push @res, { feature_id => $id, message => "not exists"};
         next;
       }
-			$r->delete;
+			$res->delete;
 			push @res, { feature_id => $id, message => "remove"};
     }
     $db->storage->txn_commit();
@@ -112,12 +112,12 @@ sub remove {
 sub list {
   my ($model, $page, $rows ) = @_;
   my $db = $model->app->db;
-  $r = $db->resultset('Feature')->search( undef,{
+  my $res = $db->resultset('Feature')->search( undef,{
     rows => $rows,
     page => $page
   });  
-  $r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
-  my @res = $r->all();
+  $res->result_class('DBIx::Class::ResultClass::HashRefInflator');  
+  my @res = $res->all();
   
   $rs = $db->resultset('Feature')->search(
     undef,
@@ -137,7 +137,10 @@ sub list {
 sub set_feature2product {
   my ( $model, $product_id, $feature ) = @_;
   my $db = $model->app->db;
-  my ($data, $res, $res2) = ([],undef,undef);
+  my ($data, $res, $res2,$err2) = ([],undef,undef);
+  my $return = {
+    product_id => $product_id
+  };
   
   #
   # Название характеристики
@@ -170,6 +173,9 @@ sub set_feature2product {
       %feature2value = ( $item->{'value'} => '' );
     }
     
+    #
+    # $value -> sub_value table product2feature2value
+    #
     while ( my ($key,$value) = each %feature2value ) {      
       
       my $res = $model->get_feature2value({
@@ -183,19 +189,118 @@ sub set_feature2product {
           value => $key
         } );
       }
-      
+            
       #
       # Связка с продуктом + дополнительное значение
       #
-      if( $value ){
-        
-      }
+      my $h_data = {
+          product_id => $product_id,
+          feature2value_id => $res->{'feature2value_id'}
+      };
+
+      my ($res2,$err) = $model->get_product2feature2value( $h_data );
       
-      #say Dumper('feature2value', $res);
-    }
+      if( $res2 && $value ) {
+        $res2 = $model->update_product2feature2value(
+          $res2->{'product2feature2value_id'},
+          $value
+        );
+      }
+      else{
+        $h_data->{'sub_value'} = $value if $value;
+        ($res2,$err) = $model->set_product2feature2value(
+          $h_data,
+        );
+      }
+            
+      
+    } # while
+    
+    push @{ $return->{'feature'} }, { data => $item, sub => $res2 };
     
   } # for
+
+  return $return;
 }
+
+sub get_product2feature2value {
+  my ( $model, $data ) = @_;
+  my $db = $model->app->db;
+  my ($columns, $product2feature2value ) = ([],{});
+  my %h = ();
+
+  @{$columns} = $db->source('Product2feature2value')->columns;
+  
+  for my $item ( @{$columns} ) {
+    $product2feature2value->{ $item } = $data->{ $item }
+      if $data->{ $item };
+  }
+    
+  my $res = $db->resultset('Product2feature2value')->find( $product2feature2value );
+  if( $res ) {
+    %h = map { $_ => $res->$_ } @{$columns};
+  }
+  
+  return %h ? \%h : undef;   
+}
+
+sub set_product2feature2value {
+  my ( $model, $data ) = @_;
+  my $db = $model->app->db;
+  my ($columns, $product2feature2value ) = ([],{});  
+
+  @{$columns} = $db->source('Product2feature2value')->columns;
+  
+  for my $item ( @{$columns} ) {
+    $product2feature2value->{ $item } = $data->{ $item }
+      if $data->{ $item };
+  }
+  
+  $db->storage->txn_begin();
+  try {
+    my %h = ();
+    my $res = $db->resultset('Product2feature2value')->create( $product2feature2value );
+    %h = map { $_ => $res->$_ } @{$columns};
+    $db->storage->txn_commit();
+    return \%h;
+  }
+  catch {
+    my $err = $_;
+    $db->storage->txn_rollback();
+    return undef, $err;
+  };	
+}
+
+sub update_product2feature2value {
+  my ( $model, $product2feature2value_id, $sub_value ) = @_;
+  my $db = $model->app->db;
+  
+  my $res = $db->resultset("Product2feature2value")->find( {
+    product2feature2value_id => $product2feature2value_id
+  } );
+
+  if( $res ){
+    $db->storage->txn_begin();  
+    try {
+      $res->sub_value( $sub_value );
+      if ( $res->has_column('date_update') ) {
+        $res->date_update(\'NOW()');
+      }	      
+      $res->update();
+      $db->storage->txn_commit();
+      return 1;
+    }
+    catch {
+      my $err = $_;
+      $db->storage->txn_rollback();
+      return undef, $err;      
+    };    
+  }
+  else{
+    return undef, 'dont find product2feature2value_id => ' . $product2feature2value_id;
+  }
+}
+
 
 sub set_feature2value {
   my ( $model, $data ) = @_;
@@ -267,8 +372,8 @@ sub update_feature2value {
       for my $item ( grep { $_ !~ /feature2value_id/i } @{$columns} ){
         $res->$item( $data->{ $item } );
       }
-      if ( $r->has_column('date_update') ) {
-        $r->date_update(\'NOW()');
+      if ( $res->has_column('date_update') ) {
+        $res->date_update(\'NOW()');
       }	      
       $res->update();
       $db->storage->txn_commit();
@@ -281,8 +386,6 @@ sub update_feature2value {
     };
     
   }
-  
-  return undef;
 }
 
 sub remove_feature2value {
@@ -291,4 +394,25 @@ sub remove_feature2value {
   my (@data, @res, %data) = ((),(),());
 }
 
+
+sub get_v_product2feature {
+  my ( $model, $product_id ) = @_;
+  my $feature = {};
+  my $db = $model->app->db;
+  my $res = $db->resultset('VProduct2feature')->search({
+    product_id => $product_id
+  });
+  $res->result_class('DBIx::Class::ResultClass::HashRefInflator');  
+  my @res = $res->all();
+  
+  for my $item ( @res ){
+    push @{ $feature->{ $item->{'title'} } },
+      {
+        value => $item->{'value'},
+        sub_value => $item->{'sub_value'}
+      };
+  }
+  
+  return $feature;
+}
 1;

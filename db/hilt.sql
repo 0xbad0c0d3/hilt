@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `hilt` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `hilt`;
 -- MySQL dump 10.13  Distrib 5.7.15, for Linux (x86_64)
 --
 -- Host: localhost    Database: hilt
@@ -223,7 +221,7 @@ CREATE TABLE `feature` (
   `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '\n',
   PRIMARY KEY (`feature_id`),
   UNIQUE KEY `title_UNIQUE` (`title`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +230,7 @@ CREATE TABLE `feature` (
 
 LOCK TABLES `feature` WRITE;
 /*!40000 ALTER TABLE `feature` DISABLE KEYS */;
-INSERT INTO `feature` VALUES (1,1,1,'Цвет','color','2016-06-06 09:56:33'),(2,1,1,'Размер','size','2016-06-06 10:10:40'),(3,1,1,'Бренд','brand','2016-06-06 10:19:43'),(4,1,1,'Страна производитель','manufacturer country','2016-06-06 10:21:36'),(5,1,1,'Материал','material','2016-08-05 14:14:32'),(6,1,1,'Пол','sex','2016-08-05 14:16:28'),(8,1,1,'Литраж','displacement','2016-08-05 16:01:49'),(9,1,1,'Фосфатая','fosfatny','2016-08-05 16:05:25'),(10,1,1,'Бесфосфатная','besfosfatny','2016-08-05 16:05:25'),(11,1,1,'Обьем','bulk','2016-08-05 16:07:06'),(12,1,1,'Состав','composition','2016-08-05 16:11:09'),(13,1,1,'Цоколь','plinth','2016-08-05 16:13:49'),(20,1,0,'Уход за изделием','','2016-09-22 17:39:52');
+INSERT INTO `feature` VALUES (1,1,1,'Цвет','color','2016-06-06 09:56:33'),(2,1,1,'Размер','size','2016-06-06 10:10:40'),(3,1,1,'Бренд','brand','2016-06-06 10:19:43'),(4,1,1,'Страна производитель','manufacturer country','2016-06-06 10:21:36'),(5,1,1,'Материал','material','2016-08-05 14:14:32'),(6,1,1,'Пол','sex','2016-08-05 14:16:28'),(8,1,1,'Литраж','displacement','2016-08-05 16:01:49'),(9,1,1,'Фосфатая','fosfatny','2016-08-05 16:05:25'),(10,1,1,'Бесфосфатная','besfosfatny','2016-08-05 16:05:25'),(11,1,1,'Обьем','bulk','2016-08-05 16:07:06'),(12,1,1,'Состав','composition','2016-08-05 16:11:09'),(13,1,1,'Цоколь','plinth','2016-08-05 16:13:49'),(20,1,0,'Уход за изделием','','2016-09-22 17:39:52'),(21,1,0,'Параметры','','2016-09-30 16:26:08');
 /*!40000 ALTER TABLE `feature` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -278,7 +276,7 @@ CREATE TABLE `feature2value` (
   PRIMARY KEY (`feature2value_id`),
   KEY `feature_id_UNIQUE` (`feature_id`,`value`),
   CONSTRAINT `fk_feature2value_1` FOREIGN KEY (`feature_id`) REFERENCES `feature` (`feature_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +285,7 @@ CREATE TABLE `feature2value` (
 
 LOCK TABLES `feature2value` WRITE;
 /*!40000 ALTER TABLE `feature2value` DISABLE KEYS */;
-INSERT INTO `feature2value` VALUES (21,20,0,'Деликатная машинная и ручная стирка 30С, без сушки в центрафуге. Гладить можно с увлажнителем.'),(22,4,0,'Венгрия'),(23,2,0,'XL'),(24,2,0,'L'),(25,1,0,'Синий'),(26,3,0,'Adelin Fostayn'),(27,5,0,'СПАНДЕКС'),(28,5,0,'ХЛОПОК');
+INSERT INTO `feature2value` VALUES (29,1,0,'Синий'),(30,5,0,'Хлопок'),(31,5,0,'Спандекс'),(32,3,0,'Adelin Fostayn'),(33,20,0,'Деликатная машинная и ручная стирка 30С, без сушки в центрафуге. Гладить можно с увлажнителем.'),(34,4,0,'Венгрия'),(35,2,0,'XL'),(36,2,0,'L'),(37,5,0,'Полиэстер'),(38,5,0,'Вискоза'),(39,4,0,'Украина'),(40,1,0,'Бежевый'),(41,21,0,'Ткань - французский трикотаж, турецкая двунитка. Сзади потайная змейка. Длина - 105см.'),(42,3,0,'Azuri'),(43,2,0,'S'),(44,2,0,'M'),(45,5,0,'Шерсть');
 /*!40000 ALTER TABLE `feature2value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,7 +360,7 @@ CREATE TABLE `image` (
   `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`image_id`),
   UNIQUE KEY `md5_UNIQUE` (`md5_hex`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -371,7 +369,7 @@ CREATE TABLE `image` (
 
 LOCK TABLES `image` WRITE;
 /*!40000 ALTER TABLE `image` DISABLE KEYS */;
-INSERT INTO `image` VALUES (3,'5ea51a4bfa682e218c422513ed258d32',1200,1200,'tower_12345.jpg','tower_12345.jpg','/var/www/hilt.mojo/photo/origin/5e/a5/tower_12345.jpg',1,'2016-07-25 17:53:01'),(4,'77ca01bc2e0f4d802aac72fbe3365923',1200,1200,'logo.png','logo.jpg','/var/www/hilt.mojo/photo/origin/77/ca/logo.png',1,'2016-07-25 17:53:01'),(5,'2ca731e2e40064b0e0c9dc00b9156929',1200,1200,'1920.jpg','1920.jpg','/var/www/hilt.mojo/photo/origin/2c/a7/1920.jpg',1,'2016-07-26 10:54:05'),(6,'ab3cbfd755a38f239826eb6f83355007',1200,1200,'head.jpg','head.jpg','/var/www/hilt.mojo/photo/origin/ab/3c/head.jpg',1,'2016-08-23 11:04:44'),(7,'27b33d47ac407583b9b6ed718ba4c5a5',1200,1200,'2.jpg','2.jpg','/var/www/hilt.mojo/photo/origin/27/b3/2.jpg',1,'2016-08-23 14:30:48'),(8,'2a0d8e36a041fde1d6cbbbb68feceb60',1200,1200,'1.jpg','1.jpg','/var/www/hilt.mojo/photo/origin/2a/0d/1.jpg',1,'2016-08-23 14:30:48'),(9,'ac25fb27be1473f64c4e627691e18eff',1200,1200,'3.jpg','3.jpg','/var/www/hilt.mojo/photo/origin/ac/25/3.jpg',1,'2016-08-23 14:30:49'),(10,'758581b1656b0744226384edc1d11208',1200,1200,'2.jpg','2.jpg','/var/www/hilt.mojo/photo/origin/75/85/2.jpg',1,'2016-08-23 14:47:47'),(11,'7de25b8e6bad40f043d4975f63f7e678',1200,1200,'1.jpg','1.jpg','/var/www/hilt.mojo/photo/origin/7d/e2/1.jpg',1,'2016-08-23 14:47:47'),(12,'fa15c81c505aec494ad7667ab7660c81',1200,1200,'3.jpg','3.jpg','/var/www/hilt.mojo/photo/origin/fa/15/3.jpg',1,'2016-08-23 14:47:48'),(13,'44dc033eb1b1f34411495463c912b535',1200,1200,'4.jpg','4.jpg','/var/www/hilt.mojo/photo/origin/44/dc/4.jpg',1,'2016-08-23 17:05:56'),(14,'bd01655f618f9b801b430f6ae8506cf7',1200,1200,'1.jpg','1.jpg','/var/www/hilt/photo/origin/bd/01/1.jpg',1,'2016-09-21 12:02:59'),(15,'bf9d82f480699bb5c9616c6940886d76',1200,1200,'1_2.jpg','1_2.jpg','/var/www/hilt/photo/origin/bf/9d/1_2.jpg',1,'2016-09-21 12:06:09'),(16,'0e0dd1b5ddd6ffd02b584970de346243',1200,1200,'2.jpg','2.jpg','/var/www/hilt/photo/origin/0e/0d/2.jpg',1,'2016-09-21 13:44:50'),(17,'72d5b9d94976ae1eaf3ec9b8e69d474c',1200,1200,'2_2.jpg','2_2.jpg','/var/www/hilt/photo/origin/72/d5/2_2.jpg',1,'2016-09-21 13:46:57');
+INSERT INTO `image` VALUES (3,'5ea51a4bfa682e218c422513ed258d32',1200,1200,'tower_12345.jpg','tower_12345.jpg','/var/www/hilt.mojo/photo/origin/5e/a5/tower_12345.jpg',1,'2016-07-25 17:53:01'),(4,'77ca01bc2e0f4d802aac72fbe3365923',1200,1200,'logo.png','logo.jpg','/var/www/hilt.mojo/photo/origin/77/ca/logo.png',1,'2016-07-25 17:53:01'),(5,'2ca731e2e40064b0e0c9dc00b9156929',1200,1200,'1920.jpg','1920.jpg','/var/www/hilt.mojo/photo/origin/2c/a7/1920.jpg',1,'2016-07-26 10:54:05'),(6,'ab3cbfd755a38f239826eb6f83355007',1200,1200,'head.jpg','head.jpg','/var/www/hilt.mojo/photo/origin/ab/3c/head.jpg',1,'2016-08-23 11:04:44'),(7,'27b33d47ac407583b9b6ed718ba4c5a5',1200,1200,'2.jpg','2.jpg','/var/www/hilt.mojo/photo/origin/27/b3/2.jpg',1,'2016-08-23 14:30:48'),(8,'2a0d8e36a041fde1d6cbbbb68feceb60',1200,1200,'1.jpg','1.jpg','/var/www/hilt.mojo/photo/origin/2a/0d/1.jpg',1,'2016-08-23 14:30:48'),(9,'ac25fb27be1473f64c4e627691e18eff',1200,1200,'3.jpg','3.jpg','/var/www/hilt.mojo/photo/origin/ac/25/3.jpg',1,'2016-08-23 14:30:49'),(10,'758581b1656b0744226384edc1d11208',1200,1200,'2.jpg','2.jpg','/var/www/hilt.mojo/photo/origin/75/85/2.jpg',1,'2016-08-23 14:47:47'),(11,'7de25b8e6bad40f043d4975f63f7e678',1200,1200,'1.jpg','1.jpg','/var/www/hilt.mojo/photo/origin/7d/e2/1.jpg',1,'2016-08-23 14:47:47'),(12,'fa15c81c505aec494ad7667ab7660c81',1200,1200,'3.jpg','3.jpg','/var/www/hilt.mojo/photo/origin/fa/15/3.jpg',1,'2016-08-23 14:47:48'),(13,'44dc033eb1b1f34411495463c912b535',1200,1200,'4.jpg','4.jpg','/var/www/hilt.mojo/photo/origin/44/dc/4.jpg',1,'2016-08-23 17:05:56'),(14,'bd01655f618f9b801b430f6ae8506cf7',1200,1200,'1.jpg','1.jpg','/var/www/hilt/photo/origin/bd/01/1.jpg',1,'2016-09-21 12:02:59'),(15,'bf9d82f480699bb5c9616c6940886d76',1200,1200,'1_2.jpg','1_2.jpg','/var/www/hilt/photo/origin/bf/9d/1_2.jpg',1,'2016-09-21 12:06:09'),(16,'0e0dd1b5ddd6ffd02b584970de346243',1200,1200,'2.jpg','2.jpg','/var/www/hilt/photo/origin/0e/0d/2.jpg',1,'2016-09-21 13:44:50'),(17,'72d5b9d94976ae1eaf3ec9b8e69d474c',1200,1200,'2_2.jpg','2_2.jpg','/var/www/hilt/photo/origin/72/d5/2_2.jpg',1,'2016-09-21 13:46:57'),(18,'6f55d50581e3dd25207a82d24890f7ac',1200,1200,'3.jpg','3.jpg','/var/www/hilt/photo/origin/6f/55/3.jpg',1,'2016-09-30 16:46:50'),(19,'5bd7104c30f3a5940d4dba9958468ba5',1200,1200,'3_1.jpg','3_1.jpg','/var/www/hilt/photo/origin/5b/d7/3_1.jpg',1,'2016-09-30 16:46:50'),(20,'7ccc93ec6c10229ca40b21cc7b94a027',1200,1200,'3_2.jpg','3_2.jpg','/var/www/hilt/photo/origin/7c/cc/3_2.jpg',1,'2016-09-30 16:46:51');
 /*!40000 ALTER TABLE `image` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -398,7 +396,7 @@ CREATE TABLE `image2product` (
   UNIQUE KEY `md5_hex_UNIQUE` (`md5_hex`,`path`),
   KEY `fk_image2product_1_idx` (`product_id`),
   KEY `index` (`product_id`,`image_id`,`w`,`h`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -407,7 +405,7 @@ CREATE TABLE `image2product` (
 
 LOCK TABLES `image2product` WRITE;
 /*!40000 ALTER TABLE `image2product` DISABLE KEYS */;
-INSERT INTO `image2product` VALUES (1,3,14,465,624,'49827628c19b3ab2bef12510a3a0a559','/var/www/hilt/photo/465_624/49/82/1.jpg','2016-09-21 12:02:59',1,'1.jpg','1.jpg'),(2,3,14,192,265,'b82857f2915e835e93241abd832a2e27','/var/www/hilt/photo/192_265/b8/28/1.jpg','2016-09-21 12:02:59',1,'1.jpg','1.jpg'),(3,3,14,121,141,'d6e164de850007a388ba18fac15367bb','/var/www/hilt/photo/121_141/d6/e1/1.jpg','2016-09-21 12:02:59',1,'1.jpg','1.jpg'),(4,3,15,465,624,'982563076df5bbc1eb209f8c77328380','/var/www/hilt/photo/465_624/98/25/1_2.jpg','2016-09-21 12:06:10',1,'1_2.jpg','1_2.jpg'),(5,3,15,192,265,'819c493072e29e1c1b8d7297383a96dd','/var/www/hilt/photo/192_265/81/9c/1_2.jpg','2016-09-21 12:06:10',1,'1_2.jpg','1_2.jpg'),(6,3,15,121,141,'977092e2c033c0479143c16df3c805b7','/var/www/hilt/photo/121_141/97/70/1_2.jpg','2016-09-21 12:06:10',1,'1_2.jpg','1_2.jpg'),(7,5,16,465,624,'6e8e4f6531eacbb348cebb8beccf73de','/var/www/hilt/photo/465_624/6e/8e/2.jpg','2016-09-21 13:44:51',1,'2.jpg','2.jpg'),(8,5,16,192,265,'157f113d93ad8ddf0ec69e62fa8137bf','/var/www/hilt/photo/192_265/15/7f/2.jpg','2016-09-21 13:44:51',1,'2.jpg','2.jpg'),(9,5,16,121,141,'d7753ffd51075b53ed958131c4634adb','/var/www/hilt/photo/121_141/d7/75/2.jpg','2016-09-21 13:44:51',1,'2.jpg','2.jpg'),(10,5,17,465,624,'674e5e98582f3492042ada676368ad67','/var/www/hilt/photo/465_624/67/4e/2_2.jpg','2016-09-21 13:46:58',1,'2_2.jpg','2_2.jpg'),(11,5,17,192,265,'2911e258fc6653906f77dd4252839840','/var/www/hilt/photo/192_265/29/11/2_2.jpg','2016-09-21 13:46:58',1,'2_2.jpg','2_2.jpg'),(12,5,17,121,141,'114645493a002c94951af24406326916','/var/www/hilt/photo/121_141/11/46/2_2.jpg','2016-09-21 13:46:58',1,'2_2.jpg','2_2.jpg');
+INSERT INTO `image2product` VALUES (1,3,14,465,624,'49827628c19b3ab2bef12510a3a0a559','/var/www/hilt/photo/465_624/49/82/1.jpg','2016-09-21 12:02:59',1,'1.jpg','1.jpg'),(2,3,14,192,265,'b82857f2915e835e93241abd832a2e27','/var/www/hilt/photo/192_265/b8/28/1.jpg','2016-09-21 12:02:59',1,'1.jpg','1.jpg'),(3,3,14,121,141,'d6e164de850007a388ba18fac15367bb','/var/www/hilt/photo/121_141/d6/e1/1.jpg','2016-09-21 12:02:59',1,'1.jpg','1.jpg'),(4,3,15,465,624,'982563076df5bbc1eb209f8c77328380','/var/www/hilt/photo/465_624/98/25/1_2.jpg','2016-09-21 12:06:10',1,'1_2.jpg','1_2.jpg'),(5,3,15,192,265,'819c493072e29e1c1b8d7297383a96dd','/var/www/hilt/photo/192_265/81/9c/1_2.jpg','2016-09-21 12:06:10',1,'1_2.jpg','1_2.jpg'),(6,3,15,121,141,'977092e2c033c0479143c16df3c805b7','/var/www/hilt/photo/121_141/97/70/1_2.jpg','2016-09-21 12:06:10',1,'1_2.jpg','1_2.jpg'),(7,5,16,465,624,'6e8e4f6531eacbb348cebb8beccf73de','/var/www/hilt/photo/465_624/6e/8e/2.jpg','2016-09-21 13:44:51',1,'2.jpg','2.jpg'),(8,5,16,192,265,'157f113d93ad8ddf0ec69e62fa8137bf','/var/www/hilt/photo/192_265/15/7f/2.jpg','2016-09-21 13:44:51',1,'2.jpg','2.jpg'),(9,5,16,121,141,'d7753ffd51075b53ed958131c4634adb','/var/www/hilt/photo/121_141/d7/75/2.jpg','2016-09-21 13:44:51',1,'2.jpg','2.jpg'),(10,5,17,465,624,'674e5e98582f3492042ada676368ad67','/var/www/hilt/photo/465_624/67/4e/2_2.jpg','2016-09-21 13:46:58',1,'2_2.jpg','2_2.jpg'),(11,5,17,192,265,'2911e258fc6653906f77dd4252839840','/var/www/hilt/photo/192_265/29/11/2_2.jpg','2016-09-21 13:46:58',1,'2_2.jpg','2_2.jpg'),(12,5,17,121,141,'114645493a002c94951af24406326916','/var/www/hilt/photo/121_141/11/46/2_2.jpg','2016-09-21 13:46:58',1,'2_2.jpg','2_2.jpg'),(13,6,18,192,265,'1f4aa82611b73ccce34f6d3141a7c011','/var/www/hilt/photo/192_265/1f/4a/3.jpg','2016-09-30 16:46:51',1,'3.jpg','3.jpg'),(14,6,19,192,265,'0cffad599f205741edd87a9abbf928fa','/var/www/hilt/photo/192_265/0c/ff/3_1.jpg','2016-09-30 16:46:51',1,'3_1.jpg','3_1.jpg'),(15,6,20,192,265,'7308f3f9c632da9e42e36fc34a5d9ee3','/var/www/hilt/photo/192_265/73/08/3_2.jpg','2016-09-30 16:46:51',1,'3_2.jpg','3_2.jpg'),(16,6,18,465,624,'004d6be89f0818ffa3de7ab1054d1ef5','/var/www/hilt/photo/465_624/00/4d/3.jpg','2016-09-30 16:46:51',1,'3.jpg','3.jpg'),(17,6,19,465,624,'6a61279be75814f0cdfd00f5355b6db8','/var/www/hilt/photo/465_624/6a/61/3_1.jpg','2016-09-30 16:46:51',1,'3_1.jpg','3_1.jpg'),(18,6,20,465,624,'b1152d4eebca8579cc2329f35ca2daf0','/var/www/hilt/photo/465_624/b1/15/3_2.jpg','2016-09-30 16:46:51',1,'3_2.jpg','3_2.jpg'),(19,6,18,121,141,'4e8657d3fbea17e8c46b2cfd0f05c71e','/var/www/hilt/photo/121_141/4e/86/3.jpg','2016-09-30 16:46:51',1,'3.jpg','3.jpg'),(20,6,19,121,141,'37cfd7edbe6f00995d633b66387649ad','/var/www/hilt/photo/121_141/37/cf/3_1.jpg','2016-09-30 16:46:51',1,'3_1.jpg','3_1.jpg'),(21,6,20,121,141,'de11e75f79ea375081e46b0cb6139582','/var/www/hilt/photo/121_141/de/11/3_2.jpg','2016-09-30 16:46:51',1,'3_2.jpg','3_2.jpg');
 /*!40000 ALTER TABLE `image2product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -551,7 +549,7 @@ CREATE TABLE `product` (
   KEY `index5` (`barcode`),
   CONSTRAINT `fk_product_1` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`unit_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_product_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -560,7 +558,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (3,1,0,0,0,0,5,1,2,'34567','kardigan-rouz','Кардиган Роуз','','Комфортный кардиган свободного силуэта с рукавом 7/8. По полочке для удобства предусмотрены накладные карманы. Изделие украшает контрастная отделка. Комфортен и практичен в ношении.','','','2016-09-20 15:42:24','2016-09-23 15:49:48'),(4,1,0,0,0,0,5,1,5,'12345','futbolka-ecco-muzhskaya-zelenaya','Футболка Ecco мужская зеленая','','Описание','','','2016-09-20 15:42:24','2016-09-20 16:53:26'),(5,1,0,0,0,0,5,1,2,'34568','kardigan-emmi','Кардиган Эмми','','Стильный кардиган свободного силуэта с отворотами, выполненный из качественного материала. Модель с укороченным рукавом, без застежки. Отличный вариант для повседневного гардероба!','','','2016-09-21 13:19:22','2016-09-23 15:49:49');
+INSERT INTO `product` VALUES (3,1,0,0,0,0,5,1,2,'34567','kardigan-rouz','Кардиган Роуз','','Комфортный кардиган свободного силуэта с рукавом 7/8. По полочке для удобства предусмотрены накладные карманы. Изделие украшает контрастная отделка. Комфортен и практичен в ношении.','','','2016-09-20 15:42:24','2016-09-30 17:19:28'),(5,1,0,0,0,0,5,1,2,'34568','kardigan-emmi','Кардиган Эмми','','Стильный кардиган свободного силуэта с отворотами, выполненный из качественного материала. Модель с укороченным рукавом, без застежки. Отличный вариант для повседневного гардероба!','','','2016-09-21 13:19:22','2016-09-30 17:19:30'),(6,1,0,0,0,0,30,1,5,'34569','plate-miranda-bezhevoe','Платье Миранда бежевое','','Невероятно легкая, стильная одежда для настоящих модниц. Украсьте свое лето с яркой одеждой производителя качественной современной одежды!','','','2016-09-30 16:26:06','2016-09-30 17:19:30');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -589,7 +587,7 @@ CREATE TABLE `product2category` (
 
 LOCK TABLES `product2category` WRITE;
 /*!40000 ALTER TABLE `product2category` DISABLE KEYS */;
-INSERT INTO `product2category` VALUES (46,3,'2016-09-23 15:49:48'),(46,4,'2016-09-20 16:53:26'),(46,5,'2016-09-23 15:49:49');
+INSERT INTO `product2category` VALUES (46,3,'2016-09-30 17:19:29'),(46,5,'2016-09-30 17:19:30'),(46,6,'2016-09-30 17:19:30');
 /*!40000 ALTER TABLE `product2category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -601,14 +599,16 @@ DROP TABLE IF EXISTS `product2feature2value`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `product2feature2value` (
+  `product2feature2value_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `product_id` int(10) unsigned NOT NULL,
   `feature2value_id` int(10) unsigned NOT NULL,
   `sub_value` varchar(45) NOT NULL DEFAULT '',
-  PRIMARY KEY (`product_id`),
+  PRIMARY KEY (`product2feature2value_id`),
+  UNIQUE KEY `product_id_UNIQUE` (`product_id`,`feature2value_id`),
   KEY `fk_product2feature2value_2_idx` (`feature2value_id`),
-  CONSTRAINT `fk_product2feature2value_2` FOREIGN KEY (`feature2value_id`) REFERENCES `feature2value` (`feature2value_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_product2feature2value_3` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_product2feature2value_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_product2feature2value_2` FOREIGN KEY (`feature2value_id`) REFERENCES `feature2value` (`feature2value_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -617,6 +617,7 @@ CREATE TABLE `product2feature2value` (
 
 LOCK TABLES `product2feature2value` WRITE;
 /*!40000 ALTER TABLE `product2feature2value` DISABLE KEYS */;
+INSERT INTO `product2feature2value` VALUES (94,3,32,''),(95,3,33,''),(96,3,35,'2'),(97,3,36,'3'),(98,3,34,''),(99,3,29,'red'),(100,3,31,'3'),(101,3,30,'97'),(102,5,31,'3'),(103,5,30,'97'),(104,5,34,''),(105,5,36,'3'),(106,5,35,'2'),(107,5,33,''),(108,5,32,''),(116,6,37,'55'),(117,6,38,'40'),(118,6,39,''),(119,6,40,'#F5F5DC'),(120,6,41,''),(121,6,42,''),(122,6,35,'12'),(123,6,43,'10'),(124,6,44,'3'),(125,6,36,'5'),(147,6,45,'5');
 /*!40000 ALTER TABLE `product2feature2value` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -649,7 +650,7 @@ CREATE TABLE `product_price` (
 
 LOCK TABLES `product_price` WRITE;
 /*!40000 ALTER TABLE `product_price` DISABLE KEYS */;
-INSERT INTO `product_price` VALUES (3,2,84000,0,0,'2016-09-21 14:40:44','2016-09-23 15:49:48'),(5,2,94000,0,0,'2016-09-21 14:40:46','2016-09-23 15:49:50');
+INSERT INTO `product_price` VALUES (3,2,84000,0,0,'2016-09-21 14:40:44','2016-09-30 17:19:30'),(5,2,94000,0,0,'2016-09-21 14:40:46','2016-09-30 17:19:30'),(6,2,51300,0,0,'2016-09-30 17:19:31','2016-09-30 17:19:31');
 /*!40000 ALTER TABLE `product_price` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1032,7 +1033,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `v_product2feature` AS select `tb1`.`feature_id` AS `feature_id`,`tb1`.`title` AS `title`,`tb1`.`title_en` AS `title_en`,`tb2`.`feature2value_id` AS `feature2value_id`,`tb2`.`default` AS `default`,`tb2`.`value` AS `value`,`tb3`.`product_id` AS `product_id`,`tb3`.`sub_value` AS `sub_value` from ((`feature` `tb1` left join `feature2value` `tb2` on((`tb1`.`feature_id` = `tb2`.`feature_id`))) left join `product2feature2value` `tb3` on((`tb2`.`feature2value_id` = `tb3`.`feature2value_id`))) */;
+/*!50001 VIEW `v_product2feature` AS select `tb1`.`feature_id` AS `feature_id`,`tb1`.`title` AS `title`,`tb1`.`title_en` AS `title_en`,`tb2`.`feature2value_id` AS `feature2value_id`,`tb2`.`default` AS `default`,`tb2`.`value` AS `value`,`tb3`.`product_id` AS `product_id`,`tb3`.`sub_value` AS `sub_value` from ((`feature` `tb1` left join `feature2value` `tb2` on((`tb1`.`feature_id` = `tb2`.`feature_id`))) left join `product2feature2value` `tb3` on((`tb2`.`feature2value_id` = `tb3`.`feature2value_id`))) where (`tb3`.`product_id` is not null) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -1082,4 +1083,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-23 16:53:07
+-- Dump completed on 2016-09-30 17:52:15

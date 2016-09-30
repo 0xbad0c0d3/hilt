@@ -27,28 +27,25 @@ sub item {
 	$m = $c->model('Product');
 	(my $url = $c->stash('item'))=~s/(\.html|\.htm)//i;
 	
+	# Данные по продукту
 	my $res = $m->get_v_product_info({
 		category_id => $c->stash->{ $c->config->{'project_name'} }->{'category'}->{'category_id'},
 		url => $url
 	});
-
+	
+	# Картинки
 	$m = $c->model('Image');
-
-	my $img = $m->product_list( { product_id => $res->{'product_id'} } );
+	my $img = $m->product_list( {
+		product_id => $res->{'product_id'}
+	} );
 	$res->{'images'} = $img->{'data'};
 	
+	# Характреристики
+	$m = $c->model('Feature');
+	my $feature = $m->get_v_product2feature( $res->{'product_id'} );
+	$res->{'feature'} = $feature;
+	
 	$c->stash->{ $c->config->{'project_name'} }->{'product_item'} =	$res;
-	
-	$c->stash->{ $c->config->{'project_name'} }->{'filter'}->{'color'} = {
-		title=>'Цвет',
-		class => 'color-selector detail-info-entry',
-		item_class => 'entry',
-		items => [
-			{ value => '#000000;'},
-			{ value => '#333333;'}
-		]
-	};
-	
 	$c->render(template => 'pages/catalog/item');
 }
 
@@ -58,6 +55,7 @@ sub portal {
 	
 	my @cat = @{ $c->stash->{ $c->config->{'project_name'} }->{'category_all'} };
 	
+	# Товары
 	my $m = $c->model('Product');
 	my $res  = $m->get_product2category(
 		{
@@ -66,24 +64,27 @@ sub portal {
 		$init
 	);
 	
-	$m = $c->model('Image');
-	
-	for my $item ( @{$res->{'data'}} ){
+	# Картинки
+	$m = $c->model('Image');	
+	for my $item ( @{$res->{'data'}} ){		
 		my $img = $m->product_list( {product_id => $item->{'product_id'} } );
 		$item->{'images'} = $img->{'data'};
-	}
+	}	
+	
+	# Характеристики
+	$m = $c->model('Feature');	
+	for my $item ( @{$res->{'data'}} ){		
+		my $feature = $m->get_v_product2feature( $item->{'product_id'} );
+		$item->{'feature'} = $feature;
+	}	
+	
+	my @arr = ( @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}});
+	$res->{'data'} = \@arr;
 	
 	$c->stash->{ $c->config->{'project_name'} }->{'products'} = $res;
 	
 	$c->stash->{ $c->config->{'project_name'} }->{'products_pagination'} = $c->pagination( $init->{'page'} || 1, $res->{'count'}, { round => 1 });	
-	
-	$c->stash->{ $c->config->{'project_name'} }->{'filter'}->{'color'} = {
-		title=>'Цвет',
-		class => 'color-selector detail-info-entry',
-		item_class => 'entry',
-		items => [ { value => '#000000;'}, {value => '#333333;' } ]
-	};
-	
+		
 	$c->stash->{ $c->config->{'project_name'} }->{'filter'}->{'price'} = {
 		min => $res->{'filter'}->{'price'}->{'min'},
 		max => $res->{'filter'}->{'price'}->{'max'},

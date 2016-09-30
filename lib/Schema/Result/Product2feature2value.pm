@@ -23,6 +23,13 @@ __PACKAGE__->table("product2feature2value");
 
 =head1 ACCESSORS
 
+=head2 product2feature2value_id
+
+  data_type: 'integer'
+  extra: {unsigned => 1}
+  is_auto_increment: 1
+  is_nullable: 0
+
 =head2 product_id
 
   data_type: 'integer'
@@ -47,6 +54,13 @@ __PACKAGE__->table("product2feature2value");
 =cut
 
 __PACKAGE__->add_columns(
+  "product2feature2value_id",
+  {
+    data_type => "integer",
+    extra => { unsigned => 1 },
+    is_auto_increment => 1,
+    is_nullable => 0,
+  },
   "product_id",
   {
     data_type => "integer",
@@ -69,13 +83,29 @@ __PACKAGE__->add_columns(
 
 =over 4
 
-=item * L</product_id>
+=item * L</product2feature2value_id>
 
 =back
 
 =cut
 
-__PACKAGE__->set_primary_key("product_id");
+__PACKAGE__->set_primary_key("product2feature2value_id");
+
+=head1 UNIQUE CONSTRAINTS
+
+=head2 C<product_id_UNIQUE>
+
+=over 4
+
+=item * L</product_id>
+
+=item * L</feature2value_id>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("product_id_UNIQUE", ["product_id", "feature2value_id"]);
 
 =head1 RELATIONS
 
@@ -110,8 +140,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-20 15:38:16
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0lWDlxhui6L8YJA8fQe41Q
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-29 14:53:11
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/b7yLijq9zGi+zMzQ+z71Q
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

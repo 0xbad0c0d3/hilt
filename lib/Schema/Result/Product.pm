@@ -267,16 +267,16 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
-=head2 product2feature2value
+=head2 product2feature2values
 
-Type: might_have
+Type: has_many
 
 Related object: L<Schema::Result::Product2feature2value>
 
 =cut
 
-__PACKAGE__->might_have(
-  "product2feature2value",
+__PACKAGE__->has_many(
+  "product2feature2values",
   "Schema::Result::Product2feature2value",
   { "foreign.product_id" => "self.product_id" },
   { cascade_copy => 0, cascade_delete => 0 },
@@ -328,8 +328,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-20 15:38:16
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:0p4mVq2FUWsmu2KXj259AQ
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-29 11:59:05
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:QtwupX84qceXWBO97/2W0A
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

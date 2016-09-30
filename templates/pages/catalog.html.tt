@@ -32,14 +32,13 @@
 				<div class="clear"></div>
 			</div>
 			<div class="row shop-grid grid-view">
-
 				[% FOREACH item IN hilt.products.data %]
 				<div class="col-md-3 col-sm-4 shop-grid-item">
 					<div class="product-slide-entry shift-image1">
 						[% IF item.images %]
 						<div class="product-image">
 							[% FOREACH i IN item.images %]
-								[% IF i.w == 192 %]
+								[% IF i.w == 465 %]
 								<img src="[% i.url_path %]" alt="[% item.title %]">
 								[% LAST %]
 								[% END %]
@@ -55,8 +54,8 @@
 							</div>
 						</div>
 						[% END %]
-						[% IF item.brand %]
-						<a class="tag" href="#">[% item.brand %]</a>
+						[% IF item.feature.Бренд %]
+						<div class="tag" href="#">[% item.feature.Бренд.0.value %]</div>
 						[% END %]
 						<a class="title" href="/catalog[% item.data.url2site %]/[% item.data.url %].html">[% item.data.title %]</a>
 						<div class="rating-box">
@@ -67,7 +66,7 @@
 								<div class="star"><i class="fa fa-star-o"></i></div>
 								[% END %]
 							[% END %]
-						</div>
+						</div>						
 						[% IF  item.data.description  %]
 						<div class="article-container style-1">
 							<p>[% item.data.description %]</p>
@@ -75,7 +74,7 @@
 						[% END %]
 						[% IF item.data.quantity %]
 							[% IF item.data.price %]
-							<div class="price">
+							<div class="price" style="padding-bottom:0">
 								[% IF item.data.price.prev %]
 								<div class="prev">[% item.data.price.prev %]</div>
 								[% END %]
@@ -84,11 +83,39 @@
 								[% END %]
 							</div>
 							[% END %]
+							[% IF item.feature.Размер %]
+								<style>
+									.size-selector .entry2 {
+										display: inline-block;
+										width: 20px;
+										/* height: 20px; */
+										/* line-height: 37px; */
+										/* border: 1px #d9d9d9 solid; */
+										text-align: center;
+										font-size: 12px;
+										color: #4c4c4c;
+										/* font-weight: 500; */
+										/* margin-right: 12px; */
+										position: relative;
+										text-transform: uppercase;
+										/* cursor: pointer; */
+										/* margin-bottom: 12px; */
+									}									
+								</style>
+								<div class="size-selector">
+								[% FOR item IN item.feature.Размер %]
+									[% FOR size IN item.value %]
+										<div class="entry2" style="">[% size %]</div>
+									[% END %]
+								[% END %]
+								</div>
+							[% END %]
+						
 						[% END %]
 						[% IF item.data.quantity %]
 						<div class="list-buttons">
 							<a class="button style-10">В корзину</a>
-							<a class="button style-11"><i class="fa fa-heart"></i> Сравнение</a>
+							<a class="button style-11"><i class="fa fa-heart"></i> В закладки</a>
 						</div>
 						[% END %]
 					</div>

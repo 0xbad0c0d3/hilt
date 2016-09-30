@@ -84,13 +84,16 @@ sub set_feature2product {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();
 		
-	my( $res,$err ) = ( [],'' );
+	my( $res,$err) = ( [],'' );
+	my @ret = ();
+	
 	if( $id && $data && ref $data eq "HASH" ){
 		my $feature = {};
 		while ( my($key, $value) = each %{ $data} ){
 			$feature->{ trim($key) } = $value;
 		}
 		( $res,$err ) = $m->set_feature2product( $id, $feature );
+		push @ret, $err ? $err : $res;
 	}
 	else{
 		$res = { failue => \1, massage => 'not all mandatory params' }; 

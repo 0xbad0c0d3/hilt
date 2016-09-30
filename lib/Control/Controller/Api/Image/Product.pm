@@ -25,15 +25,15 @@ sub set {
 
 	# priduct_id
 	unless( $id ){
-		$c->app->log->warn('Not patam product_id');
-		return $c->render( text => 'Not patam product_id' );
+		$c->app->log->warn('Not param product_id');
+		return $c->render( json => { error => 'Not patam product_id' } );
 	}	
 	#
 	# Origin 
 	#
 	my $info = $c->app->config->{'image'}->{'product'}->{'origin'} or do {
 		$c->app->log->warn('image->product->origin not exists');
-		return $c->render( text => 'image->product->origin not exists' );
+		return $c->render( json => { error => 'image->product->origin not exists' } );
 	};
 	
 	if( my $res = $c->_info( 'origin', $info ) ){

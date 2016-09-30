@@ -230,10 +230,10 @@ sub startup {
 		$api->any('/content/feature2product/:id')->to('api-content-feature#set_feature2product');
 		
 		# images
-		$api->delete('/image/product/:id' => [ id => qr/^\d+$/ ] )->over( is_admin => 1 )->to('api-image-product#delete');
-		$api->post('/image/product/:id' => [ id => qr/^\d+$/ ] )->to('api-image-product#set');
-		$api->get('/image/product/list/:id' => [ id => qr/^\d+$/ ] )->over( is_admin => 1 )->to('api-image-product#list');
-		$api->get('/image/product/:id' => [ id => qr/^\d+$/ ])->to('api-image-product#get');
+		$api->delete('/image/product/:id')->over( is_admin => 1 )->to('api-image-product#delete');
+		$api->post('/image/product/:id' )->to('api-image-product#set');
+		$api->get('/image/product/list/:id' )->over( is_admin => 1 )->to('api-image-product#list');
+		$api->get('/image/product/:id' )->to('api-image-product#get');
 	
 	####################
 	# admin
