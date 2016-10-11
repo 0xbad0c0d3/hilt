@@ -163,7 +163,7 @@ for my $pr ( @{$db_data} ) {
 		say " OK";
 	}
 	
-	if( $pr->{'files'} && 1==0 ){
+	if( $pr->{'files'} && 1==1 ){
 		print "Send img to product " . $json->{'product_id'} ." => ";
 		my ($json,$err) = add_img( $json->{'product_id'}, $pr->{'files'} );
 		if( $err ){
@@ -175,7 +175,7 @@ for my $pr ( @{$db_data} ) {
 		}
 	}
 	
-	if( $feature && 1==0 ) {
+	if( $feature && 1==1 ) {
 		print "Send feature to product " . $json->{'product_id'} ." => ";
 		my ($json,$err) = add_feature( $json->{'product_id'}, $feature );
 		if( $err ){

@@ -147,7 +147,7 @@
 				[% IF hilt.product_item.quantity %]
 				<div class="detail-info-entry">
 					<a class="button style-10"><i class="fa fa-shopping-cart fa-3"></i> В корзину</a>
-					<a class="button style-11"><i class="fa fa-heart"></i> В сравнение</a>
+					<a class="button style-11"><i class="fa fa-heart"></i> В закладки</a>
 										
 					<div class="clear"></div>
 				</div>

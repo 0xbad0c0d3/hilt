@@ -84,8 +84,16 @@ sub portal {
 	$c->stash->{ $c->config->{'project_name'} }->{'products'} = $res;
 	
 	$c->stash->{ $c->config->{'project_name'} }->{'products_pagination'} = $c->pagination( $init->{'page'} || 1, $res->{'count'}, { round => 1 });	
+	
+	#
+	# 
+	#
+	$m = $c->model('Filter');
+	my $filter = $m->get_filter2catalog( { product => [ map{ $_->{'product_id'} } @{$res->{'data'}} ] } );
 		
-	$c->stash->{ $c->config->{'project_name'} }->{'filter'}->{'price'} = {
+	$c->stash->{ $c->config->{'project_name'} }->{'filter'} = $filter;
+
+	$c->stash->{ $c->config->{'project_name'} }->{'price'} = {
 		min => $res->{'filter'}->{'price'}->{'min'},
 		max => $res->{'filter'}->{'price'}->{'max'},
 	};

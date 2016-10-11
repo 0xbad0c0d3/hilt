@@ -70,7 +70,7 @@ sub startup {
 			$data->{'data'} = $c->req->json();
 			$data->{'data'} = $c->req->params->to_hash() if ( $c->req->params && %{$c->req->params->to_hash()} );
 			
-			if( $data->{'data'}->{'token'} ){
+			if( exists $data->{'data'}->{'token'} ){
 				$c->stash( 'token', $data->{'data'}->{'token'} );
 				delete $data->{'data'}->{'token'};
 			}

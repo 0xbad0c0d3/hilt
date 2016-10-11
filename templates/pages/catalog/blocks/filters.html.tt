@@ -7,9 +7,9 @@
 						<span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0" ></span>
 					</div>
 					<div class="range-price">
-						<div class="min-price"><b>от <span>[% hilt.filter.price.min %]</span></b></div>
+						<div class="min-price"><b>от <span>[% hilt.price.min %]</span></b></div>
 						<b> - </b>
-						<div class="max-price"><b>до <span>[% hilt.filter.price.max %]</span></b></div>
+						<div class="max-price"><b>до <span>[% hilt.price.max %]</span></b></div>
 					</div>
 					<a class="button style-14">ОК</a>
 				</div>
@@ -28,40 +28,26 @@
 					<div class="spacer"></div>
 				</div>
 			</div>-->
-
+			
+			[% FOR item IN hilt.filter.pairs %]
 			<div class="information-blocks">
-				<div class="block-title size-2">Бренд</div>
+				<div class="block-title size-2">[% item.key %]</div>
 				<div class="row">
+					[% FOR arr IN item.value %]
 					<div class="col-xs-6">
-						<label class="checkbox-entry">
-							<input type="checkbox"> <span class="check"></span> Armani
-						</label>
-						<label class="checkbox-entry">
-							<input type="checkbox"> <span class="check"></span> Bershka Co
-						</label>
-						<label class="checkbox-entry">
-							<input type="checkbox"> <span class="check"></span> Nelly.com
-						</label>
-						<label class="checkbox-entry">
-							<input type="checkbox"> <span class="check"></span> Zigzag Inc
-						</label>  
+						[% FOR hash IN arr %]
+							[% IF hash.value %]
+							<label class="checkbox-entry">
+								<input type="checkbox"> <span class="check"></span> [% hash.value %]
+							</label>
+							[% END %]
+						[% END %]
 					</div>
-					<div class="col-xs-6">
-						<label class="checkbox-entry">
-							<input type="checkbox"> <span class="check"></span> Armani
-						</label>
-						<label class="checkbox-entry">
-							<input type="checkbox"> <span class="check"></span> Bershka Co
-						</label>
-						<label class="checkbox-entry">
-							<input type="checkbox"> <span class="check"></span> Nelly.com
-						</label>
-						<label class="checkbox-entry">
-							<input type="checkbox"> <span class="check"></span> Zigzag Inc
-						</label> 
-					</div>
+					[% END %]
 				</div>
 			</div>
+			[% END %]
+
 
 			<!--<div class="information-blocks">
 				<div class="block-title size-2">Цвет</div>

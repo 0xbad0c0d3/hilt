@@ -12,7 +12,8 @@ sub get_product2category {
 	my $r = $db->resultset('Product2category')->search( $data ,{
 		rows => $attr->{'rows'},
 		page => $attr->{'page'},
-		group_by => ['product_id']
+		columns => [ qw/product_id category_id/ ],
+		distinct => 1
 	});  
 
 	$r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
