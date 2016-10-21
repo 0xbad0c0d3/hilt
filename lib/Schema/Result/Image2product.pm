@@ -34,12 +34,14 @@ __PACKAGE__->table("image2product");
 
   data_type: 'integer'
   extra: {unsigned => 1}
+  is_foreign_key: 1
   is_nullable: 0
 
 =head2 image_id
 
   data_type: 'integer'
   extra: {unsigned => 1}
+  is_foreign_key: 1
   is_nullable: 0
 
 =head2 w
@@ -101,9 +103,19 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
   },
   "product_id",
-  { data_type => "integer", extra => { unsigned => 1 }, is_nullable => 0 },
+  {
+    data_type => "integer",
+    extra => { unsigned => 1 },
+    is_foreign_key => 1,
+    is_nullable => 0,
+  },
   "image_id",
-  { data_type => "integer", extra => { unsigned => 1 }, is_nullable => 0 },
+  {
+    data_type => "integer",
+    extra => { unsigned => 1 },
+    is_foreign_key => 1,
+    is_nullable => 0,
+  },
   "w",
   { data_type => "integer", extra => { unsigned => 1 }, is_nullable => 0 },
   "h",
@@ -155,9 +167,41 @@ __PACKAGE__->set_primary_key("image2product_id");
 
 __PACKAGE__->add_unique_constraint("md5_hex_UNIQUE", ["md5_hex", "path"]);
 
+=head1 RELATIONS
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-07-26 10:51:01
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:2s4SOa3HNkmS/uu8kMWLMA
+=head2 image
+
+Type: belongs_to
+
+Related object: L<Schema::Result::Image>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "image",
+  "Schema::Result::Image",
+  { image_id => "image_id" },
+  { is_deferrable => 1, on_delete => "CASCADE", on_update => "NO ACTION" },
+);
+
+=head2 product
+
+Type: belongs_to
+
+Related object: L<Schema::Result::Product>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "product",
+  "Schema::Result::Product",
+  { product_id => "product_id" },
+  { is_deferrable => 1, on_delete => "CASCADE", on_update => "NO ACTION" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-10-19 12:25:14
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:FO50NF4wFenkh8IYXeqH4w
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

@@ -6,6 +6,7 @@ use Mojo::Log;
 use open qw(:std :utf8);
 use utf8;
 use Data::Dumper;
+use Lingua::Translit;
 
 my($r, $api, $conf, $admin);
 
@@ -117,6 +118,15 @@ sub startup {
 			return $res;
 		};
 		
+		$c->stash->{ $c->config->{'project_name'} }->{'translit'} = sub {
+			my $text = shift or return undef;
+			my $tr = new Lingua::Translit("GOST 7.79 RUS");
+			$text = $tr->translit( $text );
+			$text =~s/[^0-9A-Z\s]//ig;
+			$text =~s/\s+/-/ig;
+			return lc( $text );
+		};
+		
 
 		my $token = $c->req->headers->header('X-CSRF-Token') || $c->param('csrf');
 		my $user = $c->session( $self->config->{'session'}->{'cookie_name'} );
@@ -164,10 +174,8 @@ sub startup {
 	
 	$r->get('/compare')->to('compare#default');
 	
-	$r->get('/events/*path/:html' => [ format => ['html'] ] )->to('events#item');
-	$r->get('/events/*html' => [ format=>'html' ] )->to('events#default');
-	$r->get('/events/*path')->to('events#default');
-	$r->get('/events')->to('events#default');
+	$r->get('/events/*path' => [ format => ['html'] ] )->to('event#item');
+	$r->get('/events')->to('event#default');
 	
 	$r->get('/profile/*html' => [ format => ['html'] ])->to('profile#default');
 	$r->get('/profile')->to('profile#default')->name('profile');

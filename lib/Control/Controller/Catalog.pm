@@ -2,11 +2,10 @@ package Control::Controller::Catalog;
 use Mojo::Base 'Mojolicious::Controller';
 use Data::Dumper;
 
-my ( $init,%ids ) = ( '',() );
+my ( $init, $m, %ids ) = ( '', '', () );
 
 sub _init {
 	my $c = shift;
-	my( $m ) = ('');
 	$m = $c->model('default');
 	$m->get_default_data( $c );
 	$init = $c->c_init();
@@ -105,7 +104,7 @@ sub portal {
 sub _category {
 	my $c = shift;
 	return $c->reply->not_found unless $c->stash('path');
-	my $arr = [];
+	my $arr = [{ url => '/', title => 'На главную' }];
 	my $m = $c->model('Category');	
 	my @urls = split /\//, $c->stash('path');
 	my $u = shift @urls;

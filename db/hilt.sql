@@ -625,6 +625,35 @@ INSERT INTO `product2feature2value` VALUES (148,7,33,''),(149,7,32,''),(150,7,34
 UNLOCK TABLES;
 
 --
+-- Table structure for table `product2sale`
+--
+
+DROP TABLE IF EXISTS `product2sale`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product2sale` (
+  `product2sale_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `sale_id` int(10) unsigned NOT NULL,
+  `product_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`product2sale_id`),
+  KEY `fk_product2sale_1_idx` (`sale_id`),
+  KEY `fk_product2sale_2_idx` (`product_id`),
+  CONSTRAINT `fk_product2sale_1` FOREIGN KEY (`sale_id`) REFERENCES `sale` (`sale_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fk_product2sale_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product2sale`
+--
+
+LOCK TABLES `product2sale` WRITE;
+/*!40000 ALTER TABLE `product2sale` DISABLE KEYS */;
+INSERT INTO `product2sale` VALUES (1,1,7),(2,2,8),(3,2,9);
+/*!40000 ALTER TABLE `product2sale` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `product_price`
 --
 
@@ -666,9 +695,20 @@ DROP TABLE IF EXISTS `sale`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sale` (
   `sale_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL,
-  PRIMARY KEY (`sale_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `saletype_id` int(10) unsigned NOT NULL DEFAULT '1',
+  `value` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `date_start` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_end` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(1000) NOT NULL DEFAULT '',
+  `url` varchar(1000) NOT NULL DEFAULT '',
+  `url_md5` varchar(45) NOT NULL,
+  PRIMARY KEY (`sale_id`),
+  UNIQUE KEY `index3` (`url_md5`),
+  KEY `fk_sale_1_idx` (`saletype_id`),
+  CONSTRAINT `fk_sale_1` FOREIGN KEY (`saletype_id`) REFERENCES `sale_type` (`saletype_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -677,8 +717,32 @@ CREATE TABLE `sale` (
 
 LOCK TABLES `sale` WRITE;
 /*!40000 ALTER TABLE `sale` DISABLE KEYS */;
-INSERT INTO `sale` VALUES (1,'Скидка %'),(2,'Скидка грн'),(3,'Подарок');
+INSERT INTO `sale` VALUES (1,1,40,1,'2016-10-17 13:03:07','2016-10-21 16:03:07','Натуральная индийская косметика для волос: масла, шампуни, кондиционеры от 30 грн','Косметические средства для ухода за волосами и кожей головы от индийских брендов Parachute, Mayur и Hair&Care помогут славянским красавицам отрастить обалденную шевелюру на зависть соперницам. С косметикой из нашей коллекции Вы:\n\n- восстановите ослабленные и тусклые волосы, вернёте им утраченную силу,\n\n-избавитесь от сезонного выпадения волос,\n\n-облегчите расчесывание,\n\n-нормализуете жирность кожи головы и волос,\n\n- сделаете волосы более блестящими.\n\nМасла содержат большое количество природных веществ, необходимых для здоровья и красоты, витамины и микроэлементы. Благодаря этому они эффективно защитят волосы от ломкости, обеспечат термозащиту при укладке и предотвратят образование секущихся кончиков.\n\nВ комплексе с уникальными индийскими травами масла ухаживают за волосами, не утяжеляя их и не увеличивая жирность кожи головы.','naturalnaya-indijskaya-kosmetika-dlya-volos-masla-shampuni-kondicionery-ot-30-grn','b87dfa7243f7b0c43771ad3093cd0a13'),(2,1,20,1,'2016-10-17 14:03:41','2016-10-18 14:03:41','СТОК - женские ремни Zara, Stradivarius, Next и другие бренды от 99 грн','Стильные женские ремни и пояса – неотъемлемые предметы женского гардероба, которые выполняют не только практичные функции, но используются как значимые, декоративные аксессуары. Правильно подобранный ремень выгодно подчеркнет талию, придаст имиджу новые оттенки и продемонстрирует утонченный вкус своей обладательницы.\n\nВ этой коллекции представлены женские ремни от известных брендов, среди которых Zara, Stradivarius, Next, изготовлены из полиуретана, кожзама и кожи. Такие аксессуары гармонично смотрятся со свободными и слегка удлиненными блузами, платьями и туниками. Благодаря своей лаконичности, все модели будут хорошо носиться с брюками или джансами. Ремни из этой акции различны, присутствуют модели с имитацией кожи рептилий, с кожаными узорами и тиснениями, художественной перфорацией и плетеными элементами. Они выгодно украсят и оживят наряд.','stok-zhenskie-remni-zara-stradivarius-next-i-drugie-brendy-ot-99-grn','af027ea47fe38e2c45dd2c2d86cf5134');
 /*!40000 ALTER TABLE `sale` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sale_type`
+--
+
+DROP TABLE IF EXISTS `sale_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sale_type` (
+  `saletype_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) NOT NULL,
+  PRIMARY KEY (`saletype_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sale_type`
+--
+
+LOCK TABLES `sale_type` WRITE;
+/*!40000 ALTER TABLE `sale_type` DISABLE KEYS */;
+INSERT INTO `sale_type` VALUES (1,'Скидка %'),(2,'Скидка грн'),(3,'Подарок');
+/*!40000 ALTER TABLE `sale_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -960,6 +1024,44 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Temporary view structure for view `v_product2sale`
+--
+
+DROP TABLE IF EXISTS `v_product2sale`;
+/*!50001 DROP VIEW IF EXISTS `v_product2sale`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `v_product2sale` AS SELECT 
+ 1 AS `category_id`,
+ 1 AS `product_id`,
+ 1 AS `user_id`,
+ 1 AS `depth`,
+ 1 AS `width`,
+ 1 AS `heigth`,
+ 1 AS `weight`,
+ 1 AS `quantity`,
+ 1 AS `unit_id`,
+ 1 AS `barcode`,
+ 1 AS `rating`,
+ 1 AS `url`,
+ 1 AS `title`,
+ 1 AS `tag_title`,
+ 1 AS `description`,
+ 1 AS `tag_description`,
+ 1 AS `tag_keywords`,
+ 1 AS `date_create`,
+ 1 AS `date_update`,
+ 1 AS `category_name`,
+ 1 AS `url2site`,
+ 1 AS `instr`,
+ 1 AS `caterory_url`,
+ 1 AS `unit_code`,
+ 1 AS `unit_code2`,
+ 1 AS `unit_name`,
+ 1 AS `sale_id`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `v_product_info`
 --
 
@@ -994,6 +1096,28 @@ SET character_set_client = utf8;
  1 AS `unit_code`,
  1 AS `unit_code2`,
  1 AS `unit_name`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `v_sale_info`
+--
+
+DROP TABLE IF EXISTS `v_sale_info`;
+/*!50001 DROP VIEW IF EXISTS `v_sale_info`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `v_sale_info` AS SELECT 
+ 1 AS `day`,
+ 1 AS `time`,
+ 1 AS `sale_id`,
+ 1 AS `saletype_id`,
+ 1 AS `value`,
+ 1 AS `user_id`,
+ 1 AS `date_start`,
+ 1 AS `date_end`,
+ 1 AS `title`,
+ 1 AS `description`,
+ 1 AS `url_md5`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -1042,6 +1166,24 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
+-- Final view structure for view `v_product2sale`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_product2sale`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_product2sale` AS select `tb1`.`category_id` AS `category_id`,`tb1`.`product_id` AS `product_id`,`tb1`.`user_id` AS `user_id`,`tb1`.`depth` AS `depth`,`tb1`.`width` AS `width`,`tb1`.`heigth` AS `heigth`,`tb1`.`weight` AS `weight`,`tb1`.`quantity` AS `quantity`,`tb1`.`unit_id` AS `unit_id`,`tb1`.`barcode` AS `barcode`,`tb1`.`rating` AS `rating`,`tb1`.`url` AS `url`,`tb1`.`title` AS `title`,`tb1`.`tag_title` AS `tag_title`,`tb1`.`description` AS `description`,`tb1`.`tag_description` AS `tag_description`,`tb1`.`tag_keywords` AS `tag_keywords`,`tb1`.`date_create` AS `date_create`,`tb1`.`date_update` AS `date_update`,`tb1`.`category_name` AS `category_name`,`tb1`.`url2site` AS `url2site`,`tb1`.`instr` AS `instr`,`tb1`.`caterory_url` AS `caterory_url`,`tb1`.`unit_code` AS `unit_code`,`tb1`.`unit_code2` AS `unit_code2`,`tb1`.`unit_name` AS `unit_name`,`tb2`.`sale_id` AS `sale_id` from (`v_product_info` `tb1` join `product2sale` `tb2` on((`tb1`.`product_id` = `tb2`.`product_id`))) group by `tb1`.`product_id` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `v_product_info`
 --
 
@@ -1055,6 +1197,24 @@ SET character_set_client = @saved_cs_client;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `v_product_info` AS select `tb1`.`category_id` AS `category_id`,`tb2`.`product_id` AS `product_id`,`tb2`.`user_id` AS `user_id`,`tb2`.`depth` AS `depth`,`tb2`.`width` AS `width`,`tb2`.`heigth` AS `heigth`,`tb2`.`weight` AS `weight`,`tb2`.`quantity` AS `quantity`,`tb2`.`unit_id` AS `unit_id`,`tb2`.`barcode` AS `barcode`,`tb2`.`rating` AS `rating`,`tb2`.`url` AS `url`,`tb2`.`title` AS `title`,`tb2`.`tag_title` AS `tag_title`,`tb2`.`description` AS `description`,`tb2`.`tag_description` AS `tag_description`,`tb2`.`tag_keywords` AS `tag_keywords`,`tb2`.`date_create` AS `date_create`,`tb2`.`date_update` AS `date_update`,`tb3`.`title` AS `category_name`,`tb3`.`url2site` AS `url2site`,`tb3`.`instr` AS `instr`,`tb3`.`url` AS `caterory_url`,`tb4`.`code` AS `unit_code`,`tb4`.`code2` AS `unit_code2`,`tb4`.`name` AS `unit_name` from (((`product2category` `tb1` join `product` `tb2` on((`tb1`.`product_id` = `tb2`.`product_id`))) join `category` `tb3` on((`tb1`.`category_id` = `tb3`.`category_id`))) join `unit` `tb4` on((`tb2`.`unit_id` = `tb4`.`unit_id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `v_sale_info`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_sale_info`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_sale_info` AS select (to_days(`tb1`.`date_end`) - to_days(now())) AS `day`,sec_to_time((time_to_sec(`tb1`.`date_end`) - time_to_sec(now()))) AS `time`,`tb1`.`sale_id` AS `sale_id`,`tb1`.`saletype_id` AS `saletype_id`,`tb1`.`value` AS `value`,`tb1`.`user_id` AS `user_id`,`tb1`.`date_start` AS `date_start`,`tb1`.`date_end` AS `date_end`,`tb1`.`title` AS `title`,`tb1`.`description` AS `description`,`tb1`.`url_md5` AS `url_md5` from `sale` `tb1` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -1086,4 +1246,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-11 10:57:02
+-- Dump completed on 2016-10-21  9:54:40

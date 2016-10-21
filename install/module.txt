@@ -32,20 +32,4 @@ JavaScript::Minifier::XS
 Digest::MD5::File
 XML::Hash
 XML::Hash::XS
-
-Mojo::Message -> _cache 241  $name ||= '';
-
-dbicdump -o dump_directory=./lib Schema 'dbi:mysql:hilt:localhost:3306' root
-DBIC_TRACE=1 ./tmp/adduser.pl
-
-
-git
-
-sudo git commit -m 'megamenu'
-000 все изменения
-sudo git push origin
-sudo git rm --cached logs/hilt.log
-
-
-
-
+Spreadsheet::XLSX

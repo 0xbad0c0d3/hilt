@@ -136,9 +136,26 @@ __PACKAGE__->set_primary_key("image_id");
 
 __PACKAGE__->add_unique_constraint("md5_UNIQUE", ["md5_hex"]);
 
+=head1 RELATIONS
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-07-25 16:57:36
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pnlSE6NWxSupr7SQOimB4g
+=head2 image2products
+
+Type: has_many
+
+Related object: L<Schema::Result::Image2product>
+
+=cut
+
+__PACKAGE__->has_many(
+  "image2products",
+  "Schema::Result::Image2product",
+  { "foreign.image_id" => "self.image_id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-10-19 12:25:14
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:47lQL3SxSGQ6HEbwTxNjMg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
