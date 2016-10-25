@@ -11,8 +11,8 @@
 			<div class="product-preview-box">
 				
 				<div class="swiper-container product-preview-swiper swiper-container-autoheight" data-autoplay="0" data-loop="1" data-speed="500" data-center="0" data-slides-per-view="1">
-					[% IF hilt.product_item.sale %]
-					<div class="product-image-label type-1"><span>- [% hilt.product_item.sale.value %] [% hilt.product_item.sale.type %]</span></div>
+					[% IF hilt.product_item.price.percent %]
+					<div class="product-image-label type-1"><span>-[% hilt.product_item.price.percent %]%</span></div>
 					[% END %]
 					
 					<div class="swiper-wrapper">
@@ -125,7 +125,7 @@
 				</div>
 				[% END %]
 				
-				[% IF hilt.product_item.feature.Цвет %]
+				[% IF hilt.product_item.feature.Цвет1 %]
 				<div class="color-selector detail-info-entry">
 					<div class="block-title size-2">Цвет</div>
 					[% FOREACH item IN hilt.product_item.feature.Цвет %]
@@ -175,15 +175,15 @@
 		
 			<div class="row">
 				<div class="col-md-12 product-detail-box">
-					<h3 class="product-title">Акция</h3>
 					<div class="information-blocks production-logo">
 						<div class="background">
-							<div class="logo"><img src="http://hilt.com.ua/admin/bindata/_0697079_image2.jpg" alt=""></div>
-							<a href="#">Кольца, серьги, браслеты, бусы и подвески missOrnament и Malu от 49 грн</a>
+							<h3 class="product-title">Акция</h3>
+							<!-- <div class="logo"><img src="http://hilt.com.ua/admin/bindata/_0697079_image2.jpg" alt=""></div> -->
+							<a href="/events/[% hilt.translit( hilt.product_item.sale.title ) %].html">[% hilt.product_item.sale.title %]</a>
 
-							<div class="article-container style-1 text-left">
+							<div class="article-container style-1 text-left" style="max-height: 300px; overflow: auto">
 								<hr>
-								<p>Изысканное украшение – это отличная изюминка для любого образа! Ведь красота в мелочах! Стразы и кристаллы будут к лицу любой девушке! Модницы в восторге!</p>
+								[% hilt.product_item.sale.description %]
 							</div>
 						</div>
 					</div>
@@ -264,7 +264,7 @@
 	</div>
 </div>
 
-[% IF 1==1 %]
+[% IF 1==0 %]
 [% PROCESS pages/default/blocks/related_product_col4.html.tt %]
 [% END %]
 			

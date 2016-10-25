@@ -44,6 +44,20 @@ __PACKAGE__->table("product2sale");
   is_foreign_key: 1
   is_nullable: 0
 
+=head2 price
+
+  data_type: 'integer'
+  default_value: 0
+  extra: {unsigned => 1}
+  is_nullable: 0
+
+=head2 price_after
+
+  data_type: 'integer'
+  default_value: 0
+  extra: {unsigned => 1}
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -66,6 +80,20 @@ __PACKAGE__->add_columns(
     data_type => "integer",
     extra => { unsigned => 1 },
     is_foreign_key => 1,
+    is_nullable => 0,
+  },
+  "price",
+  {
+    data_type => "integer",
+    default_value => 0,
+    extra => { unsigned => 1 },
+    is_nullable => 0,
+  },
+  "price_after",
+  {
+    data_type => "integer",
+    default_value => 0,
+    extra => { unsigned => 1 },
     is_nullable => 0,
   },
 );
@@ -115,8 +143,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-10-19 12:25:14
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:G9wz6/1DGTN9NZ/9+S6gAg
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-10-25 14:27:51
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:E50OB4giREZDYP8WbwR6mQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

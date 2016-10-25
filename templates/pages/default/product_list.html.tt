@@ -36,8 +36,8 @@
 								[% LAST %]
 								[% END %]
 							[% END %]
-							[% IF item.sale %]
-							<div class="product-image-label type-1"><span>-[% item.sale.value %] [% item.sale.type %]</span></div>
+							[% IF item.price.percent %]
+							<div class="product-image-label type-1"><span>-[% item.price.percent %]%</span></div>
 							[% END %]
 							<div class="bottom-line left-attached">
 								<a class="bottom-line-a square"><i class="fa fa-shopping-cart"></i></a>

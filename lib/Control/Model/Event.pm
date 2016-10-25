@@ -144,4 +144,55 @@ sub get_product2event {
     };
 }
 
+sub product_is_sale {
+    my $model = shift;
+    my $product_id = shift;
+    my $db = $model->app->db; 
+    my $h = {};
+
+	my $rs = $db->resultset('VProduct2sale')->search(
+		{ product_id => $product_id },
+		{
+			columns => [ qw/product_id sale_id/ ],
+		}
+	);
+    $rs->result_class('DBIx::Class::ResultClass::HashRefInflator');  
+	my @res = $rs->all();
+	  
+	my $count = $rs->count;
+    if( $count ){
+        my $res = $db->resultset('VSaleInfo')->find( {
+            sale_id => $res[0]->{'sale_id'}
+        });
+    
+        if( $res ){
+            for my $key ( $res->columns ) {
+                $h->{ $key } = $res->$key if defined $res->$key;
+            }
+        }
+    }
+    return $count ? $h : undef;
+}
+
+sub get_product_price {
+    my $model = shift;
+    my $sale_id = shift;
+    my $product_id = shift;
+    my $db = $model->app->db; 
+    my $h = {};
+    my $res = $db->resultset('Product2sale')->find( {
+        sale_id => $sale_id,
+        product_id => $product_id
+    });
+
+    if( $res ){
+        for my $key ( $res->columns ) {
+            $h->{ $key } = $res->$key if defined $res->$key;
+        }
+    }
+    $h->{'price'} = int($h->{'price'}/100) if $h->{'price'};
+    $h->{'price_after'} = int($h->{'price_after'}/100) if $h->{'price_after'};            
+    
+    return %{ $h  } ? $h : undef;
+}
 1;

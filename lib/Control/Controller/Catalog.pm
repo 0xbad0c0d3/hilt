@@ -44,6 +44,19 @@ sub item {
 	my $feature = $m->get_v_product2feature( $res->{'product_id'} );
 	$res->{'feature'} = $feature;
 	
+	# Акции
+	$m = $c->model('Event');
+	my $sale = $m->product_is_sale( $res->{'product_id'} );
+	if( $sale ){
+		$res->{'sale'} = $sale;
+		my $price = $m->get_product_price( $sale->{'sale_id'}, $res->{'product_id'} );
+		if( $price ){
+			$res->{'price'}->{'prev'} = $res->{'price'}->{'current'};
+			$res->{'price'}->{'current'} = $price->{'price'};
+			$res->{'price'}->{'percent'} = 100 - int( $res->{'price'}->{'current'} * 100 / $res->{'price'}->{'prev'});
+		}
+	}
+	
 	$c->stash->{ $c->config->{'project_name'} }->{'product_item'} =	$res;
 	$c->render(template => 'pages/catalog/item');
 }
@@ -76,9 +89,24 @@ sub portal {
 		my $feature = $m->get_v_product2feature( $item->{'product_id'} );
 		$item->{'feature'} = $feature;
 	}	
-	
-	my @arr = ( @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}});
-	$res->{'data'} = \@arr;
+
+	# Акции
+	$m = $c->model('Event');
+	for my $item ( @{$res->{'data'}} ){
+		my $sale = $m->product_is_sale( $item->{'product_id'} );
+		if( $sale ){
+			$item->{'sale'} = $sale;
+			my $price = $m->get_product_price( $sale->{'sale_id'}, $item->{'product_id'} );
+			if( $price ){
+				$item->{'price'}->{'prev'} = $item->{'price'}->{'current'};
+				$item->{'price'}->{'current'} = $price->{'price'};
+				#$item->{'price'}->{'percent'} = 100 - int( $item->{'price'}->{'current'} * 100 / $item->{'price'}->{'prev'});
+			}
+			say Dumper( $item->{'product_id'}, $price );
+		}
+	}
+	#my @arr = ( @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}});
+	#$res->{'data'} = \@arr;
 	
 	$c->stash->{ $c->config->{'project_name'} }->{'products'} = $res;
 	
