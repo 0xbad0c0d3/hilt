@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.7.12, for linux-glibc2.5 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.15, for Linux (x86_64)
 --
 -- Host: localhost    Database: hilt
 -- ------------------------------------------------------
@@ -561,7 +561,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (7,1,0,0,0,0,5,1,2,'34567','kardigan-rouz','Кардиган Роуз','','Комфортный кардиган свободного силуэта с рукавом 7/8. По полочке для удобства предусмотрены накладные карманы. Изделие украшает контрастная отделка. Комфортен и практичен в ношении.','','','2016-10-05 14:35:25','2016-10-05 14:35:54'),(8,1,0,0,0,0,5,1,2,'34568','kardigan-emmi','Кардиган Эмми','','Стильный кардиган свободного силуэта с отворотами, выполненный из качественного материала. Модель с укороченным рукавом, без застежки. Отличный вариант для повседневного гардероба!','','','2016-10-05 14:35:26','2016-10-05 14:35:56'),(9,1,0,0,0,0,30,1,5,'34569','plate-miranda-bezhevoe','Платье Миранда бежевое','','Невероятно легкая, стильная одежда для настоящих модниц. Украсьте свое лето с яркой одеждой производителя качественной современной одежды!','','','2016-10-05 14:35:26','2016-10-05 14:35:58');
+INSERT INTO `product` VALUES (7,1,0,0,0,0,5,1,2,'34567','kardigan-rouz','Кардиган Роуз','','Комфортный кардиган свободного силуэта с рукавом 7/8. По полочке для удобства предусмотрены накладные карманы. Изделие украшает контрастная отделка. Комфортен и практичен в ношении.','','','2016-10-05 14:35:25','2016-10-25 16:30:21'),(8,1,0,0,0,0,5,1,2,'34568','kardigan-emmi','Кардиган Эмми','','Стильный кардиган свободного силуэта с отворотами, выполненный из качественного материала. Модель с укороченным рукавом, без застежки. Отличный вариант для повседневного гардероба!','','','2016-10-05 14:35:26','2016-10-25 16:30:41'),(9,1,0,0,0,0,30,1,5,'34569','plate-miranda-bezhevoe','Платье Миранда бежевое','','Невероятно легкая, стильная одежда для настоящих модниц. Украсьте свое лето с яркой одеждой производителя качественной современной одежды!','','','2016-10-05 14:35:26','2016-10-25 16:30:44');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -590,7 +590,7 @@ CREATE TABLE `product2category` (
 
 LOCK TABLES `product2category` WRITE;
 /*!40000 ALTER TABLE `product2category` DISABLE KEYS */;
-INSERT INTO `product2category` VALUES (46,7,'2016-10-05 14:35:54'),(46,8,'2016-10-05 14:35:56'),(46,9,'2016-10-05 14:35:58');
+INSERT INTO `product2category` VALUES (46,7,'2016-10-25 16:30:27'),(46,8,'2016-10-25 16:30:41'),(46,9,'2016-10-25 16:30:44');
 /*!40000 ALTER TABLE `product2category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -611,7 +611,7 @@ CREATE TABLE `product2feature2value` (
   KEY `fk_product2feature2value_2_idx` (`feature2value_id`),
   CONSTRAINT `fk_product2feature2value_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_product2feature2value_2` FOREIGN KEY (`feature2value_id`) REFERENCES `feature2value` (`feature2value_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -635,6 +635,8 @@ CREATE TABLE `product2sale` (
   `product2sale_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `sale_id` int(10) unsigned NOT NULL,
   `product_id` int(10) unsigned NOT NULL,
+  `price` int(11) unsigned NOT NULL DEFAULT '0',
+  `price_after` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`product2sale_id`),
   KEY `fk_product2sale_1_idx` (`sale_id`),
   KEY `fk_product2sale_2_idx` (`product_id`),
@@ -649,7 +651,7 @@ CREATE TABLE `product2sale` (
 
 LOCK TABLES `product2sale` WRITE;
 /*!40000 ALTER TABLE `product2sale` DISABLE KEYS */;
-INSERT INTO `product2sale` VALUES (1,1,7),(2,2,8),(3,2,9);
+INSERT INTO `product2sale` VALUES (1,1,7,10000,10000),(2,2,8,90000,95000),(3,2,9,40000,513000);
 /*!40000 ALTER TABLE `product2sale` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -682,7 +684,7 @@ CREATE TABLE `product_price` (
 
 LOCK TABLES `product_price` WRITE;
 /*!40000 ALTER TABLE `product_price` DISABLE KEYS */;
-INSERT INTO `product_price` VALUES (7,2,84000,0,0,'2016-10-05 14:35:26','2016-10-05 14:35:54'),(8,2,94000,0,0,'2016-10-05 14:35:26','2016-10-05 14:35:56'),(9,2,51300,0,0,'2016-10-05 14:35:26','2016-10-05 14:35:58');
+INSERT INTO `product_price` VALUES (7,2,84000,0,0,'2016-10-05 14:35:26','2016-10-25 16:30:28'),(8,2,94000,0,0,'2016-10-05 14:35:26','2016-10-25 16:30:41'),(9,2,51300,0,0,'2016-10-05 14:35:26','2016-10-25 16:30:44');
 /*!40000 ALTER TABLE `product_price` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1246,4 +1248,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-21  9:54:40
+-- Dump completed on 2016-10-25 17:33:46
