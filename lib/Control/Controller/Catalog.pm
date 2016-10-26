@@ -98,15 +98,13 @@ sub portal {
 			$item->{'sale'} = $sale;
 			my $price = $m->get_product_price( $sale->{'sale_id'}, $item->{'product_id'} );
 			if( $price ){
-				$item->{'price'}->{'prev'} = $item->{'price'}->{'current'};
-				$item->{'price'}->{'current'} = $price->{'price'};
-				#$item->{'price'}->{'percent'} = 100 - int( $item->{'price'}->{'current'} * 100 / $item->{'price'}->{'prev'});
+				$item->{'data'}->{'price'}->{'prev'} = $item->{'data'}->{'price'}->{'current'};
+				$item->{'data'}->{'price'}->{'current'} = $price->{'price'};
+				$item->{'data'}->{'price'}->{'percent'} = 100 - int( $item->{'data'}->{'price'}->{'current'} * 100 / $item->{'data'}->{'price'}->{'prev'});
 			}
-			say Dumper( $item->{'product_id'}, $price );
+			#say Dumper( $item->{'product_id'}, $price , $item);
 		}
 	}
-	#my @arr = ( @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}}, @{$res->{'data'}});
-	#$res->{'data'} = \@arr;
 	
 	$c->stash->{ $c->config->{'project_name'} }->{'products'} = $res;
 	

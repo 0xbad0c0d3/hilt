@@ -78,8 +78,24 @@ sub item {
     for my $item ( @{$res2->{'data'}} ){		
       my $feature = $m->get_v_product2feature( $item->{'product_id'} );
       $item->{'feature'} = $feature;
-    }	
-        
+    }
+    
+    # Акции
+    $m = $c->model('Event');
+    for my $item ( @{$res2->{'data'}} ){
+      my $sale = $m->product_is_sale( $item->{'product_id'} );
+      if( $sale ){
+        $item->{'sale'} = $sale;
+        my $price = $m->get_product_price( $sale->{'sale_id'}, $item->{'product_id'} );
+        if( $price ){
+          $item->{'data'}->{'price'}->{'prev'} = $item->{'data'}->{'price'}->{'current'};
+          $item->{'data'}->{'price'}->{'current'} = $price->{'price'};
+          $item->{'data'}->{'price'}->{'percent'} = 100 - int( $item->{'data'}->{'price'}->{'current'} * 100 / $item->{'data'}->{'price'}->{'prev'});
+        }
+        #say Dumper( $item->{'product_id'}, $price , $item);
+      }
+    }
+    
     $c->stash->{ $c->config->{'project_name'} }->{'products'} = $res2;
     $c->stash->{ $c->config->{'project_name'} }->{'products_pagination'} = $c->pagination( $init->{'page'} || 1, $res2->{'count'}, { round => 1 });
         
