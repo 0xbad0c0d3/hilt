@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.7.12, for linux-glibc2.5 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.16, for Linux (x86_64)
 --
 -- Host: localhost    Database: hilt
 -- ------------------------------------------------------
@@ -237,6 +237,32 @@ LOCK TABLES `delivery` WRITE;
 /*!40000 ALTER TABLE `delivery` DISABLE KEYS */;
 INSERT INTO `delivery` VALUES (1,'Новая почта по Киеву',45,'','Ваш заказ будет доставлен в удобное для Вас время c понедельника по субботу в течении дня с 9:00 до 18:00'),(2,'Мост экспресс из отделения',45,'https://meest-express.com.ua/ua/branches',''),(3,'Курьер по Киеву',45,'',''),(4,'Новая почта из отделения',45,'https://novaposhta.ua/ru/office',''),(5,'Укрпочта из отделения',35,'','ВНИМАНИЕ! Отправка товара Укрпочтой только по предварительной оплате. Квитанцию на оплату Вам вышлет наш оператор после подтверждения заказа.');
 /*!40000 ALTER TABLE `delivery` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `export_product_1c`
+--
+
+DROP TABLE IF EXISTS `export_product_1c`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `export_product_1c` (
+  `export_product_1c_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(10) unsigned NOT NULL,
+  `date_create` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`export_product_1c_id`),
+  KEY `fk_1c_export_product_1_idx` (`product_id`),
+  CONSTRAINT `fk_1c_export_product_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `export_product_1c`
+--
+
+LOCK TABLES `export_product_1c` WRITE;
+/*!40000 ALTER TABLE `export_product_1c` DISABLE KEYS */;
+/*!40000 ALTER TABLE `export_product_1c` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -893,6 +919,33 @@ INSERT INTO `unit` VALUES (1,1,'2009','0796','Штука'),(2,0,'2010','0783','�
 UNLOCK TABLES;
 
 --
+-- Table structure for table `update_product_1c`
+--
+
+DROP TABLE IF EXISTS `update_product_1c`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `update_product_1c` (
+  `update_product_1c_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `product_id` int(10) unsigned NOT NULL,
+  `date_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `comment` varchar(255) NOT NULL,
+  PRIMARY KEY (`update_product_1c_id`),
+  KEY `fk_1c_update_product_1_idx` (`product_id`),
+  CONSTRAINT `fk_1c_update_product_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `update_product_1c`
+--
+
+LOCK TABLES `update_product_1c` WRITE;
+/*!40000 ALTER TABLE `update_product_1c` DISABLE KEYS */;
+/*!40000 ALTER TABLE `update_product_1c` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -1041,6 +1094,43 @@ INSERT INTO `user_admin_group` VALUES (1,'root','2016-05-24 16:46:43'),(2,'Ба�
 UNLOCK TABLES;
 
 --
+-- Temporary view structure for view `v_get_product_1c_export`
+--
+
+DROP TABLE IF EXISTS `v_get_product_1c_export`;
+/*!50001 DROP VIEW IF EXISTS `v_get_product_1c_export`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `v_get_product_1c_export` AS SELECT 
+ 1 AS `category_id`,
+ 1 AS `product_id`,
+ 1 AS `user_id`,
+ 1 AS `depth`,
+ 1 AS `width`,
+ 1 AS `heigth`,
+ 1 AS `weight`,
+ 1 AS `quantity`,
+ 1 AS `unit_id`,
+ 1 AS `barcode`,
+ 1 AS `rating`,
+ 1 AS `url`,
+ 1 AS `title`,
+ 1 AS `tag_title`,
+ 1 AS `description`,
+ 1 AS `tag_description`,
+ 1 AS `tag_keywords`,
+ 1 AS `date_create`,
+ 1 AS `date_update`,
+ 1 AS `category_name`,
+ 1 AS `url2site`,
+ 1 AS `instr`,
+ 1 AS `caterory_url`,
+ 1 AS `unit_code`,
+ 1 AS `unit_code2`,
+ 1 AS `unit_name`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary view structure for view `v_product2feature`
 --
 
@@ -1184,6 +1274,24 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Final view structure for view `v_get_product_1c_export`
+--
+
+/*!50001 DROP VIEW IF EXISTS `v_get_product_1c_export`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `v_get_product_1c_export` AS select `tb1`.`category_id` AS `category_id`,`tb1`.`product_id` AS `product_id`,`tb1`.`user_id` AS `user_id`,`tb1`.`depth` AS `depth`,`tb1`.`width` AS `width`,`tb1`.`heigth` AS `heigth`,`tb1`.`weight` AS `weight`,`tb1`.`quantity` AS `quantity`,`tb1`.`unit_id` AS `unit_id`,`tb1`.`barcode` AS `barcode`,`tb1`.`rating` AS `rating`,`tb1`.`url` AS `url`,`tb1`.`title` AS `title`,`tb1`.`tag_title` AS `tag_title`,`tb1`.`description` AS `description`,`tb1`.`tag_description` AS `tag_description`,`tb1`.`tag_keywords` AS `tag_keywords`,`tb1`.`date_create` AS `date_create`,`tb1`.`date_update` AS `date_update`,`tb1`.`category_name` AS `category_name`,`tb1`.`url2site` AS `url2site`,`tb1`.`instr` AS `instr`,`tb1`.`caterory_url` AS `caterory_url`,`tb1`.`unit_code` AS `unit_code`,`tb1`.`unit_code2` AS `unit_code2`,`tb1`.`unit_name` AS `unit_name` from `v_product_info` `tb1` where (not(`tb1`.`product_id` in (select `export_product_1c`.`product_id` from `export_product_1c`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `v_product2feature`
 --
 
@@ -1282,4 +1390,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-14  9:04:35
+-- Dump completed on 2016-11-14 17:45:36
