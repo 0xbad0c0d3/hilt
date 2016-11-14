@@ -20,7 +20,7 @@ sub default {
 
 sub item {
 	my $c = shift;  
-	$c->_init();
+	return $c->reply->not_found unless $c->_init();
   
 	my ( $m ) = ('');
 	$m = $c->model('Product');
@@ -29,9 +29,13 @@ sub item {
 	# Данные по продукту
 	my $res = $m->get_v_product_info({
 		category_id => $c->stash->{ $c->config->{'project_name'} }->{'category'}->{'category_id'},
-		url => $url
+		product_id => $c->stash->{ $c->config->{'project_name'} }->{'product_id'}
 	});
 	
+	# SEO
+	my $site = $c->stash('site') || {};
+	$site->{'title'} = $res->{'title'} . " купить с доставкой по Украине | hilt.com.ua ";
+			
 	# Картинки
 	$m = $c->model('Image');
 	my $img = $m->product_list( {
@@ -56,7 +60,7 @@ sub item {
 			$res->{'price'}->{'percent'} = 100 - int( $res->{'price'}->{'current'} * 100 / $res->{'price'}->{'prev'});
 		}
 	}
-	
+		
 	$c->stash->{ $c->config->{'project_name'} }->{'product_item'} =	$res;
 	$c->render(template => 'pages/catalog/item');
 }
@@ -64,9 +68,15 @@ sub item {
 sub portal {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();
+	return $c->reply->not_found unless $c->stash->{ $c->config->{'project_name'} }->{'category_all'};
 	
 	my @cat = @{ $c->stash->{ $c->config->{'project_name'} }->{'category_all'} };
-	
+
+	# SEO
+	my $cat = $c->stash->{ $c->config->{'project_name'} }->{'category'};
+	my $site = $c->stash('site') || {};
+	$site->{'title'} = $cat->{'title'} . " купить в интернет-магазине | hilt.com.ua";
+		
 	# Товары
 	my $m = $c->model('Product');
 	my $res  = $m->get_product2category(
@@ -102,19 +112,24 @@ sub portal {
 				$item->{'data'}->{'price'}->{'current'} = $price->{'price'};
 				$item->{'data'}->{'price'}->{'percent'} = 100 - int( $item->{'data'}->{'price'}->{'current'} * 100 / $item->{'data'}->{'price'}->{'prev'});
 			}
-			#say Dumper( $item->{'product_id'}, $price , $item);
 		}
 	}
 	
 	$c->stash->{ $c->config->{'project_name'} }->{'products'} = $res;
 	
-	$c->stash->{ $c->config->{'project_name'} }->{'products_pagination'} = $c->pagination( $init->{'page'} || 1, $res->{'count'}, { round => 1 });	
+	$c->stash->{ $c->config->{'project_name'} }->{'products_pagination'} = $c->pagination(
+		$init->{'page'} || 1,
+		$res->{'count'},
+		{ round => 1 }
+	);
 	
 	#
 	# 
 	#
 	$m = $c->model('Filter');
-	my $filter = $m->get_filter2catalog( { product => [ map{ $_->{'product_id'} } @{$res->{'data'}} ] } );
+	my $filter = $m->get_filter2catalog( {
+		product => [ map{ $_->{'product_id'} } @{$res->{'data'}} ]
+	} );
 		
 	$c->stash->{ $c->config->{'project_name'} }->{'filter'} = $filter;
 
@@ -129,37 +144,79 @@ sub portal {
 
 sub _category {
 	my $c = shift;
-	return $c->reply->not_found unless $c->stash('path');
+	return $c->reply->not_found unless $c->stash('path') || $c->stash('item');
 	my $arr = [{ url => '/', title => 'На главную' }];
-	my $m = $c->model('Category');	
-	my @urls = split /\//, $c->stash('path');
-	my $u = shift @urls;
+	my $m = $c->model('Category');
 	
-	my ($res, $error ) = $m->find({ url => $u, parent_id => 0});
-	push @{ $arr }, {
-		title => $res->[0]->{'title'},
-		url => '/catalog/'.$res->[0]->{'url'},
-		category_id => $res->[0]->{'category_id'},
-		instr => $res->[0]->{'instr'}
+	if( $c->stash('path') ) {
+		my $path = "/".$c->stash('path');
+	
+		my ( $res, $error ) = $m->find({ url2site => $path });	
+	
+		unless( @{ $res } ){
+			return $c->reply->not_found;
+		}
+		
+		my ( $res2, $error2 ) = $m->find({
+			instr => {
+				RLIKE => '[[:<:]]'.$res->[0]->{'category_id'}.'[[:>:]]'
+			}
+		});
+	
+		for my $item ( @{$res2} ) {
+			push @{ $arr }, {
+				title => $item->{'title'},
+				url => $item->{'url2site'},
+				category_id => $item->{'category_id'},
+				instr => $item->{'instr'},
+			};		
+		}
+		$c->stash->{ $c->config->{'project_name'} }->{'category'} = $arr->[-1];
+
 	}
-	if $res->[0]->{'url'};
-	
-	my $parent_id = $res->[0]->{'category_id'};
-	
-	for my $item ( @urls ) {
-		my ($res, $error ) = $m->find({ url => $item, parent_id => $parent_id});
-		$c->app->log->error('Not valid url: ' .$item. ' id:'.$parent_id ) unless %{ $res->[0] };
-		push @{ $arr }, {
-			title => $res->[0]->{'title'},
-			url => $arr->[-1]->{'url'} . '/'. $res->[0]->{'url'},
-			category_id => $res->[0]->{'category_id'},
-			instr => $res->[0]->{'instr'},
-		};
-		$parent_id = $res->[0]->{'category_id'};	
+	elsif ( $c->stash('item') ){
+		my $item = $c->stash('item');
+		$item =~ /^p(\d+)/;
+		if( $1 ){
+			$m = $c->model('Product');
+			my $res = $m->get_v_product_info( { product_id => $1 } );
+			$c->stash->{ $c->config->{'project_name'} }->{'product_id'} = $1;
+			
+			if( $res && %{ $res } ){
+				
+				$m = $c->model('Category');
+				my ( $res2, $error2 ) = $m->find({
+					instr => {
+						RLIKE => '[[:<:]]'.$res->{'category_id'}.'[[:>:]]'
+					}
+				});
+
+				for my $item ( @{$res2} ) {
+					push @{ $arr }, {
+						title => $item->{'title'},
+						url => $item->{'url2site'},
+						category_id => $item->{'category_id'},
+						instr => $item->{'instr'},
+					};
+				}				
+
+				push @{ $arr }, {
+					title => $res->{'title'}
+				};
+				$c->stash->{ $c->config->{'project_name'} }->{'category'} = $arr->[-2];
+				
+			}
+			else{
+				return $c->reply->not_found;
+			}
+		}
+		else{
+			return $c->reply->not_found;
+		}
 	}
+
 	$c->stash->{ $c->config->{'project_name'} }->{'breadcrumbs'} = $arr;
-	$c->stash->{ $c->config->{'project_name'} }->{'category'} = $arr->[-1];
-	$c->stash->{ $c->config->{'project_name'} }->{'category_all'} = $arr->[-1]->{'instr'} ? [ $arr->[-1]->{'instr'}=~/\d+/g ] : [];
+	$c->stash->{ $c->config->{'project_name'} }->{'category_all'} = $arr->[1]->{'instr'} ? [ $arr->[1]->{'instr'}=~/\d+/g ] : [];
 	$arr;
 }
 

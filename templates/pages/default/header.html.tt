@@ -13,7 +13,11 @@
 <link href="/css/ie9.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <link rel="shortcut icon" href="/img/favicon-6.ico" />
+
+<link rel="canonical" href="[% url.base %][% url.path %]" />
+
 <title>[% site.title %]</title>
+
 </head>
 <body class="style-10">
 	

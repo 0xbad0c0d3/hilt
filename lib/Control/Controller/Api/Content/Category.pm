@@ -86,23 +86,23 @@ sub megamenu {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();
 
-	#$dom = Mojo::DOM->new('<div id="megamenu" class="information-blocks categories-border-wrapper"></div>');
-	$dom = Mojo::DOM->new('<div id="megamenu2" class="information-blocks categories-border-wrapper col-md-3 col-sm-6 col-xs-11">');	
+	$dom = Mojo::DOM->new('<div id="megamenu" class="information-blocks categories-border-wrapper"></div>');
+	#$dom = Mojo::DOM->new('<div id="megamenu2" class="information-blocks categories-border-wrapper col-md-3 col-sm-6 col-xs-11">');	
 
-	#$dom->at('div#megamenu')->append_content('
-	#	<div class="block-title size-3">Каталог товаров</div>
-	#	<div class="accordeon_0"></div>
-	#');
-
-	$dom->at('div#megamenu2')->append_content('
+	$dom->at('div#megamenu')->append_content('
+		<div class="block-title size-3">Каталог товаров</div>
 		<div class="accordeon_0"></div>
 	');
 
+	#$dom->at('div#megamenu2')->append_content('
+	#	<div class="accordeon_0"></div>
+	#');
 
-	$c->_megamenu( { parent_id => 0 }, 0, '/catalog' );
 
-	open (my $fh, '>', $c->config->{'template'}->{'path'}.'/pages/default/blocks/megamenu4.html.tt');
-	#open (my $fh, '>', $c->config->{'template'}->{'path'}.'/pages/default/blocks/megamenu3.html.tt');	
+	$c->_megamenu( { parent_id => 0 }, 0, '' );
+
+	#open (my $fh, '>', $c->config->{'template'}->{'path'}.'/pages/default/blocks/megamenu4.html.tt');
+	open (my $fh, '>', $c->config->{'template'}->{'path'}.'/pages/default/blocks/megamenu3.html.tt');	
 	say $fh $dom;	
 	close ($fh);
 	say "OK";

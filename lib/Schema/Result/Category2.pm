@@ -1,12 +1,12 @@
 use utf8;
-package Schema::Result::Category;
+package Schema::Result::Category2;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-Schema::Result::Category
+Schema::Result::Category2
 
 =cut
 
@@ -15,11 +15,11 @@ use warnings;
 
 use base 'DBIx::Class::Core';
 
-=head1 TABLE: C<category>
+=head1 TABLE: C<category2>
 
 =cut
 
-__PACKAGE__->table("category");
+__PACKAGE__->table("category2");
 
 =head1 ACCESSORS
 
@@ -34,6 +34,7 @@ __PACKAGE__->table("category");
 
   data_type: 'integer'
   default_value: 0
+  extra: {unsigned => 1}
   is_nullable: 0
 
 =head2 sort
@@ -47,10 +48,15 @@ __PACKAGE__->table("category");
 
   data_type: 'integer'
   default_value: 0
+  extra: {unsigned => 1}
   is_nullable: 0
 
-0 - hidden
-1 - visible
+=head2 is_catalog
+
+  data_type: 'integer'
+  default_value: 0
+  extra: {unsigned => 1}
+  is_nullable: 0
 
 =head2 title
 
@@ -63,6 +69,17 @@ __PACKAGE__->table("category");
   data_type: 'varchar'
   is_nullable: 0
   size: 500
+
+=head2 url2site
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 1000
+
+=head2 instr
+
+  data_type: 'text'
+  is_nullable: 0
 
 =head2 date_create
 
@@ -89,7 +106,12 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
   },
   "parent_id",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  {
+    data_type => "integer",
+    default_value => 0,
+    extra => { unsigned => 1 },
+    is_nullable => 0,
+  },
   "sort",
   {
     data_type => "integer",
@@ -98,11 +120,27 @@ __PACKAGE__->add_columns(
     is_nullable => 0,
   },
   "overflow",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
+  {
+    data_type => "integer",
+    default_value => 0,
+    extra => { unsigned => 1 },
+    is_nullable => 0,
+  },
+  "is_catalog",
+  {
+    data_type => "integer",
+    default_value => 0,
+    extra => { unsigned => 1 },
+    is_nullable => 0,
+  },
   "title",
   { data_type => "varchar", is_nullable => 0, size => 500 },
   "url",
   { data_type => "varchar", is_nullable => 0, size => 500 },
+  "url2site",
+  { data_type => "varchar", is_nullable => 0, size => 1000 },
+  "instr",
+  { data_type => "text", is_nullable => 0 },
   "date_create",
   {
     data_type => "datetime",
@@ -131,41 +169,9 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("category_id");
 
-=head1 RELATIONS
 
-=head2 category2feature_group
-
-Type: might_have
-
-Related object: L<Schema::Result::Category2featureGroup>
-
-=cut
-
-__PACKAGE__->might_have(
-  "category2feature_group",
-  "Schema::Result::Category2featureGroup",
-  { "foreign.category_id" => "self.category_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 product2categories
-
-Type: has_many
-
-Related object: L<Schema::Result::Product2category>
-
-=cut
-
-__PACKAGE__->has_many(
-  "product2categories",
-  "Schema::Result::Product2category",
-  { "foreign.category_id" => "self.category_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2016-06-06 10:19:03
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:P1vzsns1pccLRGpcB9H+lQ
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-11-04 11:08:44
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:J+qWc/Kmrr3dyUP+pLu+6Q
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

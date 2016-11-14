@@ -79,6 +79,7 @@ sub startup {
 			$data->{'page'} = $data->{'data'}->{'page'} ? $data->{'data'}->{'page'} : 1;
 			$data->{'rows'} = $data->{'data'}->{'rows'} ? $data->{'data'}->{'rows'} : $self->app->config->{'list'}->{'rows'};
 			$data->{'id'} = $data->{'data'}->{'id'} || $c->stash('id');
+			
 			return $data;
 		},
 		form_secure_check => sub {
@@ -91,14 +92,14 @@ sub startup {
 
 	$self->plugin( 'tt_renderer' => $self->app->config->{'tt_renderer'} );
 	
-	$self->hook( before_render => sub {
+	# $c->render() - нельзя делать глубокая рекурсия  
+	$self->hook( before_render => sub {		
 		my ($c, $args) = @_;
-		if ( $args->{'exception'} ) {
-			# при проблемах с контроллером, готовим свой %snapshot для передачи на страницу ошибки
-		}
-		$c->stash( {error =>  $c->flash('error')} ) if $c->flash('error');
+		$c->stash( { error =>  $c->flash('error')} ) if $c->flash('error');
 		$c->timed;
 		
+		$c->stash( url => $c->req->url );
+				
 		$c->stash->{ $c->config->{'project_name'} }->{'get_origin_image'} = sub {
 			my $id = shift or return undef;
 			my $all = shift;
@@ -127,23 +128,29 @@ sub startup {
 			return lc( $text );
 		};
 		
-
-		my $token = $c->req->headers->header('X-CSRF-Token') || $c->param('csrf');
-		my $user = $c->session( $self->config->{'session'}->{'cookie_name'} );
-
-		if ( $token && $token ne $user->{'csrf'} ) {
-			my $path = $c->req->url->to_abs->to_string;
-			
-			$c->app->log->debug("CSRFProtect: Wrong CSRF protection token for [$path]!");
-			return $c->render( status => 403, text => "Forbidden!" );
-		}			
-
 		return 1;
 	});
 	
+	# $c->render() - тут можно
     $self->hook(
         before_routes => sub {
             my ($c) = @_;
+
+			my $token = $c->req->headers->header('X-CSRF-Token') || $c->param('csrf');
+			my $user = $c->session( $self->config->{'session'}->{'cookie_name'} );
+			my $path = $c->req->url->to_string;
+	
+			if ( $token && $token ne $user->{'csrf'} ) {
+				
+				$c->app->log->debug("CSRFProtect: Wrong CSRF protection token for [$path]!");
+				return $c->render( status => 403, text => "Forbidden!" );
+			}			
+
+			# Убираем пустые слеши в конце url
+			if( $path=~/^(.*)?(\/+)$/ ){
+				(my $find = $1)=~s/\/+$//;
+				return $c->redirect_to( $find ) if $find;
+			}
 				
             return 1;
         }
@@ -163,12 +170,7 @@ sub startup {
 	
 	$r->get('/popup/:item' => [ format => ['html','json'] ] )->to('popup#item');
 	$r->get('/simg/*item' => [ format => ['jpg','jpeg','gif','png'] ] )->to('image#get');
-	
-	$r->get('/catalog/*path/:item' => [ format => ['html'] ] )->to('catalog#item');
-	$r->get('/catalog/*path' => [ format => 'html' ] )->to('catalog#default');
-	$r->get('/catalog/*path')->to('catalog#default');
-	$r->get('/catalog')->to('catalog#default');
-	
+		
 	$r->get('/news/*html' => [ format => ['html'] ] )->to('news#item');
 	$r->get('/news')->to('news#default');
 	
@@ -271,6 +273,11 @@ sub startup {
 		#
 	
 	####################
+
+	$r->get('/product/:item' => [ format => ['html'] ] )->to('catalog#item');
+	$r->get('/*path' => [ format => 'html' ] )->to('catalog#default');
+	$r->get('/*path')->to('catalog#default');
+	#$r->get('/atalog')->to('catalog#default');
 	
 	$r->get('/*html' => [ format => ['html'] ])->to('pages#static');	
 	$r->any('/')->to('pages#index')->name('index');

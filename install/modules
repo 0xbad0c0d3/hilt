@@ -32,6 +32,7 @@ JavaScript::Minifier::XS
 Digest::MD5::File
 XML::Hash
 XML::Hash::XS
+Excel::Writer::XLSX
 
 Mojo::Message -> _cache 241  $name ||= '';
 

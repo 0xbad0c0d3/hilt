@@ -2165,8 +2165,8 @@ select{background: #fff!important;}
 /* 20 - ERROR PAGE */
 /*-------------------------------------------------------------------------------------------------------------------------------*/
 .container-404{text-align: center; max-width: 630px; margin: 0 auto; padding: 100px 30px;}
-.container-404 .title{font-family: 'PT Sans', sans-serif; font-weight: 400; font-size: 300px; line-height: 300px; color: #343434; letter-spacing: -25px;}
-.container-404 .description{font-size: 70px; line-height: 100px; color: #343434; font-weight: 300; margin-bottom: 5px;}
+.container-404 .title{ font-size: 4em; color: #343434; padding-bottom: 1em }
+.container-404 .description{font-size: 1.5em;  color: #343434;  margin-bottom: 5px;}
 .container-404 .text{font-weight: 400; color: #808080; font-size: 14px; line-height: 24px;}
 .container-404 .text a{font-weight: 600; color: #ca1515; text-decoration: underline;}
 .container-404 .text a:hover{color: #343434;}

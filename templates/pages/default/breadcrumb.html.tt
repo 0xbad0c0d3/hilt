@@ -4,7 +4,11 @@
 	[% PROCESS pages/default/blocks/megamenu4.html.tt %]
 	[% FOR item IN hilt.breadcrumbs %]
 		[% IF loop.last %]
-			<a href="[% item.url %]" class="item">[% item.title %]</a>
+			[% IF item.url %]
+				<a href="[% item.url %]" class="item">[% item.title %]</a>
+			[% ELSE %]
+				<a href="#"> [% item.title %] </a>
+			[% END %]
 		[% ELSE %]
 			<a href="[% item.url %]">[% item.title %]</a>
 		[% END %]

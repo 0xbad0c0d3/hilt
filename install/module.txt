@@ -33,3 +33,4 @@ Digest::MD5::File
 XML::Hash
 XML::Hash::XS
 Spreadsheet::XLSX
+Excel::Writer::XLSX

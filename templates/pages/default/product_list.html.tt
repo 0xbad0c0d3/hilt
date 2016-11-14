@@ -50,7 +50,7 @@
 						[% IF item.feature.Бренд %]
 						<div class="tag" href="#">[% item.feature.Бренд.0.value %]</div>
 						[% END %]
-						<a class="title" href="/catalog[% item.data.url2site %]/[% item.data.url %].html">[% item.data.title %]</a>
+						<a class="title" href="/product/p[% item.data.product_id %]-[% item.data.url %].html">[% item.data.title %]</a>
 						<div class="rating-box">
 							[% FOR r IN [1..5] %]
 								[% IF r <= item.data.rating %]

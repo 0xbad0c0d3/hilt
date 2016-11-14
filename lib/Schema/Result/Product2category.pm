@@ -90,13 +90,13 @@ __PACKAGE__->set_primary_key("category_id", "product_id");
 
 Type: belongs_to
 
-Related object: L<Schema::Result::Category>
+Related object: L<Schema::Result::Category3>
 
 =cut
 
 __PACKAGE__->belongs_to(
   "category",
-  "Schema::Result::Category",
+  "Schema::Result::Category3",
   { category_id => "category_id" },
   { is_deferrable => 1, on_delete => "CASCADE", on_update => "NO ACTION" },
 );
@@ -117,8 +117,8 @@ __PACKAGE__->belongs_to(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-09-20 16:40:39
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:feYKEKZbCok5d/V5qDnBxg
+# Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-11-06 12:21:20
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:eN4V/gzkUzVQ+3ffeAoR7g
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
