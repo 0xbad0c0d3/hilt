@@ -245,4 +245,9 @@ sub update_product {
 	return undef;	
 }
 
+sub remove {
+	my $model = shift;
+	return {};
+}
+
 1;

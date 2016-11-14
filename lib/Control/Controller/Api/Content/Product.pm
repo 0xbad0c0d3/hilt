@@ -15,9 +15,9 @@ sub _init {
 sub get {
 	my $c = shift;
 	return $c->reply->not_found unless $c->_init();  
-	return $c->reply->not_found unless $id;
-	
-	my $h = $m->get( $id );
+	return $c->reply->not_found unless $init->{'id'};
+
+	my $h = $m->get_v_product_info( { product_id => $init->{'id'} } );
 	
 	$c->render( json => $h );
 }

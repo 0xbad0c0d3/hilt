@@ -214,7 +214,7 @@ sub startup {
 		$api->put('/content/product')->to('api-content-product#update');
 		$api->post('/content/product/set')->to('api-content-product#set');
 		$api->get('/content/product/list')->to('api-content-product#list');
-		$api->get('/content/product/:id' => [ format => ['json'], id => qr/\d+/  ] )->to('api-content-product#get');
+		$api->get('/content/product/:id' )->to('api-content-product#get');
 		# static page
 		$api->delete('/content/page')->to('api-content-page#remove');
 		$api->put('/content/pege')->to('api-content-page#update');
