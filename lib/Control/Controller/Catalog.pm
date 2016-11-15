@@ -38,10 +38,10 @@ sub item {
 			
 	# Картинки
 	$m = $c->model('Image');
-	my $img = $m->product_list( {
+	my $img = $m->get_product_image( {
 		product_id => $res->{'product_id'}
 	} );
-	$res->{'images'} = $img->{'data'};
+	$res->{'images'} = $img;
 	
 	# Характреристики
 	$m = $c->model('Feature');
@@ -89,8 +89,8 @@ sub portal {
 	# Картинки
 	$m = $c->model('Image');	
 	for my $item ( @{$res->{'data'}} ){		
-		my $img = $m->product_list( {product_id => $item->{'product_id'} } );
-		$item->{'images'} = $img->{'data'};
+		my $img = $m->get_product_image( {product_id => $item->{'product_id'} } );
+		$item->{'images'} = $img;
 	}	
 	
 	# Характеристики

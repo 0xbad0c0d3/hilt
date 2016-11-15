@@ -58,64 +58,33 @@ sub set_product {
 	
 }
 
-sub product_list{
-	my ($model, $filter ) = @_;
-	my $db = $model->app->db;
-	
-	$r = $db->resultset('Image2product')->search(
-		$filter
-	);
-	
-	$r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
-	my @res = $r->all();
-  
-	$rs = $db->resultset('Image2product')->search(
-		$filter,
-		{
-			select => [
-				{ count => 'image_id' }
-			],
-			as => [ 'count' ]
-		}
-	);
-	
-	my $del = $model->app->config->{'path'}->{'photo'};
-	
-	for my $item ( @res ){
-		(my $url_path  = $item->{'path'} )=~s/$del//i;
-		$item->{'url_path'} = "/simg".$url_path;
-	}
-	
-	$count = $rs->next->get_column('count');  
-	{ success => \1, count => $count, data => \@res };	
-}
-
+# IN { image_id => \d+}
 sub get_origin {
 	my ($model, $filter ) = @_;
 	my $db = $model->app->db;
 	my $r = $db->resultset('Image')->find( $filter );
 	my $h = {};
-	my $del = $model->app->config->{'path'}->{'photo'};
 	for my $key ( $r->columns ) {
 		$h->{ $key } = $r->$key;
 	}
-	(my $url_path  = $h->{'path'} )=~s/$del//i;
-	$h->{'url_path'} = "/simg".$url_path;
+	$h->{'path'} = "/origin/" . $h->{'path'};
+	$h->{'url_path'} = "/simg" . $h->{'path'};	
 	return $h;
 }
 
 sub get_product_image {
 	my ($model, $filter ) = @_;
 	my $db = $model->app->db;
-	my $r = $db->resultset('Image2product')->find( $filter );
+	my $r = $db->resultset('Image2product')->search( $filter );
 	my $h = {};
-	my $del = $model->app->config->{'path'}->{'photo'};
-	for my $key ( $r->columns ) {
-		$h->{ $key } = $r->$key;
-	}
-	(my $url_path  = $h->{'path'} )=~s/$del//i;
-	$h->{'url_path'} = "/simg".$url_path;
-	return $h;
+
+	$r->result_class('DBIx::Class::ResultClass::HashRefInflator');  
+	my @res = $r->all();
+	for my $item ( @res ) {
+		$item->{'path'} = "/" . $item->{'w'} . "_" . $item->{'h'} . "/" . $item ->{'path'};
+		$item->{'url_path'} = "/simg" . $item->{'path'};	
+	}	
+	return \@res;
 }
 
 sub get_all_photo {

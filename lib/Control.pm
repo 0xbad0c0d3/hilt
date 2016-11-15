@@ -105,7 +105,7 @@ sub startup {
 			my $all = shift;
 			my $m = $c->model('Image');
 			my $path = '';
-			my $res = $m->get_origin( {image_id => $id} );
+			my $res = $m->get_origin( { image_id => $id } );
 			return $all ? $res : $res->{'url_path'};
 		};
 

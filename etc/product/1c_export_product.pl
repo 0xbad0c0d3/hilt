@@ -21,9 +21,11 @@ my $db = Schema->connect(
 
 
 my $r = $db->resultset('VGetProduct1cExport')->search(undef);
+	$r->result_class('DBIx::Class::ResultClass::HashRefInflator');
 
-$r->result_class('DBIx::Class::ResultClass::HashRefInflator');
+	my @res = $r->all();
+	
+	for my $item ( @res ) {
+		say Dumper( $item );
+	}
 
-my @res = $r->all();
-
-say Dumper( \@res );

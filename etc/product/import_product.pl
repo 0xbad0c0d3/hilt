@@ -27,7 +27,7 @@ my $db = Schema->connect(
 			}
 		);
 
-my $excel = Spreadsheet::XLSX ->new( $file );
+my $excel = Spreadsheet::XLSX->new( $file );
  
 for my $sheet ( @{$excel->{Worksheet}} ) {
 

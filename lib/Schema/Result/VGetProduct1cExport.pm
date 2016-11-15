@@ -1,12 +1,12 @@
 use utf8;
-package Schema::Result::Product;
+package Schema::Result::VGetProduct1cExport;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-Schema::Result::Product
+Schema::Result::VGetProduct1cExport - VIEW
 
 =cut
 
@@ -14,27 +14,33 @@ use strict;
 use warnings;
 
 use base 'DBIx::Class::Core';
+__PACKAGE__->table_class("DBIx::Class::ResultSource::View");
 
-=head1 TABLE: C<product>
+=head1 TABLE: C<v_get_product_1c_export>
 
 =cut
 
-__PACKAGE__->table("product");
+__PACKAGE__->table("v_get_product_1c_export");
 
 =head1 ACCESSORS
+
+=head2 category_id
+
+  data_type: 'integer'
+  extra: {unsigned => 1}
+  is_nullable: 0
 
 =head2 product_id
 
   data_type: 'integer'
+  default_value: 0
   extra: {unsigned => 1}
-  is_auto_increment: 1
   is_nullable: 0
 
 =head2 user_id
 
   data_type: 'integer'
   extra: {unsigned => 1}
-  is_foreign_key: 1
   is_nullable: 0
 
 ??? ????? ???????
@@ -79,13 +85,6 @@ __PACKAGE__->table("product");
   data_type: 'integer'
   default_value: 1
   extra: {unsigned => 1}
-  is_foreign_key: 1
-  is_nullable: 0
-
-=head2 rating
-
-  data_type: 'integer'
-  default_value: 0
   is_nullable: 0
 
 =head2 barcode
@@ -93,6 +92,12 @@ __PACKAGE__->table("product");
   data_type: 'varchar'
   is_nullable: 0
   size: 32
+
+=head2 rating
+
+  data_type: 'integer'
+  default_value: 0
+  is_nullable: 0
 
 =head2 url
 
@@ -136,33 +141,71 @@ __PACKAGE__->table("product");
 
   data_type: 'datetime'
   datetime_undef_if_invalid: 1
-  default_value: 'CURRENT_TIMESTAMP'
+  default_value: '0000-00-00 00:00:00'
   is_nullable: 0
 
 =head2 date_update
 
   data_type: 'datetime'
   datetime_undef_if_invalid: 1
-  default_value: 'CURRENT_TIMESTAMP'
+  default_value: '0000-00-00 00:00:00'
   is_nullable: 0
+
+=head2 category_name
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 500
+
+=head2 url2site
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 1000
+
+=head2 instr
+
+  data_type: 'text'
+  is_nullable: 0
+
+=head2 caterory_url
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 500
+
+=head2 unit_code
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 10
+
+=head2 unit_code2
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 10
+
+=head2 unit_name
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 128
 
 =cut
 
 __PACKAGE__->add_columns(
+  "category_id",
+  { data_type => "integer", extra => { unsigned => 1 }, is_nullable => 0 },
   "product_id",
   {
     data_type => "integer",
+    default_value => 0,
     extra => { unsigned => 1 },
-    is_auto_increment => 1,
     is_nullable => 0,
   },
   "user_id",
-  {
-    data_type => "integer",
-    extra => { unsigned => 1 },
-    is_foreign_key => 1,
-    is_nullable => 0,
-  },
+  { data_type => "integer", extra => { unsigned => 1 }, is_nullable => 0 },
   "depth",
   {
     data_type => "integer",
@@ -203,13 +246,12 @@ __PACKAGE__->add_columns(
     data_type => "integer",
     default_value => 1,
     extra => { unsigned => 1 },
-    is_foreign_key => 1,
     is_nullable => 0,
   },
-  "rating",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
   "barcode",
   { data_type => "varchar", is_nullable => 0, size => 32 },
+  "rating",
+  { data_type => "integer", default_value => 0, is_nullable => 0 },
   "url",
   { data_type => "varchar", is_nullable => 0, size => 255 },
   "title",
@@ -226,170 +268,35 @@ __PACKAGE__->add_columns(
   {
     data_type => "datetime",
     datetime_undef_if_invalid => 1,
-    default_value => "CURRENT_TIMESTAMP",
+    default_value => "0000-00-00 00:00:00",
     is_nullable => 0,
   },
   "date_update",
   {
     data_type => "datetime",
     datetime_undef_if_invalid => 1,
-    default_value => "CURRENT_TIMESTAMP",
+    default_value => "0000-00-00 00:00:00",
     is_nullable => 0,
   },
-);
-
-=head1 PRIMARY KEY
-
-=over 4
-
-=item * L</product_id>
-
-=back
-
-=cut
-
-__PACKAGE__->set_primary_key("product_id");
-
-=head1 RELATIONS
-
-=head2 export_product_1cs
-
-Type: has_many
-
-Related object: L<Schema::Result::ExportProduct1c>
-
-=cut
-
-__PACKAGE__->has_many(
-  "export_product_1cs",
-  "Schema::Result::ExportProduct1c",
-  { "foreign.product_id" => "self.product_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 image2products
-
-Type: has_many
-
-Related object: L<Schema::Result::Image2product>
-
-=cut
-
-__PACKAGE__->has_many(
-  "image2products",
-  "Schema::Result::Image2product",
-  { "foreign.product_id" => "self.product_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 product2categories
-
-Type: has_many
-
-Related object: L<Schema::Result::Product2category>
-
-=cut
-
-__PACKAGE__->has_many(
-  "product2categories",
-  "Schema::Result::Product2category",
-  { "foreign.product_id" => "self.product_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 product2feature2values
-
-Type: has_many
-
-Related object: L<Schema::Result::Product2feature2value>
-
-=cut
-
-__PACKAGE__->has_many(
-  "product2feature2values",
-  "Schema::Result::Product2feature2value",
-  { "foreign.product_id" => "self.product_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 product2sales
-
-Type: has_many
-
-Related object: L<Schema::Result::Product2sale>
-
-=cut
-
-__PACKAGE__->has_many(
-  "product2sales",
-  "Schema::Result::Product2sale",
-  { "foreign.product_id" => "self.product_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 product_price
-
-Type: might_have
-
-Related object: L<Schema::Result::ProductPrice>
-
-=cut
-
-__PACKAGE__->might_have(
-  "product_price",
-  "Schema::Result::ProductPrice",
-  { "foreign.product_id" => "self.product_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 unit
-
-Type: belongs_to
-
-Related object: L<Schema::Result::Unit>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "unit",
-  "Schema::Result::Unit",
-  { unit_id => "unit_id" },
-  { is_deferrable => 1, on_delete => "NO ACTION", on_update => "NO ACTION" },
-);
-
-=head2 update_product_1cs
-
-Type: has_many
-
-Related object: L<Schema::Result::UpdateProduct1c>
-
-=cut
-
-__PACKAGE__->has_many(
-  "update_product_1cs",
-  "Schema::Result::UpdateProduct1c",
-  { "foreign.product_id" => "self.product_id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 user
-
-Type: belongs_to
-
-Related object: L<Schema::Result::User>
-
-=cut
-
-__PACKAGE__->belongs_to(
-  "user",
-  "Schema::Result::User",
-  { user_id => "user_id" },
-  { is_deferrable => 1, on_delete => "NO ACTION", on_update => "NO ACTION" },
+  "category_name",
+  { data_type => "varchar", is_nullable => 0, size => 500 },
+  "url2site",
+  { data_type => "varchar", is_nullable => 0, size => 1000 },
+  "instr",
+  { data_type => "text", is_nullable => 0 },
+  "caterory_url",
+  { data_type => "varchar", is_nullable => 0, size => 500 },
+  "unit_code",
+  { data_type => "varchar", is_nullable => 0, size => 10 },
+  "unit_code2",
+  { data_type => "varchar", is_nullable => 0, size => 10 },
+  "unit_name",
+  { data_type => "varchar", is_nullable => 0, size => 128 },
 );
 
 
 # Created by DBIx::Class::Schema::Loader v0.07045 @ 2016-11-15 11:09:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:pCHlkknl1OvDsiVYaNXPOw
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:PQzISGxEkvksTswTzuadIQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
