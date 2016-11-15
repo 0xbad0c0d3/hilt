@@ -1,7 +1,7 @@
 package Control;
 use Mojo::Base 'Mojolicious';
 use FindBin qw($Bin);
-#use Mojolicious::Plugin::Cache;
+#use Mojolicious::Plugin::Cache; ggdgdgd
 use Mojo::Log;
 use open qw(:std :utf8);
 use utf8;
