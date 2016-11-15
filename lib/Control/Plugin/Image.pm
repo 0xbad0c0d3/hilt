@@ -31,15 +31,18 @@ sub register {
 		my $d = file_md5_hex( $f );
 		$d =~/(..)(..)/i;
 		my $new_path = "$path/$1/$2";
+		my $new_local_path = "$1/$2";
 		
 		make_path($new_path, { chmod => 0777 } ) unless -d $new_path;
 		$name =~s/\.\w+?$/\.jpg/i;
 		
 		my $new_f = "$new_path/$name";
+		$new_local_path .= "/$name";
+		
 		copy($f, $new_f) or die $!;
 		unlink( $f );
 		{
-			path => $new_f,
+			path => $new_local_path,
 			origin_name => $name,
 			name => $name,
 			md5_hex => $d,

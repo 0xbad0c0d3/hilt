@@ -109,6 +109,7 @@ sub set {
 
 sub list {
 	my $c = shift;
+	return 1;
 }
 
 sub get {
