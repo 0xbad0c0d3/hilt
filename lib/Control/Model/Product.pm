@@ -22,22 +22,32 @@ sub get_product2category {
 	my $rs = $db->resultset('Product2category')->search(
 		$data,
 		{
-			columns => [ qw/product_id/ ],
+			columns => [ qw/product_id category_id/ ],
 			distinct => 1
 		}
 	);
-	  
-	my $count = $rs->count;
+	$rs->result_class('DBIx::Class::ResultClass::HashRefInflator');
+	  	
+	#  Все product_id  из категории - для фиильтов
+	my @all_product_id = ();
+	for my $item ( $rs->all() ){
+		my $data = $model->get_v_product_info({ category_id => $item->{'category_id'}, product_id => $item->{'product_id'} });
+		push @all_product_id, $item->{'product_id'}
+									if $data && ref $data eq "HASH";
+	}
 	
+	# Продукты с page и rows
 	my @products = ();
 	for my $item ( @res ){
 		my $data = $model->get_v_product_info({ category_id => $item->{'category_id'}, product_id => $item->{'product_id'} });
-		$item->{'data'} = $data if %{$data};
-		push @products, $item->{'product_id'} if $data->{'quantity'};
+		$item->{'data'} = $data
+					if $data && ref $data eq "HASH";
+		
+		push @products, $item->{'product_id'};
 	}
 	
 	$rs = $db->resultset('ProductPrice')->search({
-		'product_id' => { IN => \@products },
+		'product_id' => { IN => \@all_product_id },
 	},{
 		columns => [
 			{ 'min' => { min => 'me.current'} },
@@ -48,7 +58,13 @@ sub get_product2category {
 	$rs->result_class('DBIx::Class::ResultClass::HashRefInflator');  
 	my @res2 = $rs->all();
 	
-	{ success =>\1, count=> $count, page => $attr->{'page'}, rows => $attr->{'rows'},  data=>\@res,
+	{
+		success =>\1,
+		count => scalar@all_product_id,
+		page => $attr->{'page'},
+		rows => $attr->{'rows'},
+		data => \@res,
+		all_product_id => \@all_product_id,
 		filter => {
 			price => {
 				min => $res2[0]->{'min'} ? int($res2[0]->{'min'}/100) : 0,

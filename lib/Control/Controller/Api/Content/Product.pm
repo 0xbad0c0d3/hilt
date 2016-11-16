@@ -123,15 +123,6 @@ sub set {
 	}
 	
 	#
-	# Картинки
-	#
-	if( $res && $res->{'product_id'} && $data->{'files'} && @{ $data->{'files'} } ){
-		my $r = $c->app->ua->post('/api/image/product/'. $res->{'product_id'} => form => {
-			files => $data->{'files'},
-			token => exists $data->{'token'} ? $data->{'token'} : $c->app->config->{'api'}->{'token'}
-		});
-	}
-	#
 	# Стоимость товара
 	#
 	if( $res && $res->{'product_id'} && ( $data->{'price_current'} || $data->{'price_prev'} || $data->{'price_supplier'} ) ){

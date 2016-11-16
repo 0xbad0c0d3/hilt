@@ -2,7 +2,7 @@ use v5.18;
 use open qw(:std :utf8);
 use utf8;
 use FindBin qw($Bin);
-use lib "$Bin/../../lib";
+use lib "$Bin/../../../lib";
 use Data::Dumper;
 
 use Spreadsheet::XLSX;
@@ -13,9 +13,22 @@ use Mojo::Util qw( trim );
 use Mojo::UserAgent;
 
 my ($cols,$data,$feature,$feature_index,$data_cols,$db_data) = ([],[],[],{},{},[]);
-my $file = "${Bin}/products.xlsx";
+my $file;
+
+for my $item ( glob("*.xlsx") ) {
+	$file = $item;
+}
+
+unless (-f $file ) {
+	say "$file not exists";
+	exit;
+}
+#say "OK";
+#exit;
+#"${Bin}/products.xlsx";
 my $conf = do "${Bin}/../../conf/hilt.conf";
 my $ua = Mojo::UserAgent->new;
+
 
 my $db = Schema->connect(
 			$conf->{'db'}->{'dbi'},
@@ -81,7 +94,13 @@ for my $sheet ( @{$excel->{Worksheet}} ) {
 			# Добавляем картинки
 			#
 			if( $tmp_hash->{'img'} ) {
-				my @img = map{ "$Bin/" . trim($_) } split /[,]/, $tmp_hash->{'img'};
+				my @img = map{ "$Bin/" . trim($_) }
+										split /[,]/, $tmp_hash->{'img'};
+				for my $img ( @img ){
+					if( $img !~/\.jpg/i ){
+						$img .= ".jpg";
+					}					
+				}
 				$tmp_hash->{'files'} = \@img;
 			}
 			#
@@ -153,9 +172,12 @@ for my $pr ( @{$db_data} ) {
 	print "Send product $index .. " . scalar @{$db_data};
 	$index++;
 	
+	#say Dumper( $data);
+	
 	my ( $json,$err ) = add_product($data);
+	
 	if( $err ){
-		say Dumper( 'error add_product => ' . $err );
+		say Dumper( 'error add_product => ' , $err );
 		next;
 	}
 	else{
@@ -179,7 +201,7 @@ for my $pr ( @{$db_data} ) {
 		print "Send feature to product " . $json->{'product_id'} ." => ";
 		my ($json,$err) = add_feature( $json->{'product_id'}, $feature );
 		if( $err ){
-			say Dumper( 'error add_feature => ', Dumper($err) );
+			say Dumper( 'error add_feature => ', $err );
 		}
 		else{
 			print Dumper( $json );

@@ -3,16 +3,24 @@ use Mojo::Base 'Mojolicious::Plugin';
 
 use POSIX( qw/ceil/ );
 use Mojo::ByteStream 'b';
-
-use strict;
-use warnings;
-
-our $VERSION = "0.13";
+use Data::Dumper;
 
 sub  register{
   my ( $self, $app, $args ) = @_;
   $args ||= {};
-
+  
+  $app->helper( count_pages => sub{
+      my $self = shift;
+      my $count =  shift;
+      my $count_in_page = $self->config->{'list'}->{'rows'};
+      my $count_page = 1;
+      if( $count > $count_in_page ){
+        my $res = $count / $count_in_page;
+        $count_page = $res > int($res) ? int($res)+1 : int($res);
+      }
+      return $count_page;
+  });
+  
   $app->helper( pagination => sub{
       my ( $self, $actual, $count, $opts ) = @_;
 
@@ -76,7 +84,7 @@ sub  register{
          $last_num = $number;
       }
       if( $actual == $count ){
-        $html .= "<a href=\"" . $self->url_with->query( [$param => $actual + 1] ) . $query . "\" class=\"square-button\">&raquo;</a>";
+        #$html .= "<a href=\"" . $self->url_with->query( [$param => $actual + 1] ) . $query . "\" class=\"square-button\">&raquo;</a>";
       } else {
         $html .= "<a href=\"" . $self->url_with->query( [$param => $actual + 1] ) . $query . "\" class=\"square-button\" >&raquo;</a>";
       }

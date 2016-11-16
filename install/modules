@@ -33,6 +33,7 @@ Digest::MD5::File
 XML::Hash
 XML::Hash::XS
 Excel::Writer::XLSX
+Archive::Extract;
 
 Mojo::Message -> _cache 241  $name ||= '';
 

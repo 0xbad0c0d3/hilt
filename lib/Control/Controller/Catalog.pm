@@ -81,7 +81,7 @@ sub portal {
 	my $m = $c->model('Product');
 	my $res  = $m->get_product2category(
 		{
-			'category_id' => { IN => \@cat },
+			'category_id' => { IN => \@cat }
 		},
 		$init
 	);
@@ -119,16 +119,15 @@ sub portal {
 	
 	$c->stash->{ $c->config->{'project_name'} }->{'products_pagination'} = $c->pagination(
 		$init->{'page'} || 1,
-		$res->{'count'},
-		{ round => 1 }
+		$c->count_pages( $res->{'count'} ),
+		{ round => 0 }
 	);
 	
-	#
 	# 
 	#
 	$m = $c->model('Filter');
 	my $filter = $m->get_filter2catalog( {
-		product => [ map{ $_->{'product_id'} } @{$res->{'data'}} ]
+		product => $res->{'all_product_id'}
 	} );
 		
 	$c->stash->{ $c->config->{'project_name'} }->{'filter'} = $filter;
@@ -172,6 +171,8 @@ sub _category {
 			};		
 		}
 		$c->stash->{ $c->config->{'project_name'} }->{'category'} = $arr->[-1];
+		$c->stash->{ $c->config->{'project_name'} }->{'category_all'} = $arr->[-1]->{'instr'} ? [ $arr->[-1]->{'instr'}=~/\d+/g ] : [];
+		
 
 	}
 	elsif ( $c->stash('item') ){
@@ -204,6 +205,7 @@ sub _category {
 					title => $res->{'title'}
 				};
 				$c->stash->{ $c->config->{'project_name'} }->{'category'} = $arr->[-2];
+				$c->stash->{ $c->config->{'project_name'} }->{'category_all'} = $arr->[-2]->{'instr'} ? [ $arr->[-2]->{'instr'}=~/\d+/g ] : [];
 				
 			}
 			else{
@@ -216,7 +218,6 @@ sub _category {
 	}
 
 	$c->stash->{ $c->config->{'project_name'} }->{'breadcrumbs'} = $arr;
-	$c->stash->{ $c->config->{'project_name'} }->{'category_all'} = $arr->[1]->{'instr'} ? [ $arr->[1]->{'instr'}=~/\d+/g ] : [];
 	$arr;
 }
 

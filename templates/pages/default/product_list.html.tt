@@ -121,7 +121,19 @@
 			
 
 			<div class="page-selector">
-				<div class="description">[% hilt.products.page %]-[% hilt.products.rows %] из [% hilt.products.count %]</div>
+				[% IF hilt.products.page > 1 %]
+					[% from = hilt.products.page - 1 %]
+					[% from = from * hilt.products.rows %]
+					[% to = from + hilt.products.rows %]
+				[% ELSE %]
+					[% from = hilt.products.page %]
+					[% IF hilt.products.count <= hilt.products.rows %]
+						[% to = hilt.products.count %]
+					[% ELSE %]
+						[% to = hilt.products.rows %]
+					[% END %]
+				[% END %]
+				<div class="description">[% from %]-[% to %] из [% hilt.products.count %]</div>
 				[% hilt.products_pagination %]
 				<div class="clear"></div>
 			</div>

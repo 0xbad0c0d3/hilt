@@ -12,7 +12,7 @@ sub _init {
 	$id = $init->{'id'};
 	$data = $init->{'data'};
 	$files = $c->req->every_upload('files');
-	$tmp_path_dir = $c->app->config->{'image'}->{'tmp_path_dir'};
+	$tmp_path_dir = $c->app->config->{'image'}->{'tmp_path_dir'};	
 	$m && $files ? 1 : 0;
 }
 
@@ -49,7 +49,6 @@ sub set {
 				h => $info->{'max_h'},
 				user_id => 1
 			};
-			
 			my $res = $m->set( $hash );
 			$hash->{'image_id'} = $res if $res;
 			$hash->{'product_id'} = $id;
@@ -183,7 +182,7 @@ sub _info_product {
 		
 	for my $file ( @{$files} ){
 		my $name = $file->{'name'};
-		my $tmp_file = $file->{'path'};
+		my $tmp_file = $c->app->config->{'image'}->{'product'}->{'origin'}->{'path'} . "/" . $file->{'path'};
 		
 		if( $w || $h ){
 			my $hash = $c->img_resize( $key, $tmp_file, $tmp_path_dir, $path, $name, $w, $h, $q  );
